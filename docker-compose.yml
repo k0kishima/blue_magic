@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------------------------------
+  db:
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      TZ: 'Asia/Tokyo'
+    networks:
+      - default
+    ports:
+      # 自由に利用できるとされる動的・プライベート ポート番号は 49152–65535 らしいので、これらのうち5万番を利用する
+      # 以下、ウェルノウンポート番号 + 50000 という規約で設定していく
+      - '53306:3306'
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --sql-mode=NO_ENGINE_SUBSTITUTION
+  # ----------------------------------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/webapp:cached
+    links:
+      - db
+    environment:
+      DATABASE_HOSTNAME: 'db'
+      DATABASE_USERNAME: 'root'
+      DATABASE_PASSWORD: 'password'
+      TZ: 'Asia/Tokyo'
+    networks:
+      - default
+    ports:
+      - '53000:3000'
+    command: bash -c 'rm -f tmp/pids/server.pid && rails s -b 0.0.0.0'
