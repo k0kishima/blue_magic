@@ -39,5 +39,8 @@ module BlueMagic
 
     config.time_zone = 'Asia/Tokyo'
     config.active_record.default_timezone = :local
+
+    config.x.official_website_proxy.base_url = ENV.fetch('OFFICIAL_WEBSITE_PROXY_BASE_URL') { 'http://host.docker.internal:55000' }
+    config.x.official_website_proxy.latest_official_website_version = ENV.fetch('LATEST_OFFICIAL_WEBSITE_VERSION') { 1707 }
   end
 end
