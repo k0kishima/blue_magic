@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要
 
-Things you may want to cover:
+ボートレースの予想から投票を自動で行うシステム
 
-* Ruby version
+## 開発環境構築手順
 
-* System dependencies
+### 環境変数設定
 
-* Configuration
+雛型である `.env.default` をコピーして適宜編集する。
 
-* Database creation
+```bash
+cp .env.default .env
+```
 
-* Database initialization
+### コンテナの起動
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+docker-compose up --build --detach 
+```
