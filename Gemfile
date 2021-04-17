@@ -43,3 +43,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # bundle add で済むものに関してはこのコマンドでインストールしていくので時系列順で並ぶ
 # アルファベット順に手動でソートなどは特に行わない
 gem "nokogiri", "~> 1.11"
+
+gem "rubocop", "~> 1.12"

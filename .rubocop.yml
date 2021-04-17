@@ -1,0 +1,95 @@
+# https://docs.rubocop.org/rubocop/cops
+
+AllCops:
+  Exclude:
+    - 'Rakefile'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*.rb'
+    - 'db/seeds.rb'
+    - 'db/seeds/**/*.rb'
+  NewCops: enable
+
+### Bundler
+
+Bundler/OrderedGems:
+  Enabled: false
+
+### Gemspec
+
+Gemspec/OrderedDependencies:
+  Enabled: false
+
+### Layout
+
+Layout:
+  Enabled: true
+
+### Lint
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+Lint/AmbiguousOperator:
+  Enabled: false
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+Lint/AssignmentInCondition:
+  Enabled: false
+Lint/EmptyWhen:
+  Enabled: false
+Lint/Loop:
+  Enabled: false
+Lint/RedundantCopDisableDirective:
+  Enabled: false
+Lint/UnusedBlockArgument:
+  Enabled: false
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+### Metrics
+
+Metrics/AbcSize:
+  Max: 50
+Metrics/BlockLength:
+  Max: 50
+  CountAsOne: ['array', 'hash', 'heredoc']
+  Exclude:
+    # Rake
+    - '**/Rakefile'
+    - '**/*.rake'
+    # RSpec
+    - 'spec/**/*.rb'
+    # Rails
+    - 'config/routes.rb'
+Metrics/BlockNesting:
+  Max: 10
+Metrics/ClassLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 20
+Metrics/MethodLength:
+  Max: 100
+  CountAsOne: ['array', 'hash', 'heredoc']
+Metrics/ModuleLength:
+  Max: 300
+  CountAsOne: ['array', 'hash', 'heredoc']
+Metrics/ParameterLists:
+  Max: 20
+Metrics/PerceivedComplexity:
+  Max: 30
+
+### Naming
+
+Naming:
+  Enabled: false
+
+### Style
+
+Style:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/AsciiComments:
+  Enabled: false
