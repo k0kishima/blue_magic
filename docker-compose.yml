@@ -35,6 +35,22 @@ services:
       - '53000:3000'
     command: bash -c 'rm -f tmp/pids/server.pid && rails s -b 0.0.0.0'
   # ----------------------------------------------------------------------------------------------------
+  sidekiq_server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/webapp:cached
+    links:
+      - db
+      - redis
+    env_file: .env
+    environment:
+      TZ: 'Asia/Tokyo'
+    networks:
+      - default
+    command: bash -c "bundle exec sidekiq -C ./config/sidekiq.yml"
+  # ----------------------------------------------------------------------------------------------------
   redis:
     build:
       context: ./docker/redis
