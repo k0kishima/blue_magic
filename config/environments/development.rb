@@ -14,18 +14,12 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
-  # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
-    config.cache_store = :memory_store
-    config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
-    }
-  else
-    config.action_controller.perform_caching = false
-
-    config.cache_store = :null_store
-  end
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDIS_URL') { 'redis://redis:6379' },
+    driver: :hiredis,  # rails guide によるとインストールされてたら自動でrequireされるらしいけど一応明示的に指定
+    namespace: "#{Rails.application.class.module_parent_name.underscore.downcase}:#{Rails.env}",
+    compress: true,
+  }
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local

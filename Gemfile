@@ -47,3 +47,7 @@ gem "nokogiri", "~> 1.11"
 gem "rubocop", "~> 1.12"
 
 gem "pry-rails", "~> 0.3.9"
+
+gem "hiredis", "~> 0.6.3"
+
+gem "redis", "~> 4.2"
