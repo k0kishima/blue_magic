@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/composite-primary-keys/composite_primary_keys.git
+  revision: b28b0f04e6284dccb06fb4114e2487913fc362e9
+  specs:
+    composite_primary_keys (13.0.0)
+      activerecord (~> 6.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -200,6 +207,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
+  composite_primary_keys!
   hiredis (~> 0.6.3)
   listen (~> 3.3)
   mysql2 (~> 0.5)
