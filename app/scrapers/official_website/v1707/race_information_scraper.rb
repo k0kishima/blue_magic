@@ -1,0 +1,65 @@
+module OfficialWebsite::V1707
+  class RaceInformationScraper
+    module TEXT
+      COURSE_FIXED = '進入固定'
+      USE_STABILIZER = '安定板使用'
+    end
+
+    def initialize(file)
+      @file = file
+    end
+
+    def scrape!
+      {
+        number: race_number,
+        is_course_fixed: course_fixed?,
+        use_stabilizer: use_stabilizer?,
+        deadline: deadline_text,
+        title: title,
+        metre: metre,
+      }
+    ensure
+      file.close
+    end
+
+    private
+
+    attr_reader :file
+
+    def html
+      @html ||= Nokogiri::HTML.parse(file.read)
+    end
+
+    def course_fixed?
+      html.search('.label2.is-type1').select { |label| label.text == TEXT::COURSE_FIXED }.present?
+    end
+
+    def deadline_table
+      @deadline_table ||= html.search('.table1').first
+    end
+
+    def race_number
+      @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
+    end
+
+    def outside_deladline_rows
+      @outside_deladline_rows ||= deadline_table.search('tbody tr').last
+    end
+
+    def deadline_text
+      outside_deladline_rows.search('td')[race_number].text
+    end
+
+    def title
+      html.search('.heading2_titleDetail').text.scan(/([^\n]+)\n/).flatten.first.strip.gsub(/[　 ]+/, '')
+    end
+
+    def metre
+      html.search('.heading2_titleDetail').text.scan(/(\d{3,4}m)/).flatten.first.to_i
+    end
+
+    def use_stabilizer?
+      html.search('.label2.is-type1').select { |label| label.text == TEXT::USE_STABILIZER }.present?
+    end
+  end
+end

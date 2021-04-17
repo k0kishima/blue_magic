@@ -1,0 +1,1 @@
+class DataNotFound < StandardError; end

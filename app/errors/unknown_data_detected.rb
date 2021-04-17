@@ -1,0 +1,1 @@
+class UnknownDataDetected < StandardError; end
