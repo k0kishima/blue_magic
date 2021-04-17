@@ -25,6 +25,7 @@ services:
       - .:/webapp:cached
     links:
       - db
+      - redis
     env_file: .env
     environment:
       TZ: 'Asia/Tokyo'
@@ -33,3 +34,14 @@ services:
     ports:
       - '53000:3000'
     command: bash -c 'rm -f tmp/pids/server.pid && rails s -b 0.0.0.0'
+  # ----------------------------------------------------------------------------------------------------
+  redis:
+    build:
+      context: ./docker/redis
+    privileged: true
+    command: sh -c "./init.sh"
+    networks:
+      - default
+    ports:
+      - 56379:6379
+    restart: always
