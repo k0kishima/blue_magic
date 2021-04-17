@@ -18,3 +18,20 @@ class WinningRaceEntry < ApplicationRecord
     self.class.winning_tricks[winning_trick.to_s]
   end
 end
+
+# == Schema Information
+#
+# Table name: winning_race_entries
+#
+#  date             :date             not null, primary key
+#  pit_number       :integer          not null, primary key
+#  race_number      :integer          not null, primary key
+#  stadium_tel_code :integer          not null, primary key
+#  winning_trick    :integer          not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Foreign Keys
+#
+#  fk_rails_...  (stadium_tel_code => stadiums.tel_code)
+#

@@ -17,3 +17,20 @@ class MotorBettingContributeRateAggregation < ApplicationRecord
     less_than_or_equal_to: 100.0
   }
 end
+
+# == Schema Information
+#
+# Table name: motor_betting_contribute_rate_aggregations
+#
+#  aggregated_on    :date             not null, primary key
+#  motor_number     :integer          not null, primary key
+#  quinella_rate    :float(24)        not null
+#  stadium_tel_code :integer          not null, primary key
+#  trio_rate        :float(24)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Foreign Keys
+#
+#  fk_rails_...  (stadium_tel_code => stadiums.tel_code)
+#

@@ -14,3 +14,15 @@ class RacerWinningRateAggregation < ApplicationRecord
     less_than_or_equal_to: 100.0
   }
 end
+
+# == Schema Information
+#
+# Table name: racer_winning_rate_aggregations
+#
+#  aggregated_on               :date             not null, primary key
+#  racer_registration_number   :integer          not null, primary key
+#  rate_in_all_stadium         :float(24)        not null
+#  rate_in_event_going_stadium :float(24)        not null
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#

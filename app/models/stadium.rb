@@ -19,3 +19,19 @@ class Stadium < ApplicationRecord
     TELCODE_RANGE.to_a
   end
 end
+
+# == Schema Information
+#
+# Table name: stadiums
+#
+#  elevation        :float(24)        not null
+#  lat              :float(24)        not null
+#  lng              :float(24)        not null
+#  name             :string(255)      not null
+#  tel_code         :integer          not null, primary key
+#  tide_fluctuation :boolean          not null
+#  water_quality    :integer          not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  prefecture_id    :integer          not null
+#

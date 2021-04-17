@@ -101,3 +101,28 @@ class Race < ApplicationRecord
     errors.add(:betting_deadline_at, 'must be with in same date  of value of date property')
   end
 end
+
+# == Schema Information
+#
+# Table name: races
+#
+#  betting_deadline_at :datetime         not null
+#  canceled            :boolean          default(FALSE), not null
+#  course_fixed        :boolean          default(FALSE), not null
+#  date                :date             not null, primary key
+#  number_of_laps      :integer          default(3), not null
+#  race_number         :integer          not null, primary key
+#  stadium_tel_code    :integer          not null, primary key
+#  title               :string(255)      not null
+#  use_stabilizer      :boolean          default(FALSE), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+# Indexes
+#
+#  index_races_on_betting_deadline_at  (betting_deadline_at)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (stadium_tel_code => stadiums.tel_code)
+#

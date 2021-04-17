@@ -21,3 +21,20 @@ class DisqualifiedRaceEntry < ApplicationRecord
   validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
   validates :disqualification, presence: true
 end
+
+# == Schema Information
+#
+# Table name: disqualified_race_entries
+#
+#  date             :date             not null, primary key
+#  disqualification :integer          not null
+#  pit_number       :integer          not null, primary key
+#  race_number      :integer          not null, primary key
+#  stadium_tel_code :integer          not null, primary key
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Foreign Keys
+#
+#  fk_rails_...  (stadium_tel_code => stadiums.tel_code)
+#
