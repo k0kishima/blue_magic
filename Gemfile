@@ -60,3 +60,5 @@ gem "sidekiq", "~> 6.2"
 gem "redis-namespace", "~> 1.8"
 
 gem 'composite_primary_keys', :github => 'composite-primary-keys/composite_primary_keys'
+
+gem "factory_bot", "~> 6.1"
