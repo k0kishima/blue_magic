@@ -1,22 +1,14 @@
-class BoatSetting < ApplicationRecord
-  include RaceAssociating
-
-  self.primary_keys = [:stadium_tel_code, :date, :race_number, :pit_number]
-
-  validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :boat_number, presence: true, numericality: {
-    only_integer: true,
-    greater_than_or_equal_to: 1,
-    less_than_or_equal_to: 999
-  }
-  validates :motor_number, presence: true, numericality: {
-    only_integer: true,
-    greater_than_or_equal_to: 1,
-    less_than_or_equal_to: 999
-  }
-  validates :tilt, presence: true,
-                   numericality: { only_float: true, greater_than_or_equal_to: -0.5, less_than_or_equal_to: 3.0 }
-  validates :propeller_renewed, inclusion: { in: [true, false] }
+FactoryBot.define do
+  factory :boat_setting do
+    date { Time.zone.today }
+    sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
+    sequence(:race_number, Race.numbers.cycle)
+    sequence(:pit_number, Pit::NUMBER_RANGE.to_a.cycle)
+    sequence(:boat_number) {|n| n }
+    sequence(:motor_number) {|n| n }
+    sequence(:tilt, (-0.5..3.0).step(0.5).to_a.cycle)
+    propeller_renewed { false }
+  end
 end
 
 # == Schema Information

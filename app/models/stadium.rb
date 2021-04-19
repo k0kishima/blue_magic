@@ -8,7 +8,7 @@ class Stadium < ApplicationRecord
 
   validates :tel_code, presence: true, inclusion: { in: TELCODE_RANGE }, uniqueness: true
   validates :name, presence: true
-  validates :prefecture_id, presence: true
+  validates :prefecture_id, presence: true, inclusion: { in: Prefecture.all.map(&:id) }
   validates :water_quality, presence: true
   validates :tide_fluctuation, inclusion: { in: [true, false] }
   validates :lat, presence: true

@@ -1,13 +1,14 @@
-class RaceExhibitionRecord < ApplicationRecord
-  include RaceAssociating
-
-  self.primary_keys = [:stadium_tel_code, :date, :race_number, :pit_number]
-
-  validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :course_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :start_time, presence: true
-  validates :exhibition_time, presence: true
-  validates :exhibition_time_order, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
+FactoryBot.define do
+  factory :race_exhibition_record do
+    date { Time.zone.today }
+    sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
+    sequence(:race_number, Race.numbers.cycle)
+    sequence(:pit_number, (Pit::NUMBER_RANGE).to_a.cycle)
+    sequence(:course_number, (Pit::NUMBER_RANGE).to_a.cycle)
+    start_time { 0.15 }
+    exhibition_time { 6.82 }
+    sequence(:exhibition_time_order, (Pit::NUMBER_RANGE).to_a.cycle)
+  end
 end
 
 # == Schema Information

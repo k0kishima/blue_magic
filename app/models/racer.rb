@@ -10,7 +10,6 @@ class Racer < ApplicationRecord
   # レコード生成時は時系列的には出走表からパースするが、その時点では氏名や級別などしか取れない
   # などの事情から NULL を許可しているカラムが多い
   validates :registration_number, uniqueness: true
-  validates :last_name, presence: true
   validates :branch_id, inclusion: { in: Branch.all.map(&:id) }, allow_nil: true
   validates :birth_prefecture_id, inclusion: { in: Prefecture.all.map(&:id) }, allow_nil: true
 

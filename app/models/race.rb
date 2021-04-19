@@ -3,8 +3,6 @@ class Race < ApplicationRecord
 
   NUMBER_OF_DAILY = 12
 
-  enum status: { on_going: 1, done: 2, canceled: 3, }
-
   self.primary_keys = [:stadium_tel_code, :date, :race_number]
 
   has_many :race_entries, foreign_key: self.primary_keys
@@ -35,7 +33,6 @@ class Race < ApplicationRecord
 
   validates :date, presence: true
   validates :race_number, presence: true, inclusion: { in: self.numbers }
-  validates :status, presence: true
   validates :title, presence: true
   validates :course_fixed, inclusion: { in: [true, false] }
   validates :use_stabilizer, inclusion: { in: [true, false] }
@@ -96,7 +93,7 @@ class Race < ApplicationRecord
   private
 
   def betting_deadline_at_cannot_be_no_in_date
-    return if betting_deadline_at&.in?(date.all_day)
+    return if date&.all_day&.cover?(betting_deadline_at)
 
     errors.add(:betting_deadline_at, 'must be with in same date  of value of date property')
   end

@@ -1,16 +1,13 @@
-class RaceRecord < ApplicationRecord
-  include RaceAssociating
-
-  self.primary_keys = [:stadium_tel_code, :date, :race_number, :pit_number]
-
-  belongs_to :race_entry, foreign_key: self.primary_keys, optional: true
-  has_one :winning_race_entry, foreign_key: self.primary_keys
-
-  # TODO: start_timeのバリデーション入れる
-  validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :course_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }
+FactoryBot.define do
+  factory :race_record do
+    date { Time.zone.today }
+    sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
+    sequence(:race_number, Race.numbers.cycle)
+    sequence(:pit_number, (Pit::NUMBER_RANGE).to_a.cycle)
+    sequence(:course_number, (Pit::NUMBER_RANGE).to_a.cycle)
+    sequence(:start_order, (Pit::NUMBER_RANGE).to_a.cycle)
+    sequence(:arrival, (Pit::NUMBER_RANGE).to_a.cycle)
+  end
 end
 
 # == Schema Information

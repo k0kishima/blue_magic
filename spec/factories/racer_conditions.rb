@@ -1,12 +1,10 @@
-class RacerCondition < ApplicationRecord
-  self.primary_keys = [:date, :racer_registration_number]
-
-  belongs_to :racer, foreign_key: :racer_registration_number, optional: true
-
-  validates :date, presence: true
-  validates :racer_registration_number, presence: true
-  validates :weight, presence: true
-  validates :adjust, presence: true
+FactoryBot.define do
+  factory :racer_condition do
+    date { Time.zone.today }
+    sequence(:racer_registration_number){|n| n}
+    weight { 51.0 }
+    adjust { 0 }
+  end
 end
 
 # == Schema Information

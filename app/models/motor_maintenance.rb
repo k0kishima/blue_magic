@@ -6,6 +6,9 @@ class MotorMaintenance < ApplicationRecord
   enum exchanged_parts: { electrical_system: 1, carburetor: 2, piston: 3, piston_ring: 4, cylinder: 5, crankshaft: 6,
                           gear_case: 7, carrier_body: 8 }
 
+  validates :date, presence: true
+  validates :motor_number, presence: true
+  validates :exchanged_parts, presence: true
   # TODO: 1以上 x未満 のチェック入れた方がいいのでは？あとパーツによって替えられる個数が違ってくる（例えば電気系統を2つ取り換えるとかは不可）
   validates :quantity, presence: true
 end

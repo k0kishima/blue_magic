@@ -6,12 +6,12 @@ class RacerWinningRateAggregation < ApplicationRecord
   validates :rate_in_all_stadium, presence: true, numericality: {
     only_float: true,
     greater_than_or_equal_to: 0.0,
-    less_than_or_equal_to: 100.0
+    less_than_or_equal_to: 10.0
   }
   validates :rate_in_event_going_stadium, presence: true, numericality: {
     only_float: true,
     greater_than_or_equal_to: 0.0,
-    less_than_or_equal_to: 100.0
+    less_than_or_equal_to: 10.0
   }
 end
 
