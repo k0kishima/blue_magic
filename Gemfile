@@ -35,6 +35,13 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'annotate'
+end
+
+group :test do
+  gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers'
+  gem 'rspec-collection_matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -48,6 +55,7 @@ gem "rubocop", "~> 1.12"
 
 gem "pry-rails", "~> 0.3.9"
 
+
 gem "hiredis", "~> 0.6.3"
 
 gem "redis", "~> 4.2"
@@ -56,3 +64,9 @@ gem "sidekiq", "~> 6.2"
 
 # cache_store はこれがなくても引数で名前空間効いたが sidekiq でredis設定するときにnamespace引数使うなら必要
 gem "redis-namespace", "~> 1.8"
+
+gem 'composite_primary_keys', :github => 'composite-primary-keys/composite_primary_keys'
+
+gem "factory_bot", "~> 6.1"
+
+gem "jp_prefecture", "~> 1.0"
