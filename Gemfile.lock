@@ -189,6 +189,8 @@ GEM
     rubocop-ast (1.4.1)
       parser (>= 2.7.1.5)
     ruby-progressbar (1.11.0)
+    shoulda-matchers (4.5.1)
+      activesupport (>= 4.2.0)
     sidekiq (6.2.1)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -231,6 +233,7 @@ DEPENDENCIES
   redis-namespace (~> 1.8)
   rspec-rails
   rubocop (~> 1.12)
+  shoulda-matchers
   sidekiq (~> 6.2)
   spring
   tzinfo-data
