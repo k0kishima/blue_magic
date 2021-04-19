@@ -79,6 +79,10 @@ GEM
     concurrent-ruby (1.1.8)
     connection_pool (2.2.5)
     crass (1.0.6)
+    database_cleaner-active_record (2.0.0)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     diff-lcs (1.4.4)
     erubi (1.10.0)
     factory_bot (6.1.0)
@@ -214,6 +218,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   composite_primary_keys!
+  database_cleaner-active_record
   factory_bot (~> 6.1)
   hiredis (~> 0.6.3)
   listen (~> 3.3)
