@@ -93,6 +93,7 @@ GEM
     hiredis (0.6.3)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    jp_prefecture (1.0.0)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -225,6 +226,7 @@ DEPENDENCIES
   database_cleaner-active_record
   factory_bot (~> 6.1)
   hiredis (~> 0.6.3)
+  jp_prefecture (~> 1.0)
   listen (~> 3.3)
   mysql2 (~> 0.5)
   nokogiri (~> 1.11)
