@@ -74,7 +74,6 @@ class CreateTables < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_foreign_key :racer_conditions, :racers, column: :racer_registration_number, primary_key: :registration_number
 
     create_table :weather_conditions, primary_key: [:stadium_tel_code, :date, :race_number, :in_performance] do |t|
       t.integer  :stadium_tel_code, null: false

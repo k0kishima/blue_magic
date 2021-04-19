@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(version: 2021_04_17_203211) do
   add_foreign_key "race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "race_exhibition_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "race_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
-  add_foreign_key "racer_conditions", "racers", column: "racer_registration_number", primary_key: "registration_number"
   add_foreign_key "races", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "weather_conditions", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "winning_race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
