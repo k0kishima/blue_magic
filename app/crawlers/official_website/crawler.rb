@@ -4,6 +4,7 @@ module OfficialWebsite
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveModel::Validations
+    include Publishable
 
     attribute :source_page
     validates :source_page, presence: true
@@ -16,26 +17,11 @@ module OfficialWebsite
       true
     end
 
-    def add_observer(observer)
-      @observers ||= []
-      @observers << observer
-    end
-
     private
 
     def downloaded_file=(new_downloaded_file)
       @downloaded_file = new_downloaded_file
       notify_observers
-    end
-
-    def notify_observers
-      observers.each do |observer|
-        observer.subscribe(self)
-      end
-    end
-
-    def observers
-      @observers || []
     end
   end
 end
