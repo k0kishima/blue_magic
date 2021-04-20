@@ -1,13 +1,9 @@
-module OfficialWebsite::V1707
-  class WeatherConditionScraper
+module OfficialWebsite
+  class V1707::WeatherConditionScraper < Scraper
     STRIP_REGEXP = /[ 　\r\n]/
     WIND_ICON_IDS = 1..16
     NO_WIND_ICON_ID = 17
     RACE_CANCELED_TEXT = 'レース中止'
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       raise ::RaceCanceled.new if canceled?

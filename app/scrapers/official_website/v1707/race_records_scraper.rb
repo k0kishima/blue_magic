@@ -1,15 +1,11 @@
-module OfficialWebsite::V1707
-  class RaceRecordsScraper
+module OfficialWebsite
+  class V1707::RaceRecordsScraper < Scraper
     module RACE_TIME_DELIMITER
       MINUTE = "'"
       SECOND = '"'
     end
     RACE_CANCELED_TEXT = 'レース中止'
     WINNING_TRICK_NAME_REGEXP = /(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+/
-
-    def initialize(file)
-      @file = file
-    end
 
     # ※ キワモノ的なコード（例えば公式サイトがリニューアルされたら用途がかなり限定的になり、通常の運用では使用しなくなる）なのでリファクタの予定はない
     # rubocop:disable Metrics/AbcSize

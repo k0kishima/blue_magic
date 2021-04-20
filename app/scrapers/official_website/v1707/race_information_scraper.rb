@@ -1,12 +1,8 @@
-module OfficialWebsite::V1707
-  class RaceInformationScraper
+module OfficialWebsite
+  class V1707::RaceInformationScraper < Scraper
     module TEXT
       COURSE_FIXED = '進入固定'
       USE_STABILIZER = '安定板使用'
-    end
-
-    def initialize(file)
-      @file = file
     end
 
     def scrape!

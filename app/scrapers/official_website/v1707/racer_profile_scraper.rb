@@ -1,9 +1,5 @@
-module OfficialWebsite::V1707
-  class RacerProfileScraper
-    def initialize(file)
-      @file = file
-    end
-
+module OfficialWebsite
+  class V1707::RacerProfileScraper < Scraper
     def scrape!
       raise ::DataNotFound if retired?
 

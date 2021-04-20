@@ -1,9 +1,5 @@
-module OfficialWebsite::V1707
-  class EventsScraper
-    def initialize(file)
-      @file = file
-    end
-
+module OfficialWebsite
+  class V1707::EventsScraper < Scraper
     def scrape!
       raise StandardError.new('perhaps invalid file given.') if schedule_rows.blank?
 

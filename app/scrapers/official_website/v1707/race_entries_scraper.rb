@@ -1,9 +1,6 @@
-module OfficialWebsite::V1707
-  class RaceEntriesScraper
+module OfficialWebsite
+  class V1707::RaceEntriesScraper < Scraper
     NO_DATA_PLACEHOLDER = '-'
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       data = []

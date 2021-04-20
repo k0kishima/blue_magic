@@ -1,12 +1,8 @@
-module OfficialWebsite::V1707
-  class PayoffsScraper
+module OfficialWebsite
+  class V1707::PayoffsScraper < Scraper
     SIMULTANEOUS_TEXT = '同着あり'
     SPECIAL_PAY_TEXT  = '特払い'
     RACE_CANCELED_TEXT = 'レース中止'
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       raise ::RaceCanceled.new if canceled?

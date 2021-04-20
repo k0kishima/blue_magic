@@ -1,11 +1,7 @@
-module OfficialWebsite::V1707
-  class OddsScraper
+module OfficialWebsite
+  class V1707::OddsScraper < Scraper
     RACE_CANCELED_TEXT = '該当レースは中止になりました'
     DATA_NOT_FOUND_TEXT = 'データはありません'
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       raise ::RaceCanceled.new if canceled?

@@ -1,10 +1,6 @@
-module OfficialWebsite::V1707
-  class BoatSettingsScraper
+module OfficialWebsite
+  class V1707::BoatSettingsScraper < Scraper
     NEW_PROPELLER_MARK = '新'
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       data = []
