@@ -1,10 +1,6 @@
-module OfficialWebsite::V1707
-  class EventHoldingsScraper
+module OfficialWebsite
+  class V1707::EventHoldingsScraper < Scraper
     CANCELED_TEXTS = %w(中止順延	中止)
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       race_information_tbodies.map do |tbody|
@@ -13,8 +9,6 @@ module OfficialWebsite::V1707
           day_text: canceled?(tbody.text) ? cancel_text(tbody.text) : day_text(tbody.text),
         }
       end
-    ensure
-      file.close
     end
 
     private

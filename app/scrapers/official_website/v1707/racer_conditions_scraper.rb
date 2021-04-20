@@ -1,9 +1,5 @@
-module OfficialWebsite::V1707
-  class RacerConditionsScraper
-    def initialize(file)
-      @file = file
-    end
-
+module OfficialWebsite
+  class V1707::RacerConditionsScraper < Scraper
     def scrape!
       data = []
 
@@ -19,8 +15,6 @@ module OfficialWebsite::V1707
       end
 
       data
-    ensure
-      file.close
     end
 
     private

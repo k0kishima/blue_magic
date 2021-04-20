@@ -1,5 +1,5 @@
-module OfficialWebsite::V1707
-  class EventEntriesScraper
+module OfficialWebsite
+  class V1707::EventEntriesScraper < Scraper
     DATA_NOT_FOUND_TEXT = '※ データはありません。'
 
     # NOTE:
@@ -11,10 +11,6 @@ module OfficialWebsite::V1707
     # なのでここで取得できなかった性別は当面は運用カバーで手動更新
     # TODO: ↑運用カバーでなんとかしない
     # このバージョンの公式サイトの仕様上どうしようもないのかもしれないがせめて自動で更新するようにはしたい
-    def initialize(file)
-      @file = file
-    end
-
     def scrape!
       raise ::DataNotFound.new if data_not_found?
 

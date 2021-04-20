@@ -1,10 +1,6 @@
-module OfficialWebsite::V1707
-  class MotorMaintenancesScraper
+module OfficialWebsite
+  class V1707::MotorMaintenancesScraper < Scraper
     PARTS_COUNT_DELIMITER = '×'
-
-    def initialize(file)
-      @file = file
-    end
 
     def scrape!
       data = []
@@ -28,8 +24,6 @@ module OfficialWebsite::V1707
       end
 
       data
-    ensure
-      file.close
     end
 
     private
