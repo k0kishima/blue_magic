@@ -34,8 +34,6 @@ module OfficialWebsite::V1707
       end
 
       data
-    ensure
-      file.close
     end
 
     private

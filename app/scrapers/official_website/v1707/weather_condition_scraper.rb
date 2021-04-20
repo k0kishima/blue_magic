@@ -21,8 +21,6 @@ module OfficialWebsite::V1707
         air_temperature: air_temperature.to_f,
         water_temperature: water_temperature.to_f,
       }
-    ensure
-      file.close
     end
 
     private

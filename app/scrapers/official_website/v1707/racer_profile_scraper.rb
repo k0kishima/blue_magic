@@ -21,8 +21,6 @@ module OfficialWebsite::V1707
         term: term,
         current_rating: current_rating
       }
-    ensure
-      file.close
     end
 
     private

@@ -18,8 +18,6 @@ module OfficialWebsite::V1707
         title: title,
         metre: metre,
       }
-    ensure
-      file.close
     end
 
     private

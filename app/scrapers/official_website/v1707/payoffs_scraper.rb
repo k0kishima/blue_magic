@@ -14,8 +14,6 @@ module OfficialWebsite::V1707
       number_and_amount_pairs(trifecta_tbody).compact.map do |attribute|
         { betting_method: :trifecta, betting_number: attribute[:betting_number], amount: attribute[:amount] }
       end
-    ensure
-      file.close
     end
 
     private

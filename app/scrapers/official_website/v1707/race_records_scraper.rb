@@ -62,8 +62,6 @@ module OfficialWebsite::V1707
       end
 
       data.sort_by { |hash| hash[:pit_number] }
-    ensure
-      file.close
     end
     # rubocop:enable Metrics/AbcSize
 

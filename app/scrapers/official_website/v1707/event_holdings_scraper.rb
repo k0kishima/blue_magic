@@ -13,8 +13,6 @@ module OfficialWebsite::V1707
           day_text: canceled?(tbody.text) ? cancel_text(tbody.text) : day_text(tbody.text),
         }
       end
-    ensure
-      file.close
     end
 
     private
