@@ -1,6 +1,8 @@
 module OfficialWebsite
   class V1707::RaceExhibitionRecordsScraper < Scraper
     def scrape!
+      validate!
+
       data = []
 
       exhibition_rows.each.with_index(1) do |exhibition_row, pit_number|
@@ -25,6 +27,8 @@ module OfficialWebsite
           element[:is_flying] = flying?(slit_row)
         end
       end
+
+      self.cache = data
 
       data
     end

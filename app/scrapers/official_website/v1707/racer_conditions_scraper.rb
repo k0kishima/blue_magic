@@ -1,6 +1,8 @@
 module OfficialWebsite
   class V1707::RacerConditionsScraper < Scraper
     def scrape!
+      validate!
+
       data = []
 
       exhibition_rows.each.with_index(1) do |row, pit_number|
@@ -13,6 +15,8 @@ module OfficialWebsite
           adjust: adjust(row),
         }
       end
+
+      self.cache = data
 
       data
     end

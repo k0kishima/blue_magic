@@ -12,9 +12,11 @@ module OfficialWebsite
     # TODO: ↑運用カバーでなんとかしない
     # このバージョンの公式サイトの仕様上どうしようもないのかもしれないがせめて自動で更新するようにはしたい
     def scrape!
+      validate!
+
       raise ::DataNotFound.new if data_not_found?
 
-      series_entry_rows.map do |row|
+      data = series_entry_rows.map do |row|
         cells = row.search('td')
         racer_names = cells[2].text.strip.split(/[　]+/).reverse
         {
@@ -30,6 +32,10 @@ module OfficialWebsite
           racer_gender: row.search('.is-lady').present? ? 'female' : 'male'
         }
       end
+
+      self.cache = data
+
+      data
     end
 
     private

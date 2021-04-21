@@ -1,11 +1,13 @@
 module OfficialWebsite
   class V1707::RacerProfileScraper < Scraper
     def scrape!
+      validate!
+
       raise ::DataNotFound if retired?
 
       # NOTE: 級別・体重・性別はファイルダウンロード時点のものであるため変動する可能性がある
       # 稀ではあるが支部も変わることがある
-      {
+      data = {
         last_name: last_name,
         first_name: first_name.presence || '',
         registration_number: registration_number,
@@ -17,6 +19,10 @@ module OfficialWebsite
         term: term,
         current_rating: current_rating
       }
+
+      self.cache = data
+
+      data
     end
 
     private

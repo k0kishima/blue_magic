@@ -4,6 +4,8 @@ module OfficialWebsite
     DATA_NOT_FOUND_TEXT = 'データはありません'
 
     def scrape!
+      validate!
+
       raise ::RaceCanceled.new if canceled?
       raise ::DataNotFound.new if unexist?
       raise StandardError.new('perhaps invalid file given.') if odds_cells.blank?
@@ -14,6 +16,8 @@ module OfficialWebsite
         betting_number = [first_arrived(i), second_arrived(i), third_arrived(i)].join
         data << { betting_number: betting_number.to_i, ratio:  odds_cell.text.to_f }
       end
+
+      self.cache = data
 
       data
     end

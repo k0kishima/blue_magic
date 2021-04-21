@@ -6,7 +6,9 @@ module OfficialWebsite
     end
 
     def scrape!
-      {
+      validate!
+
+      data = {
         number: race_number,
         is_course_fixed: course_fixed?,
         use_stabilizer: use_stabilizer?,
@@ -14,6 +16,10 @@ module OfficialWebsite
         title: title,
         metre: metre,
       }
+
+      self.cache = data
+
+      data
     end
 
     private

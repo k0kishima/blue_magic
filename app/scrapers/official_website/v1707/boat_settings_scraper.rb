@@ -3,6 +3,8 @@ module OfficialWebsite
     NEW_PROPELLER_MARK = '新'
 
     def scrape!
+      validate!
+
       data = []
 
       exhibition_rows.each.with_index(1) do |row, pit_number|
@@ -15,6 +17,8 @@ module OfficialWebsite
           is_new_propeller: new_propeller?(row),
         }
       end
+
+      self.cache = data
 
       data
     end

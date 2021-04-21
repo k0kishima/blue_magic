@@ -10,6 +10,8 @@ module OfficialWebsite
     # ※ キワモノ的なコード（例えば公式サイトがリニューアルされたら用途がかなり限定的になり、通常の運用では使用しなくなる）なのでリファクタの予定はない
     # rubocop:disable Metrics/AbcSize
     def scrape!
+      validate!
+
       raise ::RaceCanceled.new if canceled?
 
       @data = record_rows.map do |record_row|
@@ -36,6 +38,7 @@ module OfficialWebsite
           record[:arrival]               = nil
           record[:disqualification_mark] = arrival
         end
+
         record
       end
 
@@ -57,7 +60,11 @@ module OfficialWebsite
         hash[:start_order] = sorted_start_times.index(hash[:start_time])&.next
       end
 
-      data.sort_by { |hash| hash[:pit_number] }
+      data.sort_by! { |hash| hash[:pit_number] }
+
+      self.cache = data
+
+      data
     end
     # rubocop:enable Metrics/AbcSize
 

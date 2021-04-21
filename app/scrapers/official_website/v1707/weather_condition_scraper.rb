@@ -6,10 +6,12 @@ module OfficialWebsite
     RACE_CANCELED_TEXT = 'レース中止'
 
     def scrape!
+      validate!
+
       raise ::RaceCanceled.new if canceled?
       raise ::DataNotFound.new if incomplete_information?
 
-      {
+      data = {
         weather: weather,
         wavelength: wavelength.to_f,
         wind_angle: wind_angle.to_f,
@@ -17,6 +19,10 @@ module OfficialWebsite
         air_temperature: air_temperature.to_f,
         water_temperature: water_temperature.to_f,
       }
+
+      self.cache = data
+
+      data
     end
 
     private

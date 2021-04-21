@@ -3,12 +3,18 @@ module OfficialWebsite
     CANCELED_TEXTS = %w(中止順延	中止)
 
     def scrape!
-      race_information_tbodies.map do |tbody|
+      validate!
+
+      data = race_information_tbodies.map do |tbody|
         {
           stadium_tel_code: stadium_tel_code(tbody.elements.to_s),
           day_text: canceled?(tbody.text) ? cancel_text(tbody.text) : day_text(tbody.text),
         }
       end
+
+      self.cache = data
+
+      data
     end
 
     private
