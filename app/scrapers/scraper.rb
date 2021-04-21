@@ -1,15 +1,14 @@
 class Scraper
+  include ActiveModel::Model
+  include ActiveModel::Attributes
+  include ActiveModel::Validations
   include Publishable
 
+  attribute :file
+  validates :file, presence: true
+
   attr_reader :cache
-
-  def initialize(file)
-    @file = file
-  end
-
-  def cache!
-    self.cache = scrape!
-  end
+  attr_accessor :file
 
   def cache=(data)
     @cache = data

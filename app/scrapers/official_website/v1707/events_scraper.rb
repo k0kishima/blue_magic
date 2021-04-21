@@ -1,6 +1,8 @@
 module OfficialWebsite
   class V1707::EventsScraper < Scraper
     def scrape!
+      validate!
+
       raise StandardError.new('perhaps invalid file given.') if schedule_rows.blank?
 
       data = []
@@ -36,6 +38,8 @@ module OfficialWebsite
           date_pointer += series_days.days
         end
       end
+
+      self.cache = data
 
       data
     end

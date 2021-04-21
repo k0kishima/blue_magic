@@ -5,11 +5,17 @@ module OfficialWebsite
     RACE_CANCELED_TEXT = 'レース中止'
 
     def scrape!
+      validate!
+
       raise ::RaceCanceled.new if canceled?
 
-      number_and_amount_pairs(trifecta_tbody).compact.map do |attribute|
+      data = number_and_amount_pairs(trifecta_tbody).compact.map do |attribute|
         { betting_method: :trifecta, betting_number: attribute[:betting_number], amount: attribute[:amount] }
       end
+
+      self.cache = data
+
+      data
     end
 
     private

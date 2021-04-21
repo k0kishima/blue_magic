@@ -3,6 +3,8 @@ module OfficialWebsite
     NO_DATA_PLACEHOLDER = '-'
 
     def scrape!
+      validate!
+
       data = []
 
       racer_rows.each.with_index(1) do |row, pit_number|
@@ -29,6 +31,8 @@ module OfficialWebsite
           is_absent: is_absent,
         }
       end
+
+      self.cache = data
 
       data
     end

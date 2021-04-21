@@ -3,6 +3,8 @@ module OfficialWebsite
     PARTS_COUNT_DELIMITER = '×'
 
     def scrape!
+      validate!
+
       data = []
 
       exhibition_rows.each.with_index(1) do |row, pit_number|
@@ -22,6 +24,8 @@ module OfficialWebsite
 
         data << element
       end
+
+      self.cache = data
 
       data
     end
