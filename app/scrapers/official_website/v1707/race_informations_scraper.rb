@@ -1,5 +1,5 @@
 module OfficialWebsite
-  class V1707::RaceInformationScraper < Scraper
+  class V1707::RaceInformationsScraper < Scraper
     module TEXT
       COURSE_FIXED = '進入固定'
       USE_STABILIZER = '安定板使用'
@@ -8,14 +8,14 @@ module OfficialWebsite
     def scrape!
       validate!
 
-      data = {
+      data = [{
         number: race_number,
         is_course_fixed: course_fixed?,
         use_stabilizer: use_stabilizer?,
         deadline: deadline_text,
         title: title,
         metre: metre,
-      }
+      }]
 
       self.cache = data
 
