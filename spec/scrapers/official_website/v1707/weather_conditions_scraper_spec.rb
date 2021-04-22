@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OfficialWebsite::V1707::WeatherConditionScraper do
+describe OfficialWebsite::V1707::WeatherConditionsScraper do
   shared_examples :cacheable do
     it 'データ取得結果をキャッシュすること' do
       expect(subject).to eq scraper.cache
@@ -40,14 +40,14 @@ describe OfficialWebsite::V1707::WeatherConditionScraper do
           }
 
           it 'データが取得できること' do
-            expect(subject).to eq({
+            expect(subject).to eq([{
                                     weather: '晴',
                                     wavelength: 2.0,
                                     wind_angle: 315.0,
                                     wind_velocity: 4.0,
                                     air_temperature: 17.0,
                                     water_temperature: 17.0,
-                                  })
+                                  }])
           end
 
           it_behaves_like :cacheable
@@ -69,14 +69,14 @@ describe OfficialWebsite::V1707::WeatherConditionScraper do
 
         context 'レースが終了しているとき' do
           it 'データが取得できること' do
-            expect(subject).to eq({
+            expect(subject).to eq([{
                                     weather: '曇り',
                                     wavelength: 1.0,
                                     wind_angle: 135.0,
                                     wind_velocity: 1.0,
                                     air_temperature: 15.0,
                                     water_temperature: 18.0,
-                                  })
+                                  }])
           end
 
           it_behaves_like :cacheable

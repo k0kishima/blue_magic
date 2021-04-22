@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OfficialWebsite::V1707::RacerProfileScraper do
+describe OfficialWebsite::V1707::RacerProfilesScraper do
   shared_examples :cacheable do
     it 'データ取得結果をキャッシュすること' do
       expect(subject).to eq scraper.cache
@@ -20,7 +20,7 @@ describe OfficialWebsite::V1707::RacerProfileScraper do
           let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/racer/4444/profile.html" }
 
           it 'データが取得できること' do
-            expect(subject).to eq({
+            expect(subject).to eq([{
                                     last_name: '桐生',
                                     first_name: '順平',
                                     registration_number: 4444,
@@ -31,7 +31,7 @@ describe OfficialWebsite::V1707::RacerProfileScraper do
                                     born_prefecture: '福島県',
                                     term: 100,
                                     current_rating: 'A1級'
-                                  })
+                                  }])
           end
 
           it_behaves_like :cacheable

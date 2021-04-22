@@ -1,5 +1,5 @@
 module OfficialWebsite
-  class V1707::RacerProfileScraper < Scraper
+  class V1707::RacerProfilesScraper < Scraper
     def scrape!
       validate!
 
@@ -7,7 +7,7 @@ module OfficialWebsite
 
       # NOTE: 級別・体重・性別はファイルダウンロード時点のものであるため変動する可能性がある
       # 稀ではあるが支部も変わることがある
-      data = {
+      data = [{
         last_name: last_name,
         first_name: first_name.presence || '',
         registration_number: registration_number,
@@ -18,7 +18,7 @@ module OfficialWebsite
         born_prefecture: born_prefecture,
         term: term,
         current_rating: current_rating
-      }
+      }]
 
       self.cache = data
 

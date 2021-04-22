@@ -1,5 +1,5 @@
 module OfficialWebsite
-  class V1707::WeatherConditionScraper < Scraper
+  class V1707::WeatherConditionsScraper < Scraper
     STRIP_REGEXP = /[ 　\r\n]/
     WIND_ICON_IDS = 1..16
     NO_WIND_ICON_ID = 17
@@ -11,14 +11,14 @@ module OfficialWebsite
       raise ::RaceCanceled.new if canceled?
       raise ::DataNotFound.new if incomplete_information?
 
-      data = {
+      data = [{
         weather: weather,
         wavelength: wavelength.to_f,
         wind_angle: wind_angle.to_f,
         wind_velocity: wind_velocity.to_f,
         air_temperature: air_temperature.to_f,
         water_temperature: water_temperature.to_f,
-      }
+      }]
 
       self.cache = data
 
