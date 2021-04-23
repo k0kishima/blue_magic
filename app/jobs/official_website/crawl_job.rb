@@ -1,6 +1,6 @@
 require 'open-uri'
 
-class CrawlJob < ApplicationJob
+class OfficialWebsite::CrawlJob < ApplicationJob
   DEFAULT_VERSION = Rails.application.config.x.official_website_proxy.latest_official_website_version
 
   include PageReloadable

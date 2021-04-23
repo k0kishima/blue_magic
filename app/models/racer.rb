@@ -13,6 +13,8 @@ class Racer < ApplicationRecord
   validates :branch_id, inclusion: { in: Branch.all.map(&:id) }, allow_nil: true
   validates :birth_prefecture_id, inclusion: { in: Prefecture.all.map(&:id) }, allow_nil: true
 
+  # TODO: term のバリデーションを入れる
+
   def full_name
     @full_name ||= [last_name, first_name].join(' ')
   end
