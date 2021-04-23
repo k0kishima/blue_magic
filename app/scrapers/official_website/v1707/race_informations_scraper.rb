@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::RaceInformationsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     module TEXT
       COURSE_FIXED = '進入固定'
       USE_STABILIZER = '安定板使用'
@@ -9,6 +11,8 @@ module OfficialWebsite
       validate!
 
       data = [{
+        date: date,
+        stadium_tel_code: stadium_tel_code,
         number: race_number,
         is_course_fixed: course_fixed?,
         use_stabilizer: use_stabilizer?,
