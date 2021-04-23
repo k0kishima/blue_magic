@@ -13,12 +13,12 @@ end
 #
 # Table name: motor_maintenances
 #
-#  date             :date             not null, primary key
-#  exchanged_parts  :integer          not null, primary key
-#  motor_number     :integer          not null, primary key
-#  quantity         :integer          not null
-#  race_number      :integer          not null, primary key
 #  stadium_tel_code :integer          not null, primary key
+#  date             :date             not null, primary key
+#  race_number      :integer          not null, primary key
+#  motor_number     :integer          not null, primary key
+#  exchanged_parts  :integer          not null, primary key
+#  quantity         :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

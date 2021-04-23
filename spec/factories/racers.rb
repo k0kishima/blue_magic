@@ -8,16 +8,16 @@ end
 #
 # Table name: racers
 #
-#  birth_date          :date
+#  registration_number :integer          not null, primary key
+#  last_name           :string(255)      default(""), not null
 #  first_name          :string(255)      default(""), not null
 #  gender              :integer
-#  height              :integer
-#  last_name           :string(255)      default(""), not null
-#  registration_number :integer          not null, primary key
-#  status              :integer
 #  term                :integer
+#  birth_date          :date
+#  branch_id           :integer
+#  birth_prefecture_id :integer
+#  height              :integer
+#  status              :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  birth_prefecture_id :integer
-#  branch_id           :integer
 #

@@ -12,12 +12,12 @@ end
 #
 # Table name: events
 #
-#  canceled         :boolean          default(FALSE), not null
-#  grade            :integer          not null
-#  kind             :integer          not null
 #  stadium_tel_code :integer          not null, primary key
 #  starts_on        :date             not null, primary key
 #  title            :string(255)      not null, primary key
+#  grade            :integer          not null
+#  kind             :integer          not null
+#  canceled         :boolean          default(FALSE), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

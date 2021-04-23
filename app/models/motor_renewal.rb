@@ -10,8 +10,8 @@ end
 #
 # Table name: motor_renewals
 #
-#  date             :date             not null, primary key
 #  stadium_tel_code :integer          not null, primary key
+#  date             :date             not null, primary key
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

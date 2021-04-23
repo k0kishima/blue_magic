@@ -26,11 +26,11 @@ end
 #
 # Table name: disqualified_race_entries
 #
-#  date             :date             not null, primary key
-#  disqualification :integer          not null
-#  pit_number       :integer          not null, primary key
-#  race_number      :integer          not null, primary key
 #  stadium_tel_code :integer          not null, primary key
+#  date             :date             not null, primary key
+#  race_number      :integer          not null, primary key
+#  pit_number       :integer          not null, primary key
+#  disqualification :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

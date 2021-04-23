@@ -21,15 +21,15 @@ end
 #
 # Table name: races
 #
+#  stadium_tel_code    :integer          not null, primary key
+#  date                :date             not null, primary key
+#  race_number         :integer          not null, primary key
+#  title               :string(255)      not null
+#  course_fixed        :boolean          default(FALSE), not null
+#  use_stabilizer      :boolean          default(FALSE), not null
+#  number_of_laps      :integer          default(3), not null
 #  betting_deadline_at :datetime         not null
 #  canceled            :boolean          default(FALSE), not null
-#  course_fixed        :boolean          default(FALSE), not null
-#  date                :date             not null, primary key
-#  number_of_laps      :integer          default(3), not null
-#  race_number         :integer          not null, primary key
-#  stadium_tel_code    :integer          not null, primary key
-#  title               :string(255)      not null
-#  use_stabilizer      :boolean          default(FALSE), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

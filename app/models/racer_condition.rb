@@ -13,10 +13,10 @@ end
 #
 # Table name: racer_conditions
 #
-#  adjust                    :float(24)        not null
-#  date                      :date             not null, primary key
 #  racer_registration_number :integer          not null, primary key
+#  date                      :date             not null, primary key
 #  weight                    :float(24)        not null
+#  adjust                    :float(24)        not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #
