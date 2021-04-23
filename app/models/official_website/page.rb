@@ -5,16 +5,17 @@ require 'open-uri'
 # プロキシを介してアクセスする
 # したがって、スクレイパーと違って公式サイトのバージョンごとにモデルを実装する必要がない
 # 公式サイトの構造の関心はプロキシが持ってるので、ここでは単にバージョンをパラメータで切り替えてプロキシに投げるだけ
+# FIXME: 継承をやめる（リスコフの置換原則に違反してるため）
 module OfficialWebsite
   class Page
     BASE_URL = Rails.application.config.x.official_website_proxy.base_url
-    USE_VERSION = Rails.application.config.x.official_website_proxy.latest_official_website_version
+    DEFAULT_VERSION = Rails.application.config.x.official_website_proxy.latest_official_website_version
 
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveModel::Validations
 
-    attribute :version, :integer, default: USE_VERSION
+    attribute :version, :integer, default: DEFAULT_VERSION
     attribute :no_cache, :boolean, default: false
 
     def file
