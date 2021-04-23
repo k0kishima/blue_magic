@@ -13,12 +13,12 @@ end
 #
 # Table name: payoffs
 #
-#  amount           :integer          not null
-#  betting_method   :integer          not null, primary key
-#  betting_number   :integer          not null, primary key
+#  stadium_tel_code :integer          not null, primary key
 #  date             :date             not null, primary key
 #  race_number      :integer          not null, primary key
-#  stadium_tel_code :integer          not null, primary key
+#  betting_method   :integer          not null, primary key
+#  betting_number   :integer          not null, primary key
+#  amount           :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #

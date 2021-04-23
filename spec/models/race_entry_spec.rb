@@ -27,11 +27,11 @@ end
 #
 # Table name: race_entries
 #
+#  stadium_tel_code          :integer          not null, primary key
 #  date                      :date             not null, primary key
-#  pit_number                :integer          not null, primary key
 #  race_number               :integer          not null, primary key
 #  racer_registration_number :integer          not null
-#  stadium_tel_code          :integer          not null, primary key
+#  pit_number                :integer          not null, primary key
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #

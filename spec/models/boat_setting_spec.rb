@@ -48,14 +48,14 @@ end
 #
 # Table name: boat_settings
 #
-#  boat_number       :integer          not null
-#  date              :date             not null, primary key
-#  motor_number      :integer          not null
-#  pit_number        :integer          not null, primary key
-#  propeller_renewed :boolean          not null
-#  race_number       :integer          not null, primary key
 #  stadium_tel_code  :integer          not null, primary key
+#  date              :date             not null, primary key
+#  race_number       :integer          not null, primary key
+#  pit_number        :integer          not null, primary key
+#  boat_number       :integer          not null
+#  motor_number      :integer          not null
 #  tilt              :float(24)        not null
+#  propeller_renewed :boolean          not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #

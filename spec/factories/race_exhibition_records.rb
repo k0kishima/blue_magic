@@ -15,14 +15,14 @@ end
 #
 # Table name: race_exhibition_records
 #
-#  course_number         :integer          not null
+#  stadium_tel_code      :integer          not null, primary key
 #  date                  :date             not null, primary key
+#  race_number           :integer          not null, primary key
+#  pit_number            :integer          not null, primary key
+#  course_number         :integer          not null
+#  start_time            :float(24)        not null
 #  exhibition_time       :float(24)        not null
 #  exhibition_time_order :integer          not null
-#  pit_number            :integer          not null, primary key
-#  race_number           :integer          not null, primary key
-#  stadium_tel_code      :integer          not null, primary key
-#  start_time            :float(24)        not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #

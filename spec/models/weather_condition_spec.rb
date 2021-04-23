@@ -31,16 +31,16 @@ end
 #
 # Table name: weather_conditions
 #
-#  air_temperature   :float(24)        not null
-#  date              :date             not null, primary key
-#  in_performance    :boolean          not null, primary key
-#  race_number       :integer          not null, primary key
 #  stadium_tel_code  :integer          not null, primary key
-#  water_temperature :float(24)        not null
-#  wavelength        :float(24)
+#  date              :date             not null, primary key
+#  race_number       :integer          not null, primary key
+#  in_performance    :boolean          not null, primary key
 #  weather           :integer          not null
-#  wind_angle        :float(24)
 #  wind_velocity     :float(24)        not null
+#  wind_angle        :float(24)
+#  wavelength        :float(24)
+#  air_temperature   :float(24)        not null
+#  water_temperature :float(24)        not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
