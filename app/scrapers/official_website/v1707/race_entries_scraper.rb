@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::RaceEntriesScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     NO_DATA_PLACEHOLDER = '-'
 
     def scrape!
@@ -11,6 +13,9 @@ module OfficialWebsite
         @current_row = row
         racer_names = racer_name.split(/[　]+/).reverse
         data << {
+          date: date,
+          stadium_tel_code: stadium_tel_code,
+          race_number: race_number,
           racer_registration_number: racer_registration_number,
           racer_first_name: racer_names.first,
           racer_last_name: racer_names.last,
@@ -121,6 +126,14 @@ module OfficialWebsite
 
     def is_absent
       current_row.attribute('class').value.include?('is-miss')
+    end
+
+    def deadline_table
+      @deadline_table ||= html.search('.table1').first
+    end
+
+    def race_number
+      @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
     end
   end
 end

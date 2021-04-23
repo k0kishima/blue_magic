@@ -42,6 +42,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
             it '欠損しているデータ以外は取得できること' do
               expect(subject).to contain_exactly(
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 3224,
                   racer_first_name: '繁洋',
                   racer_last_name: '栗山',
@@ -62,6 +65,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
                   is_absent: false,
                 },
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 4015,
                   racer_first_name: '竜一',
                   racer_last_name: '前野',
@@ -82,6 +88,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
                   is_absent: false,
                 },
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 4037,
                   racer_first_name: '正幸',
                   racer_last_name: '別府',
@@ -102,6 +111,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
                   is_absent: false,
                 },
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 4114,
                   racer_first_name: '達徳',
                   racer_last_name: '深澤',
@@ -122,6 +134,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
                   is_absent: false,
                 },
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 4799,
                   racer_first_name: '大我',
                   racer_last_name: '大山',
@@ -142,6 +157,9 @@ describe OfficialWebsite::V1707::RaceEntriesScraper do
                   is_absent: false,
                 },
                 {
+                  stadium_tel_code: 8,
+                  date: Date.new(2015, 10, 16),
+                  race_number: 2,
                   racer_registration_number: 3591,
                   racer_first_name: '孝義',
                   racer_last_name: '後藤',
