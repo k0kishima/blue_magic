@@ -41,6 +41,10 @@ describe OfficialWebsite::V1707::WeatherConditionsScraper do
 
           it 'データが取得できること' do
             expect(subject).to eq([{
+                                    date: Date.new(2015, 11, 15),
+                                    stadium_tel_code: 7,
+                                    race_number: 12,
+                                    in_performance: false,
                                     weather: '晴',
                                     wavelength: 2.0,
                                     wind_angle: 315.0,
@@ -70,6 +74,10 @@ describe OfficialWebsite::V1707::WeatherConditionsScraper do
         context 'レースが終了しているとき' do
           it 'データが取得できること' do
             expect(subject).to eq([{
+                                    date: Date.new(2018, 11, 16),
+                                    stadium_tel_code: 18,
+                                    race_number: 7,
+                                    in_performance: true,
                                     weather: '曇り',
                                     wavelength: 1.0,
                                     wind_angle: 135.0,
