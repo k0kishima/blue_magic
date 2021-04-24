@@ -1,0 +1,7 @@
+date,stadium_tel_code,race_number,racer_registration_number,racer_first_name,racer_last_name,racer_rank,pit_number,motor_number,quinella_rate_of_motor,trio_rate_of_motor,boat_number,quinella_rate_of_boat,trio_rate_of_boat,whole_country_winning_rate,local_winning_rate,whole_country_quinella_rate_of_racer,whole_country_trio_rate_of_racer,local_quinella_rate_of_racer,local_trio_rate_of_racer,is_absent
+2018-03-01,7,8,4190,万記,長嶋,A1,1,66,38.1,51.9,40,39.18,57.22,7.02,8.82,53.1,63.72,90.91,90.91,false
+2018-03-01,7,8,4240,裕梨,今井,B1,2,41,36.5,51.0,43,37.65,55.29,5.66,0.0,41.89,55.41,0.0,0.0,false
+2018-03-01,7,8,4419,加央理,原,B1,3,58,33.17,51.49,74,35.62,54.79,5.36,4.38,33.72,51.16,26.92,38.46,false
+2018-03-01,7,8,3175,千草,渡辺,A2,4,33,39.72,55.61,13,29.78,45.51,6.0,5.71,38.94,68.14,35.29,64.71,false
+2018-03-01,7,8,3254,千春,柳澤,B1,5,71,29.51,46.72,65,27.43,50.86,3.18,5.78,12.12,24.24,33.33,66.67,false
+2018-03-01,7,8,4843,巴恵,深尾,B1,6,40,33.16,49.49,68,28.49,45.35,1.78,2.39,0.0,3.7,5.56,11.11,false

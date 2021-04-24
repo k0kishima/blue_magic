@@ -59,7 +59,7 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             it 'レースの概要がパースされること' do
               expect(subject).to eq([{ stadium_tel_code: 9,
                                        date: Date.new(2015, 11, 16),
-                                       is_course_fixed: false,
+                                       is_course_fixed: true,
                                        use_stabilizer: false,
                                        deadline: '14:17',
                                        title: '一般',
@@ -76,7 +76,7 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             it 'レースの概要がパースされること' do
               expect(subject).to eq([{ stadium_tel_code: 7,
                                        date: Date.new(2018, 3, 1),
-                                       is_course_fixed: false,
+                                       is_course_fixed: true,
                                        use_stabilizer: true,
                                        deadline: '17:57',
                                        title: '一般戦',

@@ -9,4 +9,3 @@ class RacersImporter < BaseImporter
     [:last_name, :first_name, :term, :birth_date, :branch_id, :birth_prefecture_id, :height,]
   end
 end
-
