@@ -6,6 +6,10 @@ class ParserClassFactory
       [EventListParser]
     when 'OfficialWebsite::V1707::RacerProfilesScraper'
       [RacerListParser]
+    when 'OfficialWebsite::V1707::RaceInformationsScraper'
+      [RaceListParser]
+    when 'OfficialWebsite::V1707::RaceEntriesScraper'
+      [RaceEntryListParser, BoatBettingContributeRateAggregationParser, MotorBettingContributeRateAggregationParser, RacerWinningRateAggregationParser]
     else
       raise NotImplementedError
     end
