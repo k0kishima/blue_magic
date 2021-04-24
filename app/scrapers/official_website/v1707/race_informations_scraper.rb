@@ -38,14 +38,6 @@ module OfficialWebsite
       html.search('.label2.is-type1').select { |label| label.text == TEXT::COURSE_FIXED }.present?
     end
 
-    def deadline_table
-      @deadline_table ||= html.search('.table1').first
-    end
-
-    def race_number
-      @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
-    end
-
     def outside_deladline_rows
       @outside_deladline_rows ||= deadline_table.search('tbody tr').last
     end

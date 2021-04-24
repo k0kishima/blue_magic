@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::RaceExhibitionRecordsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     def scrape!
       validate!
 
@@ -9,6 +11,9 @@ module OfficialWebsite
         next if absence?(exhibition_row)
 
         data << {
+          date: date,
+          stadium_tel_code: stadium_tel_code,
+          race_number: race_number,
           pit_number: pit_number,
           racer_registration_number: racer_registration_number(exhibition_row),
           exhibition_time: exhibition_time(exhibition_row),

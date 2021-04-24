@@ -23,6 +23,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
 
           it '全艇データ取得できること' do
             expect(subject).to contain_exactly({
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 1,
                                                  racer_registration_number: 4096,
                                                  exhibition_time: 6.7,
@@ -32,6 +35,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 2,
                                                  racer_registration_number: 4693,
                                                  exhibition_time: 6.81,
@@ -41,6 +47,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 3,
                                                  racer_registration_number: 2505,
                                                  exhibition_time: 6.84,
@@ -50,6 +59,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 4,
                                                  racer_registration_number: 4803,
                                                  exhibition_time: 6.86,
@@ -59,6 +71,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 5,
                                                  racer_registration_number: 3138,
                                                  exhibition_time: 6.83,
@@ -68,6 +83,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 23,
+                                                 race_number: 1,
                                                  pit_number: 6,
                                                  racer_registration_number: 4221,
                                                  exhibition_time: 6.81,
@@ -88,6 +106,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
 
           it '欠場艇を除いてデータ取得できること' do
             expect(subject).to contain_exactly({
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
                                                  pit_number: 2,
                                                  racer_registration_number: 3880,
                                                  exhibition_time: 6.91,
@@ -97,6 +118,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
                                                  pit_number: 3,
                                                  racer_registration_number: 3793,
                                                  exhibition_time: 7.04,
@@ -106,6 +130,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
                                                  pit_number: 4,
                                                  racer_registration_number: 4357,
                                                  exhibition_time: 7.0,
@@ -115,6 +142,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
                                                  pit_number: 5,
                                                  racer_registration_number: 4037,
                                                  exhibition_time: 7.16,
@@ -124,6 +154,9 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  is_flying: false
                                                },
                                                {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
                                                  pit_number: 6,
                                                  racer_registration_number: 3797,
                                                  exhibition_time: 6.78,
