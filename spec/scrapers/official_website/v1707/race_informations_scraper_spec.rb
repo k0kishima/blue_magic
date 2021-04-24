@@ -21,7 +21,9 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/race/2015_10_16_08#_2R.html" }
 
             it 'レースの概要がパースされること' do
-              expect(subject).to eq([{ is_course_fixed: false,
+              expect(subject).to eq([{ stadium_tel_code: 8,
+                                       date: Date.new(2015, 10, 16),
+                                       is_course_fixed: false,
                                        use_stabilizer: false,
                                        deadline: '11:13',
                                        title: '予選',
@@ -36,7 +38,9 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/race/2018_03_01_07#_8R.html" }
 
             it 'レースの概要がパースされること' do
-              expect(subject).to eq([{ is_course_fixed: false,
+              expect(subject).to eq([{ stadium_tel_code: 7,
+                                       date: Date.new(2018, 3, 1),
+                                       is_course_fixed: false,
                                        use_stabilizer: true,
                                        deadline: '18:26',
                                        title: '一般戦',
@@ -53,7 +57,9 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/race/2015_11_16_09#_9R.html" }
 
             it 'レースの概要がパースされること' do
-              expect(subject).to eq([{ is_course_fixed: true,
+              expect(subject).to eq([{ stadium_tel_code: 9,
+                                       date: Date.new(2015, 11, 16),
+                                       is_course_fixed: false,
                                        use_stabilizer: false,
                                        deadline: '14:17',
                                        title: '一般',
@@ -68,7 +74,9 @@ describe OfficialWebsite::V1707::RaceInformationsScraper do
             let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/race/2018_03_01_07#_7R.html" }
 
             it 'レースの概要がパースされること' do
-              expect(subject).to eq([{ is_course_fixed: true,
+              expect(subject).to eq([{ stadium_tel_code: 7,
+                                       date: Date.new(2018, 3, 1),
+                                       is_course_fixed: false,
                                        use_stabilizer: true,
                                        deadline: '17:57',
                                        title: '一般戦',
