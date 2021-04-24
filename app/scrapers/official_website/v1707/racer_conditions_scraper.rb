@@ -1,5 +1,8 @@
 module OfficialWebsite
   class V1707::RacerConditionsScraper < Scraper
+    # HACK: 欲しいのは date だけなんだけど stadium_tel_code や race_number もついてきてる
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     def scrape!
       validate!
 
@@ -9,6 +12,7 @@ module OfficialWebsite
         next if absence?(row)
 
         data << {
+          date: date,
           pit_number: pit_number,
           racer_registration_number: racer_registration_number(row),
           weight: weight(row),
