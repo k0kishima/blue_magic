@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :racer_winning_rate_aggregation do
-    sequence(:racer_registration_number){|n| n}
+    sequence(:racer_registration_number) { |n| n }
     sequence(:rate_in_all_stadium, (1.0..9.5).step(0.5).to_a.cycle)
     sequence(:rate_in_event_going_stadium, (1.0..9.5).step(0.5).to_a.cycle)
     aggregated_on { Time.zone.today }

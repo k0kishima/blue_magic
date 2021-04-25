@@ -4,8 +4,8 @@ FactoryBot.define do
     sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
     sequence(:race_number, Race.numbers.cycle)
     sequence(:pit_number, Pit::NUMBER_RANGE.to_a.cycle)
-    sequence(:boat_number) {|n| n }
-    sequence(:motor_number) {|n| n }
+    sequence(:boat_number) { |n| n }
+    sequence(:motor_number) { |n| n }
     sequence(:tilt, (-0.5..3.0).step(0.5).to_a.cycle)
     propeller_renewed { false }
   end

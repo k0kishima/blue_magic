@@ -18,7 +18,9 @@ class ScraperClassFactory
       # TODO: 以下を対応する
       # OfficialWebsite::V1707::BoatSettingsScraper, OfficialWebsite::V1707::MotorMaintenancesScraper,
     when 'OfficialWebsite::RaceResultPage'
-      [OfficialWebsite::V1707::RaceRecordsScraper, OfficialWebsite::V1707::PayoffsScraper]
+      # NOTE: 気象情報は展示と本番それぞれで取る
+      [OfficialWebsite::V1707::WeatherConditionsScraper, OfficialWebsite::V1707::RaceRecordsScraper,
+       OfficialWebsite::V1707::PayoffsScraper]
     when 'OfficialWebsite::RaceOddsPage'
       [OfficialWebsite::V1707::OddsScraper]
     else

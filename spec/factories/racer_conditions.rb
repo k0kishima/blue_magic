@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :racer_condition do
     date { Time.zone.today }
-    sequence(:racer_registration_number){|n| n}
+    sequence(:racer_registration_number) { |n| n }
     weight { 51.0 }
     adjust { 0 }
   end

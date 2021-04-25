@@ -9,4 +9,3 @@ class RaceRecordsImporter < BaseImporter
     [:course_number, :start_time, :start_order, :race_time, :arrival]
   end
 end
-

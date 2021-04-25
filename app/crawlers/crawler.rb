@@ -28,5 +28,4 @@ class Crawler
   private
 
   attr_reader :source_page
-
 end

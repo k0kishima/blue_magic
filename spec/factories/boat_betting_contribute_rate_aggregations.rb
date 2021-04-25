@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :boat_betting_contribute_rate_aggregation do
     sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
-    sequence(:boat_number) {|n| n }
+    sequence(:boat_number) { |n| n }
     aggregated_on { Time.zone.today }
     sequence(:quinella_rate, (10..80).step(10).to_a.cycle)
     sequence(:trio_rate, (20..90).step(10).to_a.cycle)
