@@ -109,7 +109,10 @@ module OfficialWebsite
     end
 
     def active_tab
-      html.search('body > main > div > div > div > div.contentsFrame1_inner > div.tab3.is-type1__3rdadd > ul > li.is-active')
+      html
+        .search(
+          'body > main > div > div > div > div.contentsFrame1_inner > div.tab3.is-type1__3rdadd > ul > li.is-active'
+        )
     end
 
     def in_performance?
