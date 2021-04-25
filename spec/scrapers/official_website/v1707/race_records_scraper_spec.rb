@@ -57,9 +57,12 @@ describe OfficialWebsite::V1707::RaceRecordsScraper do
             # パースされないっていうよりはパースできない
             # http://boatrace.jp/owpc/pc/race/raceresult?rno=7&jcd=09&hd=20151116
             it '出遅れた艇のスタート情報（進入コース・STなど）はパースされないこと' do
-              expect(subject[1]).to eq({ :arrival => nil, :disqualification_mark => "Ｌ", :pit_number => 2,
+              expect(subject[1]).to eq({
+                                         date: Date.new(2015, 11, 16), stadium_tel_code: 9, race_number: 7,
+                                         :arrival => nil, :disqualification_mark => "Ｌ", :pit_number => 2,
                                          :start_course => nil, :start_order => nil, :start_time => nil,
-                                         :time_minute => nil, :time_second => nil, :winning_trick_name => nil })
+                                         :time_minute => nil, :time_second => nil, :winning_trick_name => nil
+                                       })
             end
 
             it '出遅れた艇のスタート順はパースされないこと' do
@@ -113,9 +116,12 @@ describe OfficialWebsite::V1707::RaceRecordsScraper do
           end
 
           it '欠場艇の進入コースはパースされること' do
-            expect(subject[1]).to eq({ :arrival => nil, :disqualification_mark => "欠", :pit_number => 2,
+            expect(subject[1]).to eq({
+                                       date: Date.new(2015, 11, 16), stadium_tel_code: 9, race_number: 9,
+                                       :arrival => nil, :disqualification_mark => "欠", :pit_number => 2,
                                        :start_course => nil, :start_time => nil, :start_order => nil,
-                                       :time_minute => nil, :time_second => nil, :winning_trick_name => nil })
+                                       :time_minute => nil, :time_second => nil, :winning_trick_name => nil
+                                     })
           end
 
           it '欠場艇のスタート順はパースされないこと' do
