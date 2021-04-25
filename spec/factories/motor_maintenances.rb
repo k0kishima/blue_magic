@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
     date { Time.zone.today }
     sequence(:race_number, Race.numbers.cycle)
-    sequence(:motor_number) {|n| n }
+    sequence(:motor_number) { |n| n }
     exchanged_parts { :electrical_system }
     quantity { 1 }
   end

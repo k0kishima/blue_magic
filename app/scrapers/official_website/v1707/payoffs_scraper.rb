@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::PayoffsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     SIMULTANEOUS_TEXT = '同着あり'
     SPECIAL_PAY_TEXT  = '特払い'
     RACE_CANCELED_TEXT = 'レース中止'
@@ -10,7 +12,14 @@ module OfficialWebsite
       raise ::RaceCanceled.new if canceled?
 
       data = number_and_amount_pairs(trifecta_tbody).compact.map do |attribute|
-        { betting_method: :trifecta, betting_number: attribute[:betting_number], amount: attribute[:amount] }
+        {
+          date: date,
+          stadium_tel_code: stadium_tel_code,
+          race_number: race_number,
+          betting_method: :trifecta,
+          betting_number: attribute[:betting_number],
+          amount: attribute[:amount]
+        }
       end
 
       self.cache = data

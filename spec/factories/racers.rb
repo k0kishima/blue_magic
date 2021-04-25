@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :racer do
-    sequence(:registration_number){|n| n}
+    sequence(:registration_number) { |n| n }
   end
 end
 

@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::RaceRecordsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     module RACE_TIME_DELIMITER
       MINUTE = "'"
       SECOND = '"'
@@ -16,6 +18,9 @@ module OfficialWebsite
 
       @data = record_rows.map do |record_row|
         record = {
+          date: date,
+          stadium_tel_code: stadium_tel_code,
+          race_number: race_number,
           pit_number: color_on_record_table(record_row),
           time_minute: race_time_minute(record_row),
           time_second: race_time_second(record_row),
@@ -27,6 +32,7 @@ module OfficialWebsite
         if completed?(arrival)
           # 完走
           record[:arrival] = arrival.to_i
+          record[:disqualification_mark] = nil
         else
           # 失格
           # NOTE:

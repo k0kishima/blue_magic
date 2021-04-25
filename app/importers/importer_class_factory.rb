@@ -21,6 +21,14 @@ class ImporterClassFactory
       RacerConditionsImporter
     when 'WeatherConditionListParser'
       WeatherConditionsImporter
+    when 'RaceRecordListParser'
+      RaceRecordsImporter
+    when 'DisqualifiedRaceEntryListParser'
+      DisqualifiedRaceEntriesImporter
+    when 'WinningRaceEntryListParser'
+      WinningRaceEntriesImporter
+    when 'PayoffListParser'
+      PayoffsImporter
     else
       raise NotImplementedError
     end

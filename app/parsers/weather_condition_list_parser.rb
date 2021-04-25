@@ -22,9 +22,9 @@ class WeatherConditionListParser < BaseParser
         race_number: row[2].to_i,
         in_performance: ActiveRecord::Type::Boolean.new.cast(row[3]),
         weather: WeatherFactory.create!(row[4]),
-        wind_velocity: row[5].to_f,
+        wavelength: row[5].to_f,
         wind_angle: row[6].to_f,
-        wavelength: row[7].to_f,
+        wind_velocity: row[7].to_f,
         air_temperature: row[8].to_f,
         water_temperature: row[9].to_f,
       }

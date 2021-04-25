@@ -22,7 +22,10 @@ describe OfficialWebsite::V1707::PayoffsScraper do
           }
 
           it '勝舟番号と払戻金がパースされること' do
-            expect(subject).to eq([{ betting_method: :trifecta, betting_number: "4-3-5", amount: 56670 },])
+            expect(subject).to eq([{
+                                    date: Date.new(2015, 11, 15), stadium_tel_code: 7, race_number: 12,
+                                    betting_method: :trifecta, betting_number: "4-3-5", amount: 56670,
+                                  },])
           end
 
           it_behaves_like :cacheable
@@ -34,7 +37,10 @@ describe OfficialWebsite::V1707::PayoffsScraper do
           }
 
           it '勝舟番号と払戻金がパースされること' do
-            expect(subject).to eq([{ betting_method: :trifecta, betting_number: "2-3-4", amount: 3100 },])
+            expect(subject).to eq([{
+                                    date: Date.new(2015, 11, 16), stadium_tel_code: 3, race_number: 11,
+                                    betting_method: :trifecta, betting_number: "2-3-4", amount: 3100
+                                  },])
           end
 
           it_behaves_like :cacheable
