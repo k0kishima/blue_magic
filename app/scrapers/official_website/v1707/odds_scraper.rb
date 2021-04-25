@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::OddsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     RACE_CANCELED_TEXT = '該当レースは中止になりました'
     DATA_NOT_FOUND_TEXT = 'データはありません'
 
@@ -14,7 +16,14 @@ module OfficialWebsite
 
       odds_cells.each_with_index do |odds_cell, i|
         betting_number = [first_arrived(i), second_arrived(i), third_arrived(i)].join
-        data << { betting_number: betting_number.to_i, ratio:  odds_cell.text.to_f }
+
+        data << {
+          date: date,
+          stadium_tel_code: stadium_tel_code,
+          race_number: race_number,
+          betting_number: betting_number.to_i,
+          ratio: odds_cell.text.to_f
+        }
       end
 
       self.cache = data
