@@ -35,7 +35,7 @@ class RaceRecordListParser < BaseParser
       time_minute_str = row[4]
       time_second_str = row[5]
       race_time = if time_minute_str.present?
-                    (time_minute_str.to_i * 60) + time_second_str.to_i
+                    (time_minute_str.to_i * 60) + time_second_str.to_f
                   else
                     nil
                   end
