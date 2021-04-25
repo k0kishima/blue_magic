@@ -15,6 +15,12 @@ class ImporterClassFactory
       MotorBettingContributeRateAggregationImporter
     when 'RacerWinningRateAggregationParser'
       RacerWinningRateAggregationImporter
+    when 'RaceExhibitionRecordsParser'
+      RaceExhibitionRecordsImporter
+    when 'RacerConditionListParser'
+      RacerConditionsImporter
+    when 'WeatherConditionListParser'
+      WeatherConditionsImporter
     else
       raise NotImplementedError
     end
