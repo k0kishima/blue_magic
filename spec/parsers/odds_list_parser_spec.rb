@@ -15,11 +15,11 @@ describe OddsListParser do
         expect(data.count).to eq 120
         expect(data.first).to eq({
                                    date: Date.new(2017, 9, 19), stadium_tel_code: 19, race_number: 11,
-                                   betting_number: 123, ratio: 6.1,
+                                   betting_method: :trifecta, betting_number: 123, ratio: 6.1,
                                  })
         expect(data.last).to eq({
                                   date: Date.new(2017, 9, 19), stadium_tel_code: 19, race_number: 11,
-                                  betting_number: 654, ratio: 0.0,
+                                  betting_method: :trifecta, betting_number: 654, ratio: 0.0,
                                 })
       end
     end
