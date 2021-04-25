@@ -1,5 +1,7 @@
 module OfficialWebsite
   class V1707::WeatherConditionsScraper < Scraper
+    include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+
     STRIP_REGEXP = /[ 　\r\n]/
     WIND_ICON_IDS = 1..16
     NO_WIND_ICON_ID = 17
@@ -12,6 +14,10 @@ module OfficialWebsite
       raise ::DataNotFound.new if incomplete_information?
 
       data = [{
+        date: date,
+        stadium_tel_code: stadium_tel_code,
+        race_number: race_number,
+        in_performance: in_performance?,
         weather: weather,
         wavelength: wavelength.to_f,
         wind_angle: wind_angle.to_f,
@@ -100,6 +106,21 @@ module OfficialWebsite
 
     def canceled?
       html.search('.l-main').text.match(/#{RACE_CANCELED_TEXT}/).present?
+    end
+
+    def active_tab
+      html.search('body > main > div > div > div > div.contentsFrame1_inner > div.tab3.is-type1__3rdadd > ul > li.is-active')
+    end
+
+    def in_performance?
+      case active_tab.text
+      when '直前情報'
+        false
+      when '結果'
+        true
+      else
+        raise NotImplementedError
+      end
     end
   end
 end

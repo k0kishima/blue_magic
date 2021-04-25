@@ -19,6 +19,14 @@ module OfficialWebsite
           date_string = todays_race_list_url.scan(/\?.*hd=(\d{8})/).flatten.first
           Date.new(*[date_string[0..3], date_string[4..5], date_string[6..7]].map(&:to_i))
         end
+
+        def deadline_table
+          @deadline_table ||= html.search('.table1').first
+        end
+
+        def race_number
+          @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
+        end
       end
     end
   end

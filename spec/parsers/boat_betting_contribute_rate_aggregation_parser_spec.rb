@@ -23,7 +23,7 @@ describe BoatBettingContributeRateAggregationParser do
           { :stadium_tel_code => 7, :boat_number => 65, :aggregated_on => Date.new(2018, 3, 1),
             :quinella_rate => 27.43, :trio_rate => 50.86 },
           { :stadium_tel_code => 7, :boat_number => 68, :aggregated_on => Date.new(2018, 3, 1),
-            :quinella_rate => 29.49, :trio_rate => 45.35 }
+            :quinella_rate => 28.49, :trio_rate => 45.35 }
         )
       end
     end

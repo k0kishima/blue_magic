@@ -127,13 +127,5 @@ module OfficialWebsite
     def is_absent
       current_row.attribute('class').value.include?('is-miss')
     end
-
-    def deadline_table
-      @deadline_table ||= html.search('.table1').first
-    end
-
-    def race_number
-      @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
-    end
   end
 end

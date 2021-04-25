@@ -6,6 +6,7 @@ class RacerCondition < ApplicationRecord
   validates :date, presence: true
   validates :racer_registration_number, presence: true
   validates :weight, presence: true
+  # TODO: 一応上限入れる
   validates :adjust, presence: true
 end
 
