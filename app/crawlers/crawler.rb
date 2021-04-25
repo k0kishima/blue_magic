@@ -9,7 +9,7 @@ class Crawler
       scraper = scraper_class.new(file: source_page.file)
 
       begin
-        csv = CsvFactory.create(scraper.scrape!)
+        csv = CsvFactory.create!(scraper.scrape!)
 
         available_parser_classes = ParserClassFactory.bulk_create!(scraper)
         available_parser_classes.each do |parser_class|
