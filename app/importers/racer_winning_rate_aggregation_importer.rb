@@ -9,4 +9,3 @@ class RacerWinningRateAggregationImporter < BaseImporter
     [:rate_in_all_stadium, :rate_in_event_going_stadium]
   end
 end
-

@@ -7,6 +7,7 @@ class WeatherCondition < ApplicationRecord
 
   belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
 
+  # TODO: 角度のバリデーションを入れる
   validates :in_performance, inclusion: { in: [true, false] }
   validates :weather, presence: true
   validates :wind_velocity, presence: true

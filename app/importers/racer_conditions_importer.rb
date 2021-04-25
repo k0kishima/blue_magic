@@ -9,4 +9,3 @@ class RacerConditionsImporter < BaseImporter
     [:weight, :adjust]
   end
 end
-
