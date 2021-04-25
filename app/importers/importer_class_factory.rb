@@ -29,6 +29,8 @@ class ImporterClassFactory
       WinningRaceEntriesImporter
     when 'PayoffListParser'
       PayoffsImporter
+    when 'OddsListParser'
+      OddsImporter
     else
       raise NotImplementedError
     end

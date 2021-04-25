@@ -21,6 +21,8 @@ class ParserClassFactory
       [RaceRecordListParser, DisqualifiedRaceEntryListParser, WinningRaceEntryListParser]
     when 'OfficialWebsite::V1707::PayoffsScraper'
       [PayoffListParser]
+    when 'OfficialWebsite::V1707::OddsScraper'
+      [OddsListParser]
     else
       raise NotImplementedError
     end

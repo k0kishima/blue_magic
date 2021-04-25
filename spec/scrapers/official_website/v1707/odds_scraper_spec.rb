@@ -40,12 +40,18 @@ describe OfficialWebsite::V1707::OddsScraper do
           it 'オッズがパースされること' do
             parsed_data = subject
             expect(parsed_data.count).to eq 120
-            expect(parsed_data.first).to eq({ betting_number: 123, ratio: 6.1, })
+            expect(parsed_data.first).to eq({
+                                              date: Date.new(2017, 9, 19), stadium_tel_code: 19, race_number: 11,
+                                              betting_number: 123, ratio: 6.1,
+                                            })
           end
 
           it '欠場艇は倍率0.0で取得されること' do
             parsed_data = subject
-            expect(parsed_data.last).to eq({ betting_number: 654, ratio: 0.0, })
+            expect(parsed_data.last).to eq({
+                                             date: Date.new(2017, 9, 19), stadium_tel_code: 19, race_number: 11,
+                                             betting_number: 654, ratio: 0.0,
+                                           })
           end
 
           it_behaves_like :cacheable
