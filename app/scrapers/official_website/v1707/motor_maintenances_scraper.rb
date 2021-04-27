@@ -8,19 +8,19 @@ module OfficialWebsite
       data = []
 
       exhibition_rows.each.with_index(1) do |row, pit_number|
-        next if absence?(row)
-
         element = {
           pit_number: pit_number,
           racer_registration_number: racer_registration_number(row),
         }
 
-        element[:parts_exchanges] = parts_lists(row).map do |li_element|
+        parts_exchanges = parts_lists(row).map do |li_element|
           {
             parts_name: parts_name(li_element),
             count: parts_count(li_element),
           }
         end
+
+        element[:parts_exchanges] = parts_exchanges.present? ? parts_exchanges.to_json : nil
 
         data << element
       end

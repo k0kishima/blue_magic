@@ -25,32 +25,32 @@ describe OfficialWebsite::V1707::MotorMaintenancesScraper do
             expect(subject).to contain_exactly({
                                                  pit_number: 1,
                                                  racer_registration_number: 4096,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 2,
                                                  racer_registration_number: 4693,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 3,
                                                  racer_registration_number: 2505,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 4,
                                                  racer_registration_number: 4803,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 5,
                                                  racer_registration_number: 3138,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 6,
                                                  racer_registration_number: 4221,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                })
           end
 
@@ -62,31 +62,36 @@ describe OfficialWebsite::V1707::MotorMaintenancesScraper do
             "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2015_11_16_03#_11R.html"
           }
 
-          it '欠場艇を除いてデータ取得できること' do
+          it '欠場艇も含めてデータを取得できること' do
             expect(subject).to contain_exactly({
+                                                 pit_number: 1,
+                                                 racer_registration_number: 3872,
+                                                 parts_exchanges: nil,
+                                               },
+                                               {
                                                  pit_number: 2,
                                                  racer_registration_number: 3880,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 3,
                                                  racer_registration_number: 3793,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 4,
                                                  racer_registration_number: 4357,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 5,
                                                  racer_registration_number: 4037,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 6,
                                                  racer_registration_number: 3797,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                })
           end
 
@@ -102,22 +107,22 @@ describe OfficialWebsite::V1707::MotorMaintenancesScraper do
             expect(subject).to contain_exactly({
                                                  pit_number: 1,
                                                  racer_registration_number: 3200,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 2,
                                                  racer_registration_number: 4096,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 3,
                                                  racer_registration_number: 4163,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 4,
                                                  racer_registration_number: 3757,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                },
                                                {
                                                  pit_number: 5,
@@ -127,12 +132,12 @@ describe OfficialWebsite::V1707::MotorMaintenancesScraper do
                                                    { parts_name: 'リング', count: 3 },
                                                    { parts_name: '電気',     count: 1 },
                                                    { parts_name: 'ギヤ',     count: 1 }
-                                                 ],
+                                                 ].to_json,
                                                },
                                                {
                                                  pit_number: 6,
                                                  racer_registration_number: 4365,
-                                                 parts_exchanges: [],
+                                                 parts_exchanges: nil,
                                                })
           end
 
