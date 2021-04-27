@@ -2,10 +2,8 @@ require 'rails_helper'
 
 describe CsvFactory do
   describe '.create' do
-    subject { described_class.create!(args) }
-
-    context 'when a array_of_hash given' do
-      let(:args) { array_of_hash }
+    context 'when a array of hash given' do
+      subject { described_class.create!(array_of_hash) }
 
       context 'when there is no difference in hash structure' do
         let(:array_of_hash) {
@@ -26,6 +24,65 @@ describe CsvFactory do
           [
             { foo: 1, bar: 2 },
             { hoge: 3, bar: 4 },
+          ]
+        }
+
+        it { expect { subject }.to raise_error(ArgumentError) }
+      end
+    end
+
+    context 'when some array of hashes given' do
+      subject { described_class.create!(*array_of_array_of_hash) }
+
+      context 'when there is no difference in array size' do
+        context 'when there is no difference in hash structure' do
+          let(:array_of_array_of_hash) {
+            [
+              [
+                { foo: 1, bar: 2 },
+                { foo: 3, bar: 4 },
+              ],
+              [
+                { foo: 1, bar: 2, hoge: 3 },
+                { foo: 3, bar: 4, hoge: 4 },
+              ]
+            ]
+          }
+
+          it 'creates csv' do
+            csv = subject
+            expect(csv.read).to eq "foo,bar,hoge\n1,2,3\n3,4,4\n"
+          end
+        end
+
+        context 'when there is difference in hash structure' do
+          let(:array_of_array_of_hash) {
+            [
+              [
+                { foo: 1, bar: 2 },
+                { foo: 3, bar: 4 },
+              ],
+              [
+                { foo: 1, bar: 2, hoge: 3 },
+                { foo: 3, bar: 4, piyo: 4 },
+              ]
+            ]
+          }
+
+          it { expect { subject }.to raise_error(ArgumentError) }
+        end
+      end
+
+      context 'when there is difference in array size' do
+        let(:array_of_array_of_hash) {
+          [
+            [
+              { foo: 1, bar: 2 },
+              { foo: 3, bar: 4 },
+            ],
+            [
+              { foo: 1, bar: 2, hoge: 3 },
+            ]
           ]
         }
 
