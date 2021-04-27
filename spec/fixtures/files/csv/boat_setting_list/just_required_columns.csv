@@ -1,0 +1,7 @@
+date,stadium_tel_code,race_number,racer_registration_number,racer_first_name,racer_last_name,racer_rank,pit_number,motor_number,quinella_rate_of_motor,trio_rate_of_motor,boat_number,quinella_rate_of_boat,trio_rate_of_boat,whole_country_winning_rate,local_winning_rate,whole_country_quinella_rate_of_racer,whole_country_trio_rate_of_racer,local_quinella_rate_of_racer,local_trio_rate_of_racer,is_absent,tilt,is_new_propeller
+2021-04-23,3,12,4468,佑来,大池,A1,1,50,0.0,0.0,39,0.0,0.0,6.61,7.08,44.72,67.48,52.31,70.77,false,0.0,true
+2021-04-23,3,12,3996,直之,秋山,A1,2,15,0.0,0.0,37,0.0,0.0,7.11,6.11,53.51,71.93,39.29,62.5,false,0.0,false
+2021-04-23,3,12,4535,康介,北山,A1,3,33,0.0,0.0,46,0.0,0.0,6.66,6.9,50.98,69.61,52.38,71.43,false,0.0,false
+2021-04-23,3,12,4297,哲也,山田,A1,4,40,0.0,0.0,22,0.0,0.0,6.97,6.44,56.56,68.03,47.92,58.33,false,0.5,true
+2021-04-23,3,12,4787,豊,椎名,A1,5,10,0.0,0.0,54,0.0,0.0,6.7,5.89,53.04,61.74,42.11,63.16,false,0.5,true
+2021-04-23,3,12,4335,将,若林,A1,6,13,0.0,0.0,57,0.0,0.0,7.05,6.24,55.83,75.83,41.23,62.28,false,0.5,false

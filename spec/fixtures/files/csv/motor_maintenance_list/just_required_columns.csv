@@ -1,0 +1,7 @@
+date,stadium_tel_code,race_number,racer_registration_number,racer_first_name,racer_last_name,racer_rank,pit_number,motor_number,quinella_rate_of_motor,trio_rate_of_motor,boat_number,quinella_rate_of_boat,trio_rate_of_boat,whole_country_winning_rate,local_winning_rate,whole_country_quinella_rate_of_racer,whole_country_trio_rate_of_racer,local_quinella_rate_of_racer,local_trio_rate_of_racer,is_absent,parts_exchanges
+2021-04-20,19,12,3721,俊介,守田,A1,1,38,29.17,50.0,55,44.44,61.11,7.27,0.0,46.94,68.37,0.0,0.0,false,"[{""parts_name"":""ピストン"",""count"":2},{""parts_name"":""リング"",""count"":4},{""parts_name"":""キャブ"",""count"":1},{""parts_name"":""シリンダ"",""count"":1},{""parts_name"":""ギヤ"",""count"":1},{""parts_name"":""キャリボ"",""count"":1}]"
+2021-04-20,19,12,3783,正義,瓜生,A1,2,19,27.78,55.56,12,33.33,50.0,7.15,7.59,46.46,62.63,47.06,58.82,false,
+2021-04-20,19,12,3415,繁,松井,A1,3,44,50.0,53.85,59,43.75,50.0,6.79,6.87,37.38,59.81,44.44,64.44,false,
+2021-04-20,19,12,3737,真二,上平,A1,4,12,36.84,52.63,63,50.0,71.43,7.29,7.13,52.1,78.15,58.21,77.61,false,
+2021-04-20,19,12,3822,崇典,平尾,A1,5,16,42.11,52.63,19,44.44,61.11,7.66,6.57,60.76,79.75,48.65,64.86,false,"[{""parts_name"":""ピストン"",""count"":2},{""parts_name"":""リング"",""count"":4},{""parts_name"":""シリンダ"",""count"":1},{""parts_name"":""ギヤ"",""count"":1},{""parts_name"":""キャリボ"",""count"":1}]"
+2021-04-20,19,12,3854,元浩,吉川,A1,6,45,47.06,52.94,67,30.43,56.52,7.16,8.0,44.83,61.21,48.0,80.0,false,

@@ -31,6 +31,10 @@ class ImporterClassFactory
       PayoffsImporter
     when 'OddsListParser'
       OddsImporter
+    when 'BoatSettingListParser'
+      BoatSettingsImporter
+    when 'MotorMaintenanceListParser'
+      MotorMaintenancesImporter
     else
       raise NotImplementedError
     end

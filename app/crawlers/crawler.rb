@@ -1,31 +1,19 @@
 class Crawler
-  def initialize(source_page)
-    @source_page = source_page
+  # NOTE: エンティティのデータが複数のページに散財していて、単一のページからスクレイピングできないケースがあるため可変長引数にしている
+  # 例えばボートの整備情報など（チルト ・プロペラ、本体整備情報は「直前情報」で取れるが、ボートやモーターの番号は「出走表」にある）
+  def initialize(*source_pages)
+    @strategy = if source_pages.many?
+                  CrawlManyPageToManyScpaerStrategy.new(source_pages)
+                else
+                  CrawlSinglePageToManyScpaerStrategy.new(source_pages.first)
+                end
   end
 
   def crawl!
-    available_scraper_classes = ScraperClassFactory.bulk_create!(source_page)
-    available_scraper_classes.each do |scraper_class|
-      scraper = scraper_class.new(file: source_page.file)
-
-      begin
-        csv = CsvFactory.create!(scraper.scrape!)
-
-        available_parser_classes = ParserClassFactory.bulk_create!(scraper)
-        available_parser_classes.each do |parser_class|
-          parser = parser_class.new(csv)
-          available_importer_class = ImporterClassFactory.create!(parser)
-          available_importer_class.new.import!(parser.parse!)
-        end
-      ensure
-        csv.close
-      end
-    end
-  ensure
-    source_page.file.close
+    strategy.crawl!
   end
 
   private
 
-  attr_reader :source_page
+  attr_reader :strategy
 end
