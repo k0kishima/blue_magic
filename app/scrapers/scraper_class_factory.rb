@@ -1,6 +1,26 @@
+# TODO: バージョン追加された時点で修正する
 class ScraperClassFactory
-  def self.bulk_create!(page)
-    # TODO: バージョン追加された時点で修正する
+  class << self
+    def bulk_create!(page, context: :single_page)
+      strategy = case context.to_sym
+                 when :single_page
+                   CreateSinglePageToManyScpaerStrategy.new(page)
+                 when :cross_pages
+                   CreateManyPageToManyScpaerStrategy.new(page)
+                 else
+                   raise NotImplementedError.new("#{context} is invalid context to create scrapers")
+                 end
+      strategy.bulk_create!
+    end
+  end
+end
+
+class CreateSinglePageToManyScpaerStrategy
+  def initialize(page)
+    @page = page
+  end
+
+  def bulk_create!
     case page.class.name
     when 'OfficialWebsite::EventSchedulePage'
       [OfficialWebsite::V1707::EventsScraper]
@@ -15,8 +35,6 @@ class ScraperClassFactory
     when 'OfficialWebsite::RaceExhibitionInformationPage'
       [OfficialWebsite::V1707::RaceExhibitionRecordsScraper, OfficialWebsite::V1707::RacerConditionsScraper,
        OfficialWebsite::V1707::WeatherConditionsScraper]
-      # TODO: 以下を対応する
-      # OfficialWebsite::V1707::BoatSettingsScraper, OfficialWebsite::V1707::MotorMaintenancesScraper,
     when 'OfficialWebsite::RaceResultPage'
       # NOTE: 気象情報は展示と本番それぞれで取る
       [OfficialWebsite::V1707::WeatherConditionsScraper, OfficialWebsite::V1707::RaceRecordsScraper,
@@ -27,4 +45,29 @@ class ScraperClassFactory
       raise NotImplementedError
     end
   end
+
+  private
+
+  attr_reader :page
+end
+
+class CreateManyPageToManyScpaerStrategy
+  def initialize(page)
+    @page = page
+  end
+
+  def bulk_create!
+    case page.class.name
+    when 'OfficialWebsite::RaceInformationPage'
+      [OfficialWebsite::V1707::RaceEntriesScraper]
+    when 'OfficialWebsite::RaceExhibitionInformationPage'
+      [OfficialWebsite::V1707::BoatSettingsScraper, OfficialWebsite::V1707::MotorMaintenancesScraper,]
+    else
+      raise NotImplementedError
+    end
+  end
+
+  private
+
+  attr_reader :page
 end
