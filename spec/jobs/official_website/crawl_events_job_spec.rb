@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe OfficialWebsite::CrawlEventsJob, type: :model do
+describe OfficialWebsite::CrawlEventsJob, type: :job do
   describe '#perform_now' do
     subject do
       VCR.use_cassette 'official_web_site_proxy/v1707/event_schedule' do
@@ -9,7 +9,7 @@ describe OfficialWebsite::CrawlEventsJob, type: :model do
     end
 
     context 'when use version "1707"' do
-      let(:version) { "1707" }
+      let(:version) { '1707' }
       let(:year) { 2021 }
       let(:month) { 4 }
 
