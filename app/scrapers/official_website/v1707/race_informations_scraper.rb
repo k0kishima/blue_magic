@@ -5,10 +5,13 @@ module OfficialWebsite
     module TEXT
       COURSE_FIXED = '進入固定'
       USE_STABILIZER = '安定板使用'
+      DATA_NOT_FOUND_TEXT = 'データがありません。'
     end
 
     def scrape!
       validate!
+
+      raise ::DataNotFound.new if data_not_found?
 
       data = [{
         date: date,
@@ -56,6 +59,10 @@ module OfficialWebsite
 
     def use_stabilizer?
       html.search('.label2.is-type1').select { |label| label.text == TEXT::USE_STABILIZER }.present?
+    end
+
+    def data_not_found?
+      html.search('.l-main').text.match(/#{TEXT::DATA_NOT_FOUND_TEXT}/).present?
     end
   end
 end

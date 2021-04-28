@@ -42,6 +42,8 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'shoulda-matchers'
   gem 'rspec-collection_matchers'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -54,7 +56,6 @@ gem "nokogiri", "~> 1.11"
 gem "rubocop", "~> 1.12"
 
 gem "pry-rails", "~> 0.3.9"
-
 
 gem "hiredis", "~> 0.6.3"
 
