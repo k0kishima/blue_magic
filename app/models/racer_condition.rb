@@ -6,8 +6,11 @@ class RacerCondition < ApplicationRecord
   validates :date, presence: true
   validates :racer_registration_number, presence: true
   validates :weight, presence: true
-  # TODO: 一応上限入れる
-  validates :adjust, presence: true
+  validates :adjust, presence: true, numericality: {
+    only_float: true,
+    greater_than_or_equal_to: 0.0,
+    less_than_or_equal_to: 10.0
+  }
 end
 
 # == Schema Information

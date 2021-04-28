@@ -6,8 +6,7 @@ RSpec.describe RacerCondition, type: :model do
   describe 'association' do
     subject { racer_condition }
 
-    # TODO: これが通らない原因を調査する
-    xit { is_expected.to belong_to(:racer).optional }
+    it { is_expected.to belong_to(:racer).optional }
   end
 
   describe 'validation' do
@@ -17,6 +16,11 @@ RSpec.describe RacerCondition, type: :model do
     it { is_expected.to validate_presence_of(:racer_registration_number) }
     it { is_expected.to validate_presence_of(:weight) }
     it { is_expected.to validate_presence_of(:adjust) }
+    it {
+      is_expected.to validate_numericality_of(:adjust)
+        .is_greater_than_or_equal_to(0.0)
+        .is_less_than_or_equal_to(10.0)
+    }
   end
 end
 
