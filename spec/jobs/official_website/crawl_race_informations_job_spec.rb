@@ -244,6 +244,26 @@ describe OfficialWebsite::CrawlRaceInformationsJob, type: :job do
         it { expect { subject rescue nil }.to_not change { MotorBettingContributeRateAggregation.count } }
         it { expect { subject rescue nil }.to_not change { RacerWinningRateAggregation.count } }
       end
+
+      context 'proxyにアクセスできないとき' do
+        include_context 'with an unavailable official website proxy'
+
+        subject do
+          described_class.perform_now(
+            stadium_tel_code: stadium_tel_code, race_opened_on: race_opened_on, race_number: race_number,
+            version: version
+          )
+        end
+
+        let(:stadium_tel_code) { 1 }
+        let(:race_opened_on) { Date.new(2021, 4, 28) }
+        let(:race_number) { 1 }
+
+        # TODO: 正式な処理を決める
+        # proxyが落ちてるのは早めに感知したいのでslackでemergency系のチャンネルに通知飛ばすとかしたい
+        # とはいえコーナーケースではあるため対応は保留し、一旦再現性を持たせたテストだけ作ってすぐ対応できるようにする
+        it { expect { subject }.to raise_error(Errno::ECONNREFUSED) }
+      end
     end
   end
 end
