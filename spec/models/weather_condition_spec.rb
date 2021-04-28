@@ -22,6 +22,12 @@ RSpec.describe WeatherCondition, type: :model do
     it { is_expected.not_to allow_value(nil).for(:in_performance) }
     it { is_expected.to validate_presence_of(:weather) }
     it { is_expected.to validate_presence_of(:wind_velocity) }
+    it {
+      is_expected.to validate_numericality_of(:wind_angle)
+        .is_greater_than_or_equal_to(0.0)
+        .is_less_than(360.0)
+    }
+    it { is_expected.to allow_value(nil).for(:wind_angle) }
     it { is_expected.to validate_presence_of(:air_temperature) }
     it { is_expected.to validate_presence_of(:water_temperature) }
   end
