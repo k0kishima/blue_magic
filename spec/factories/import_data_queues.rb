@@ -1,15 +1,9 @@
-class ImportDataQueue < ApplicationRecord
-  include CsvUploader::Attachment(:file)
-
-  enum status: {
-    waiting_to_start: 0,
-    in_progress: 100,
-    success: 10_000,
-    failure: 99_999,
-  }
-
-  validates :status, presence: true
-  validates :file_data, presence: true
+FactoryBot.define do
+  factory :import_data_queue do
+    trait :with_sample_csv do
+      file { Rack::Test::UploadedFile.new('spec/fixtures/uploadable/documents/sample.csv', 'text/csv') }
+    end
+  end
 end
 
 # == Schema Information
