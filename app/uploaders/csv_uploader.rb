@@ -4,6 +4,6 @@ class CsvUploader < Shrine
   Attacher.validate do
     validate_max_size 100.megabytes
     validate_extension %w[csv]
-    validate_mime_type %w[text/csv]
+    validate_mime_type %w[text/csv application/octet-stream]
   end
 end

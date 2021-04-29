@@ -3,6 +3,7 @@ require 'shrine/storage/file_system'
 require 'shrine/storage/memory'
 
 Shrine.plugin :activerecord
+Shrine.plugin :determine_mime_type, analyzer: :marcel
 
 if Rails.env.test?
   Shrine.storages = {
