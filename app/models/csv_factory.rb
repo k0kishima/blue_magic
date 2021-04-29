@@ -5,7 +5,7 @@ class CsvFactory
     flattened_array_of_hash = []
 
     # 配列の配列が渡ってくるから他の要素と長さが一致していないと不正なデータとみなす
-    unless array_of_array_of_hash.map { |array_of_hash| array_of_hash.size }.uniq.size == 1
+    unless array_of_array_of_hash.map(&:size).same?
       raise ArgumentError.new('there is difference in array size.')
     end
 
