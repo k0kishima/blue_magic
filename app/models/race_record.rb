@@ -6,9 +6,11 @@ class RaceRecord < ApplicationRecord
   belongs_to :race_entry, foreign_key: self.primary_keys, optional: true
   has_one :winning_race_entry, foreign_key: self.primary_keys
 
-  # TODO: start_timeのバリデーション入れる
   validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
   validates :course_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
+  # NOTE: 大時計0からの絶対値で保持しているので符号は考慮しない（本来Fのときは-になるが別途保持している失格データから導出する)
+  validates :start_time, numericality: { only_float: true, greater_than_or_equal_to: 0.0, less_than: 1.0 },
+                         allow_nil: true
   validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }
   validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }
 end
