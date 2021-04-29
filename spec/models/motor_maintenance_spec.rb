@@ -19,6 +19,11 @@ describe MotorMaintenance, type: :model do
     it { is_expected.to validate_inclusion_of(:race_number).in_range(1..12) }
     it { is_expected.to validate_presence_of(:exchanged_parts) }
     it { is_expected.to validate_presence_of(:quantity) }
+    it {
+      is_expected.to validate_numericality_of(:quantity)
+        .is_greater_than_or_equal_to(1)
+        .is_less_than_or_equal_to(10)
+    }
   end
 end
 

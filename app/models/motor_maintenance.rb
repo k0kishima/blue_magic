@@ -9,8 +9,12 @@ class MotorMaintenance < ApplicationRecord
   validates :date, presence: true
   validates :motor_number, presence: true
   validates :exchanged_parts, presence: true
-  # TODO: 1以上 x未満 のチェック入れた方がいいのでは？あとパーツによって替えられる個数が違ってくる（例えば電気系統を2つ取り換えるとかは不可）
-  validates :quantity, presence: true
+  # TODO: 今雑に1以上 x未満 のチェック入れてるがパーツによって替えられる個数が違ってくる（例えば電気系統を2つ取り換えるとかは不可）のでそこも含めて対応する
+  validates :quantity, presence: true, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 1,
+    less_than_or_equal_to: 10
+  }
 end
 
 # == Schema Information
