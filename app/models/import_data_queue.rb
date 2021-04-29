@@ -11,6 +11,8 @@ class ImportDataQueue < ApplicationRecord
 
   validates :status, presence: true
   validates :file_data, presence: true
+
+  scope :startable, -> { uploaded.order(id: :asc) }
 end
 
 # == Schema Information

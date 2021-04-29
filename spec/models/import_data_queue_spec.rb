@@ -27,6 +27,44 @@ RSpec.describe ImportDataQueue, type: :model do
       end
     end
   end
+
+  describe 'scope' do
+    describe '.startable' do
+      subject { described_class.startable }
+
+      let(:import_data_queue) { create(:import_data_queue, :with_sample_csv, status: status) }
+
+      context 'with a record in uploaded status' do
+        let(:status) { :uploaded }
+
+        it { is_expected.to contain_exactly(import_data_queue) }
+      end
+
+      context 'with a record in waiting_to_start status' do
+        let(:status) { :waiting_to_start }
+
+        it { is_expected.to be_empty }
+      end
+
+      context 'with a record in in_progress status' do
+        let(:status) { :in_progress }
+
+        it { is_expected.to be_empty }
+      end
+
+      context 'with a record in success status' do
+        let(:status) { :success }
+
+        it { is_expected.to be_empty }
+      end
+
+      context 'with a record in failure status' do
+        let(:status) { :failure }
+
+        it { is_expected.to be_empty }
+      end
+    end
+  end
 end
 
 # == Schema Information
