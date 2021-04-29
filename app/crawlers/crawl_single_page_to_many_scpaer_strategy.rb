@@ -10,8 +10,8 @@ class CrawlSinglePageToManyScpaerStrategy
 
       csv = CsvFactory.create!(scraper.scrape!)
       begin
-        available_parser_classes = ParserClassFactory.bulk_create!(scraper)
-        available_parser_classes.each do |parser_class|
+        applicable_parser_classes = ParserClassFactory.bulk_create(csv)
+        applicable_parser_classes.each do |parser_class|
           parser = parser_class.new(csv)
           available_importer_class = ImporterClassFactory.create!(parser)
           available_importer_class.new.import!(parser.parse!)
