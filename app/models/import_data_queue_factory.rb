@@ -15,7 +15,7 @@ class ImportDataQueueFactory
 
     csv = CsvFactory.create!(data.flatten)
     begin
-      ImportDataQueue.waiting_to_start.create!(file: csv)
+      ImportDataQueue.create!(file: csv)
     ensure
       csv.close
     end

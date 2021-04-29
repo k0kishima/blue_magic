@@ -4,6 +4,12 @@ describe ImportDataJob, type: :job do
   describe '#perform_now' do
     subject { described_class.perform_now(import_data_queue.id) }
 
+    context 'when the queue status is :uploaded' do
+      let(:import_data_queue) { create(:import_data_queue, :with_sample_csv, status: :uploaded) }
+
+      it { expect { subject }.to raise_error(ArgumentError) }
+    end
+
     context 'when the queue status is :in_progress' do
       let(:import_data_queue) { create(:import_data_queue, :with_sample_csv, status: :in_progress) }
 
