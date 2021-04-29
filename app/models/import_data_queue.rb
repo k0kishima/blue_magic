@@ -1,4 +1,6 @@
 class ImportDataQueue < ApplicationRecord
+  include CsvUploader::Attachment(:file)
+
   enum status: {
     waiting_to_start: 0,
     in_progress: 100,
