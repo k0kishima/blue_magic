@@ -12,11 +12,19 @@ class Racer < ApplicationRecord
   validates :registration_number, uniqueness: true
   validates :branch_id, inclusion: { in: Branch.all.map(&:id) }, allow_nil: true
   validates :birth_prefecture_id, inclusion: { in: Prefecture.all.map(&:id) }, allow_nil: true
-
-  # TODO: term のバリデーションを入れる
+  validate :term_must_be_less_than_or_equal_to_latest_term
 
   def full_name
     @full_name ||= [last_name, first_name].join(' ')
+  end
+
+  private
+
+  def term_must_be_less_than_or_equal_to_latest_term
+    return if term.blank?
+
+    latest_term = RacerRatingEvaluationTerm.initialize_by(date: Time.zone.today)
+    errors.add(:term, 'is invalid') if term > latest_term.calculate_debut_term!
   end
 end
 
