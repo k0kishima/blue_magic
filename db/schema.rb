@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_203211) do
+ActiveRecord::Schema.define(version: 2021_04_29_055303) do
 
   create_table "boat_betting_contribute_rate_aggregations", primary_key: ["stadium_tel_code", "boat_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
@@ -54,6 +54,14 @@ ActiveRecord::Schema.define(version: 2021_04_17_203211) do
     t.integer "grade", null: false
     t.integer "kind", null: false
     t.boolean "canceled", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "import_data_queues", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.json "file_data", null: false
+    t.text "error_messages"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

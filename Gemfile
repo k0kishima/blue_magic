@@ -73,3 +73,5 @@ gem "factory_bot", "~> 6.1"
 gem "jp_prefecture", "~> 1.0"
 
 gem "activerecord-import", "~> 1.0"
+
+gem "shrine", "~> 3.3"
