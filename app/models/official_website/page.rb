@@ -1,5 +1,3 @@
-require 'open-uri'
-
 # NOTE:
 # 公式サイトの知識(特定のコンテンツのURLやその構造など)はこのリポジトリでは持たない
 # プロキシを介してアクセスする
@@ -19,7 +17,9 @@ module OfficialWebsite
     attribute :no_cache, :boolean, default: false
 
     def file
-      URI.parse("#{BASE_URL}/file?#{query}", **headers).open
+      # FIXME: HTTP header が送れていないので修正する
+      # rubocopでセキュリティの警告が出ていたため、open-uri じゃなくて標準のモジュールを使用するようにした
+      URI.parse("#{BASE_URL}/file?#{query}").open
     end
 
     def origin_redirection_url
