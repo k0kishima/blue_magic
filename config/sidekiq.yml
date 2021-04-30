@@ -25,3 +25,6 @@ production:
   trigger_crawl_races:
     cron: '0 8 * * *'  # 毎日8:00
     class: OfficialWebsite::CrawlOpenedOrWillOpenRacesJob
+  trigger_race_data_crawling_scheduler:
+    cron: '30 8 * * *'  # trigger_crawl_races で取得したデータを元に処理するのでそれより後
+    class: OfficialWebsite::ScheduleRaceDataCrawlingJob
