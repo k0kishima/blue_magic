@@ -19,3 +19,6 @@ production:
   trigger_import_data:
     every: '5m'
     class: ImportAllDataJob
+  trigger_crawl_events:
+    cron: '0 8 1 * *'  # 毎月1日の8:00
+    class: OfficialWebsite::CrawlEventsJob
