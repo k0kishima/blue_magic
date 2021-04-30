@@ -2,14 +2,17 @@ class ImportDataQueue < ApplicationRecord
   include CsvUploader::Attachment(:file)
 
   enum status: {
-    waiting_to_start: 0,
-    in_progress: 100,
+    uploaded: 0,
+    waiting_to_start: 100,
+    in_progress: 200,
     success: 10_000,
     failure: 99_999,
   }
 
   validates :status, presence: true
   validates :file_data, presence: true
+
+  scope :startable, -> { uploaded.order(id: :asc) }
 end
 
 # == Schema Information
