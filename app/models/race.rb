@@ -1,14 +1,24 @@
 class Race < ApplicationRecord
   include StadiumAssociating
 
-  NUMBER_OF_DAILY = 12
-
   self.primary_keys = [:stadium_tel_code, :date, :race_number]
+
+  NUMBER_OF_DAILY = 12
+  def self.numbers = (1..NUMBER_OF_DAILY).to_a
 
   has_many :race_entries, foreign_key: self.primary_keys
   has_many :weather_conditions, foreign_key: self.primary_keys
   has_many :payoffs, foreign_key: self.primary_keys
   has_many :odds, foreign_key: self.primary_keys, class_name: 'Odds'
+
+  validates :date, presence: true
+  validates :race_number, presence: true, inclusion: { in: self.numbers }
+  validates :title, presence: true
+  validates :course_fixed, inclusion: { in: [true, false] }
+  validates :use_stabilizer, inclusion: { in: [true, false] }
+  validates :number_of_laps, presence: true, inclusion: { in: [2, 3] }
+  validates :betting_deadline_at, presence: true
+  validate :betting_deadline_at_cannot_be_no_in_date
 
   class << self
     def by_wind_condition(wind_angle:, wind_velocity:)
@@ -25,20 +35,7 @@ class Race < ApplicationRecord
       by_wind_condition(wind_angle: wind_angle, wind_velocity: wind_velocity)
         .merge(WeatherCondition.where(in_performance: false))
     end
-
-    def numbers
-      (1..NUMBER_OF_DAILY).to_a
-    end
   end
-
-  validates :date, presence: true
-  validates :race_number, presence: true, inclusion: { in: self.numbers }
-  validates :title, presence: true
-  validates :course_fixed, inclusion: { in: [true, false] }
-  validates :use_stabilizer, inclusion: { in: [true, false] }
-  validates :number_of_laps, presence: true, inclusion: { in: [2, 3] }
-  validates :betting_deadline_at, presence: true
-  validate :betting_deadline_at_cannot_be_no_in_date
 
   def winner
     @winner ||= race_entries
