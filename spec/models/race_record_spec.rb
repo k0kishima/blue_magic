@@ -30,7 +30,9 @@ describe RaceRecord, type: :model do
     }
     it { is_expected.to allow_value(nil).for(:start_time) }
     it { is_expected.to validate_inclusion_of(:start_order).in_range(1..6) }
+    it { is_expected.not_to allow_value(nil).for(:start_order) }
     it { is_expected.to validate_inclusion_of(:arrival).in_range(1..6) }
+    it { is_expected.not_to allow_value(nil).for(:arrival) }
   end
 end
 

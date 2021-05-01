@@ -11,8 +11,8 @@ class RaceRecord < ApplicationRecord
   # NOTE: 大時計0からの絶対値で保持しているので符号は考慮しない（本来Fのときは-になるが別途保持している失格データから導出する)
   validates :start_time, numericality: { only_float: true, greater_than_or_equal_to: 0.0, less_than: 1.0 },
                          allow_nil: true
-  validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }
+  validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }, allow_nil: true
+  validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }, allow_nil: true
 end
 
 # == Schema Information
