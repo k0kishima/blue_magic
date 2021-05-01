@@ -2,17 +2,16 @@ module OfficialWebsite
   class V1707::PayoffsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
     include OfficialWebsite::V1707::NoContentsHandleable
+    include OfficialWebsite::V1707::CancellationHandleable
 
     SIMULTANEOUS_TEXT = '同着あり'
     SPECIAL_PAY_TEXT  = '特払い'
-    RACE_CANCELED_TEXT = 'レース中止'
 
     def scrape!
       validate!
 
       raise_exception_if_data_not_found!
-
-      raise ::RaceCanceled.new if canceled?
+      raise_exception_if_canceled!
 
       data = number_and_amount_pairs(trifecta_tbody).compact.map do |attribute|
         {
@@ -57,10 +56,6 @@ module OfficialWebsite
 
         { betting_number: betting_number, amount: amount, } if betting_number.present?
       end
-    end
-
-    def canceled?
-      html.search('.l-main').text.match(/#{RACE_CANCELED_TEXT}/).present?
     end
   end
 end
