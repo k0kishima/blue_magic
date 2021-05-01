@@ -2,12 +2,12 @@ module OfficialWebsite
   class V1707::RaceRecordsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
     include OfficialWebsite::V1707::NoContentsHandleable
+    include OfficialWebsite::V1707::CancellationHandleable
 
     module RACE_TIME_DELIMITER
       MINUTE = "'"
       SECOND = '"'
     end
-    RACE_CANCELED_TEXT = 'レース中止'
     WINNING_TRICK_NAME_REGEXP = /(?:\p{Hiragana}|\p{Katakana}|[ー－]|[一-龠々])+/
 
     # ※ キワモノ的なコード（例えば公式サイトがリニューアルされたら用途がかなり限定的になり、通常の運用では使用しなくなる）なのでリファクタの予定はない
@@ -16,8 +16,7 @@ module OfficialWebsite
       validate!
 
       raise_exception_if_data_not_found!
-
-      raise ::RaceCanceled.new if canceled?
+      raise_exception_if_canceled!
 
       @data = record_rows.map do |record_row|
         record = {
@@ -149,10 +148,6 @@ module OfficialWebsite
 
     def winning_trick(start_time_row)
       start_time_row.search('.table1_boatImage1TimeInner').text.scan(WINNING_TRICK_NAME_REGEXP).flatten.first
-    end
-
-    def canceled?
-      html.search('.l-main').text.match(/#{RACE_CANCELED_TEXT}/).present?
     end
   end
 end
