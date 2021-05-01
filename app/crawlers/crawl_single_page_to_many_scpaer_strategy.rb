@@ -4,11 +4,13 @@ class CrawlSinglePageToManyScpaerStrategy
   end
 
   def crawl!
+    source_page.file.open
     available_scraper_classes = ScraperClassFactory.bulk_create!(source_page, context: :single_page)
     available_scraper_classes.each do |scraper_class|
       scraper = scraper_class.new(file: source_page.file)
 
       csv = CsvFactory.create!(scraper.scrape!)
+      source_page.file.rewind
       begin
         applicable_parser_classes = ParserClassFactory.bulk_create(csv)
         applicable_parser_classes.each do |parser_class|

@@ -3,15 +3,21 @@ class CrawlManyPageToManyScpaerStrategy
     @source_pages = source_pages
   end
 
+  # HACK: 入出力の制御が酷く煩雑になっている
   def crawl!
     array_of_available_scraper_array = source_pages.map do |source_page|
+      source_page.file.open
       scraper_classes = ScraperClassFactory.bulk_create!(source_page, context: :cross_pages)
       scraper_classes.map { |scraper_class| scraper_class.new(file: source_page.file) }
     end
     products = array_of_available_scraper_array.inject(:product).map(&:flatten)
 
     products.each do |scrapers|
-      array_of_scraped_data = scrapers.map { |scraper| scraper.scrape! }
+      array_of_scraped_data = scrapers.map do |scraper|
+        scraper.scrape!
+        scraper.send(:file).rewind
+        scraper.cache
+      end
       csv = CsvFactory.create!(*array_of_scraped_data)
 
       begin

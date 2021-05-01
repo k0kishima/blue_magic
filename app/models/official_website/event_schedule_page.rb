@@ -1,5 +1,7 @@
 module OfficialWebsite
-  class EventSchedulePage < Page
+  class EventSchedulePage
+    include ThroughOfficialWebsiteProxy
+
     attribute :year, :integer
     attribute :month, :integer
 

@@ -1,5 +1,7 @@
 module OfficialWebsite
-  class EventHoldingsPage < Page
+  class EventHoldingsPage
+    include ThroughOfficialWebsiteProxy
+
     attribute :date, :date
 
     def params

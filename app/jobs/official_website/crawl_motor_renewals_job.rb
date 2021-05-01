@@ -10,13 +10,17 @@ module OfficialWebsite
           stadium_tel_code: event_holding.stadium_tel_code, event_starts_on: date,
         )
         begin
+          page.file.open
           data = scraper_class.new(file: page.file).scrape!
+          page.file.rewind
           if data.all? { |attributes| attributes.fetch(:quinella_rate_of_motor).zero? }
             MotorRenewal.create!(stadium_tel_code: event_holding.stadium_tel_code, date: date)
           end
         rescue ::DataNotFound
           # NOTE: このバージョンの公式サイトの仕様だと中止になった節でも前検の前にアクセスした場合でもコンテンツが同じで判別できない
           next
+        ensure
+          page.file.close
         end
       end
     end

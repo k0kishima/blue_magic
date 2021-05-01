@@ -3,30 +3,38 @@
 # プロキシを介してアクセスする
 # したがって、スクレイパーと違って公式サイトのバージョンごとにモデルを実装する必要がない
 # 公式サイトの構造の関心はプロキシが持ってるので、ここでは単にバージョンをパラメータで切り替えてプロキシに投げるだけ
-# FIXME: 継承をやめる（リスコフの置換原則に違反してるため）
-module OfficialWebsite
-  class Page
-    BASE_URL = Rails.application.config.x.official_website_proxy.base_url
-    DEFAULT_VERSION = Rails.application.config.x.official_website_proxy.latest_official_website_version
+module ThroughOfficialWebsiteProxy
+  extend ActiveSupport::Concern
 
+  included do
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveModel::Validations
 
-    attribute :version, :integer, default: DEFAULT_VERSION
+    attribute :version, :integer,
+              default: Rails.application.config.x.official_website_proxy.latest_official_website_version
     attribute :no_cache, :boolean, default: false
 
+    def uri
+      "#{proxy_base_url}/file?#{query}"
+    end
+
     def file
-      # FIXME: HTTP header が送れていないので修正する
-      # rubocopでセキュリティの警告が出ていたため、open-uri じゃなくて標準のモジュールを使用するようにした
-      URI.parse("#{BASE_URL}/file?#{query}").open
+      @file ||= Tempfile.open(SecureRandom.uuid) do |f|
+        f.puts(HTTParty.get(uri, headers: headers).body)
+        f
+      end
     end
 
     def origin_redirection_url
-      "#{BASE_URL}/redirection?#{query}"
+      "#{proxy_base_url}/redirection?#{query}"
     end
 
     private
+
+    def proxy_base_url
+      Rails.application.config.x.official_website_proxy.base_url
+    end
 
     def query
       params.merge({

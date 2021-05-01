@@ -1,5 +1,7 @@
 module OfficialWebsite
-  class RaceExhibitionInformationPage < Page
+  class RaceExhibitionInformationPage
+    include ThroughOfficialWebsiteProxy
+
     attribute :stadium_tel_code, :integer
     attribute :race_opened_on, :date
     attribute :race_number, :integer
