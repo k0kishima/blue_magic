@@ -65,7 +65,7 @@ namespace :official_website do
 
       if date == date.beginning_of_month
         puts "start to fetch events in current month"
-        OfficialWebsite::OfficialWebsite::CrawlEventsJob.perform_later
+        OfficialWebsite::CrawlEventsJob.perform_later
       end
 
       puts "start to fetch motor renewals on #{date}"
