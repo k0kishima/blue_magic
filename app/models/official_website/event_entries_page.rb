@@ -1,5 +1,7 @@
 module OfficialWebsite
-  class EventEntriesPage < Page
+  class EventEntriesPage
+    include ThroughOfficialWebsiteProxy
+
     attribute :stadium_tel_code, :integer
     attribute :event_starts_on, :date
 

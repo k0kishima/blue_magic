@@ -1,5 +1,7 @@
 module OfficialWebsite
-  class RacerProfilePage < Page
+  class RacerProfilePage
+    include ThroughOfficialWebsiteProxy
+
     attribute :racer_registration_number, :integer
 
     def params
