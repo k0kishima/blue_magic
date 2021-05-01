@@ -123,8 +123,16 @@ describe OfficialWebsite::V1707::EventEntriesScraper do
           end
         end
 
-        context 'データが存在しないとき' do
+        context '節が中止されているとき' do
           let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/event_entry/2020_08_08_17#.html" }
+
+          it { expect { subject }.to raise_error(::DataNotFound) }
+        end
+
+        context '前検がまだ終わっていないとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/event_entry/the_race_not_finish_yet.html"
+          }
 
           it { expect { subject }.to raise_error(::DataNotFound) }
         end
