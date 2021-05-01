@@ -16,10 +16,15 @@ module OfficialWebsite
     attribute :version, :integer, default: DEFAULT_VERSION
     attribute :no_cache, :boolean, default: false
 
+    def uri
+      "#{BASE_URL}/file?#{query}"
+    end
+
     def file
-      # FIXME: HTTP header が送れていないので修正する
-      # rubocopでセキュリティの警告が出ていたため、open-uri じゃなくて標準のモジュールを使用するようにした
-      URI.parse("#{BASE_URL}/file?#{query}").open
+      @file ||= Tempfile.open(SecureRandom.uuid) do |f|
+        f.puts(HTTParty.get(uri, headers: headers).body)
+        f
+      end
     end
 
     def origin_redirection_url
