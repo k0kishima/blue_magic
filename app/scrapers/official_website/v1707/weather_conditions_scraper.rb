@@ -1,6 +1,7 @@
 module OfficialWebsite
   class V1707::WeatherConditionsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+    include OfficialWebsite::V1707::NoContentsHandleable
 
     STRIP_REGEXP = /[ 　\r\n]/
     WIND_ICON_IDS = 1..16
@@ -9,6 +10,8 @@ module OfficialWebsite
 
     def scrape!
       validate!
+
+      raise_exception_if_data_not_found!
 
       raise ::RaceCanceled.new if canceled?
       raise ::DataNotFound.new if incomplete_information?

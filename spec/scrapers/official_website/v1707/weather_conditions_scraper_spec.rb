@@ -67,11 +67,11 @@ describe OfficialWebsite::V1707::WeatherConditionsScraper do
       end
 
       context 'レース結果のページが与えられたとき' do
-        let(:file_path) {
-          "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_result/2018_11_16_18#_7R.html"
-        }
-
         context 'レースが終了しているとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_result/2018_11_16_18#_7R.html"
+          }
+
           it 'データが取得できること' do
             expect(subject).to eq([{
                                     date: Date.new(2018, 11, 16),
@@ -88,6 +88,14 @@ describe OfficialWebsite::V1707::WeatherConditionsScraper do
           end
 
           it_behaves_like :cacheable
+        end
+
+        context 'レースがまだ終了していないとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_result/the_race_not_finish_yet.html"
+          }
+
+          it { expect { subject }.to raise_error(::DataNotFound) }
         end
 
         context 'レースが中止されているとき' do

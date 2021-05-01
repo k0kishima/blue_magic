@@ -1,6 +1,7 @@
 module OfficialWebsite
   class V1707::RaceRecordsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+    include OfficialWebsite::V1707::NoContentsHandleable
 
     module RACE_TIME_DELIMITER
       MINUTE = "'"
@@ -13,6 +14,8 @@ module OfficialWebsite
     # rubocop:disable Metrics/AbcSize
     def scrape!
       validate!
+
+      raise_exception_if_data_not_found!
 
       raise ::RaceCanceled.new if canceled?
 
