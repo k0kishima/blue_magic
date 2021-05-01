@@ -35,6 +35,28 @@ namespace :official_website do
       end
     end
 
+    # TODO: 一括インポートで処理するように書き直す
+    desc 'fetch boat settings on specified date'
+    task fetch_boat_settings_data_of_a_day: :environment do
+      sleep_second = ENV.fetch('INTERVAL', 1).to_i
+      date = ENV.fetch('DATE').to_date
+
+      puts "start to fetch data of boat settings on #{date}"
+
+      event_holdings = EventHolding.opened_on(date)
+      event_holdings.each do |event_holding|
+        puts "\tin stadium(tel_code: #{event_holding.stadium_tel_code})"
+        Race.numbers.each do |race_number|
+          puts "\t\tat #{race_number}R"
+
+          OfficialWebsite::CrawlBoatSettingsJob.perform_later(
+            version: official_website_version,
+            race_opened_on: date, race_number: race_number, stadium_tel_code: event_holding.stadium_tel_code
+          )
+        end
+      end
+    end
+
     # e.g.
     # docker-compose exec app bundle exec rake official_website:data_import:fetch_all_data_of_a_day DATE='2021-04-30'
     desc 'fetch all data on specified date'
