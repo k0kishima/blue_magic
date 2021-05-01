@@ -28,18 +28,22 @@ describe EventHolding, type: :model do
         {
           stadium_tel_code: 3,
           date: date,
+          is_first_day: false,
         },
         {
           stadium_tel_code: 4,
           date: date,
+          is_first_day: false,
         },
         {
           stadium_tel_code: 7,
           date: date,
+          is_first_day: true,
         },
         {
           stadium_tel_code: 11,
           date: date,
+          is_first_day: false,
         },
       )
     end

@@ -1,6 +1,6 @@
 module OfficialWebsite
   class V1707::EventEntriesScraper < Scraper
-    DATA_NOT_FOUND_TEXT = '※ データはありません。'
+    include OfficialWebsite::V1707::NoContentsHandleable
 
     # NOTE:
     #
@@ -14,7 +14,7 @@ module OfficialWebsite
     def scrape!
       validate!
 
-      raise ::DataNotFound.new if data_not_found?
+      raise_exception_if_data_not_found!
 
       data = series_entry_rows.map do |row|
         cells = row.search('td')
@@ -48,10 +48,6 @@ module OfficialWebsite
 
     def series_entry_rows
       @series_entry_rows ||= html.search('.table1 table tbody tr')
-    end
-
-    def data_not_found?
-      html.search('.l-main').text.match(/#{DATA_NOT_FOUND_TEXT}/).present?
     end
   end
 end
