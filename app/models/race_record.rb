@@ -12,7 +12,7 @@ class RaceRecord < ApplicationRecord
   validates :start_time, numericality: { only_float: true, greater_than_or_equal_to: 0.0, less_than: 1.0 },
                          allow_nil: true
   validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }
+  validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }, allow_nil: true
 end
 
 # == Schema Information
