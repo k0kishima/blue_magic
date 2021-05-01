@@ -61,6 +61,16 @@ namespace :official_website do
     # docker-compose exec app bundle exec rake official_website:data_import:fetch_all_data_of_a_day DATE='2021-04-30'
     desc 'fetch all data on specified date'
     task fetch_all_data_of_a_day: :environment do
+      date = ENV.fetch('DATE').to_date
+
+      if date == date.beginning_of_month
+        puts "start to fetch events in current month"
+        OfficialWebsite::OfficialWebsite::CrawlEventsJob.perform_later
+      end
+
+      puts "start to fetch motor renewals on #{date}"
+      OfficialWebsite::CrawlMotorRenewalsJob.perform_later
+
       [
         OfficialWebsite::RaceInformationPage,
         OfficialWebsite::RaceExhibitionInformationPage,
@@ -70,6 +80,8 @@ namespace :official_website do
         ENV['CONTENT_MODEL_NAME'] = content_model.name
         Rake::Task['official_website:data_import:fetch_specified_contents_data_of_a_day'].execute
       end
+
+      Rake::Task['official_website:data_import:fetch_boat_settings_data_of_a_day'].execute
     end
   end
 end
