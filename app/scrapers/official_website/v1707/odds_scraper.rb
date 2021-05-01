@@ -1,15 +1,15 @@
 module OfficialWebsite
   class V1707::OddsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
-
-    RACE_CANCELED_TEXT = '該当レースは中止になりました'
-    DATA_NOT_FOUND_TEXT = 'データはありません'
+    include OfficialWebsite::V1707::NoContentsHandleable
+    include OfficialWebsite::V1707::CancellationHandleable
 
     def scrape!
       validate!
 
-      raise ::RaceCanceled.new if canceled?
-      raise ::DataNotFound.new if unexist?
+      raise_exception_if_data_not_found!
+      raise_exception_if_canceled!
+
       raise StandardError.new('perhaps invalid file given.') if odds_cells.blank?
 
       data = []
@@ -88,14 +88,6 @@ module OfficialWebsite
       raise NotImplementedError.new unless bet_method == '3permutation'
 
       (loop_offset % 6).next
-    end
-
-    def canceled?
-      html.search('.l-main').text.match(/#{RACE_CANCELED_TEXT}/).present?
-    end
-
-    def unexist?
-      html.search('.l-main').text.match(/#{DATA_NOT_FOUND_TEXT}/).present?
     end
   end
 end

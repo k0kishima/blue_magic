@@ -2,16 +2,17 @@ module OfficialWebsite
   class V1707::WeatherConditionsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
     include OfficialWebsite::V1707::NoContentsHandleable
+    include OfficialWebsite::V1707::CancellationHandleable
 
     STRIP_REGEXP = /[ 　\r\n]/
     WIND_ICON_IDS = 1..16
     NO_WIND_ICON_ID = 17
-    RACE_CANCELED_TEXT = 'レース中止'
 
     def scrape!
       validate!
 
       raise_exception_if_data_not_found!
+      raise_exception_if_canceled!
 
       raise ::RaceCanceled.new if canceled?
       raise ::DataNotFound.new if incomplete_information?
@@ -105,10 +106,6 @@ module OfficialWebsite
     def incomplete_information?
       html.search('.weather1_title').text =~ /0:00/ ||
         (wavelength.blank? && wind_velocity.blank? && air_temperature.blank? && water_temperature.blank?)
-    end
-
-    def canceled?
-      html.search('.l-main').text.match(/#{RACE_CANCELED_TEXT}/).present?
     end
 
     def active_tab

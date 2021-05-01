@@ -7,6 +7,9 @@ module OfficialWebsite
       )
       crawler = Crawler.new(page)
       crawler.crawl!
+    rescue ::RaceCanceled
+      race = Race.find_by(stadium_tel_code: stadium_tel_code, date: race_opened_on, race_number: race_number)
+      race.update!(canceled: true) if race.present?
     end
   end
 end
