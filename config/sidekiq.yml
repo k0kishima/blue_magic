@@ -22,8 +22,11 @@ production:
   trigger_crawl_events:
     cron: '0 8 1 * *'  # 毎月1日の8:00
     class: OfficialWebsite::CrawlEventsJob
-  trigger_crawl_races:
+  trigger_crawl_motor_renewals:
     cron: '0 8 * * *'  # 毎日8:00
+    class: OfficialWebsite::CrawlMotorRenewalsJob
+  trigger_crawl_races:
+    cron: '0 8 * * *'
     class: OfficialWebsite::CrawlOpenedOrWillOpenRacesJob
   trigger_race_data_crawling_scheduler:
     cron: '30 8 * * *'  # trigger_crawl_races で取得したデータを元に処理するのでそれより後
