@@ -55,6 +55,14 @@ describe OfficialWebsite::V1707::PayoffsScraper do
 
           it_behaves_like :cacheable
         end
+
+        context 'レースがまだ終了していないとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_result/the_race_not_finish_yet.html"
+          }
+
+          it { expect { subject }.to raise_error(::DataNotFound) }
+        end
       end
 
       context 'レース結果情報ページ以外のファイルが引数として渡されたとき' do

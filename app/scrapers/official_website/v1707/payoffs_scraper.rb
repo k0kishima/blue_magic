@@ -1,6 +1,7 @@
 module OfficialWebsite
   class V1707::PayoffsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
+    include OfficialWebsite::V1707::NoContentsHandleable
 
     SIMULTANEOUS_TEXT = '同着あり'
     SPECIAL_PAY_TEXT  = '特払い'
@@ -8,6 +9,8 @@ module OfficialWebsite
 
     def scrape!
       validate!
+
+      raise_exception_if_data_not_found!
 
       raise ::RaceCanceled.new if canceled?
 
