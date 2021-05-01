@@ -60,6 +60,5 @@ module OfficialWebsite
     def use_stabilizer?
       html.search('.label2.is-type1').select { |label| label.text == TEXT::USE_STABILIZER }.present?
     end
-
   end
 end

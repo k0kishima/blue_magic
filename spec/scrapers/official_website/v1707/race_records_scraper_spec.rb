@@ -24,6 +24,14 @@ describe OfficialWebsite::V1707::RaceRecordsScraper do
           it { expect { subject }.to raise_error(::RaceCanceled) }
         end
 
+        context 'レースがまだ終了していないとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_result/the_race_not_finish_yet.html"
+          }
+
+          it { expect { subject }.to raise_error(::DataNotFound) }
+        end
+
         context '失格があったとき' do
           context 'フライングがあったとき' do
             let(:file_path) {
