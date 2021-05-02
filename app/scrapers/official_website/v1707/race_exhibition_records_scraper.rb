@@ -17,6 +17,9 @@ module OfficialWebsite
           pit_number: pit_number,
           racer_registration_number: racer_registration_number(exhibition_row),
           exhibition_time: exhibition_time(exhibition_row),
+          start_course: nil,
+          start_time: nil,
+          is_flying: nil,
         }
 
         sorted_exhibition_times = data.map { |element| element[:exhibition_time] }.sort
