@@ -10,6 +10,8 @@ module OfficialWebsite
     rescue ::RaceCanceled
       race = Race.find_by(stadium_tel_code: stadium_tel_code, date: race_opened_on, race_number: race_number)
       race.update!(canceled: true) if race.present?
+    rescue ::DataNotFound
+      raise if race_opened_on >= Date.today
     end
   end
 end
