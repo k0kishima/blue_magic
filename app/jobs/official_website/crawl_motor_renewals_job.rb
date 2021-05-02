@@ -1,6 +1,8 @@
 module OfficialWebsite
   class CrawlMotorRenewalsJob < CrawlJob
     def perform(date: Date.today, version: DEFAULT_VERSION)
+      raise ArgumentError.new('cannot specify a date which is greater than today') if date > Date.today
+
       scraper_class = OfficialWebsite::ScraperClassFactory.create!('event_entry', version: version)
 
       event_holdings = EventHolding.opened_on(date).select(&:is_first_day)
