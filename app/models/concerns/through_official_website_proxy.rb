@@ -22,7 +22,7 @@ module ThroughOfficialWebsiteProxy
     end
 
     def file
-      URI.parse(uri, **headers).open
+      URI.open(uri, **headers)
     end
 
     def origin_redirection_url
