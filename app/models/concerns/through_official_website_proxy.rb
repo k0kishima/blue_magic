@@ -1,3 +1,5 @@
+require 'open-uri'
+
 # NOTE:
 # 公式サイトの知識(特定のコンテンツのURLやその構造など)はこのリポジトリでは持たない
 # プロキシを介してアクセスする
@@ -20,10 +22,7 @@ module ThroughOfficialWebsiteProxy
     end
 
     def file
-      @file ||= Tempfile.open(SecureRandom.uuid) do |f|
-        f.puts(HTTParty.get(uri, headers: headers).body)
-        f
-      end
+      URI.parse(uri, **headers).open
     end
 
     def origin_redirection_url
