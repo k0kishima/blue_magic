@@ -15,6 +15,11 @@ class OfficialWebsite::CrawlJob < ApplicationJob
     job.notify_error(message)
   end
 
+  retry_on DataNotFound, wait: 3.minutes, attempts: 3 do |job, errror|
+    # これはリトライを諦めた時の処理なので注意
+    job.notify_information("this race has been discarded because of data not found #{job.attempt_number} count")
+  end
+
   retry_on OpenURI::HTTPError, wait: 1.minutes, attempts: 3
   retry_on Net::OpenTimeout, wait: 1.minutes, attempts: 3
 end
