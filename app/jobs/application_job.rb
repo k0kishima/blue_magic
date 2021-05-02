@@ -1,7 +1,16 @@
 class ApplicationJob < ActiveJob::Base
-  # Automatically retry jobs that encountered a deadlock
-  # retry_on ActiveRecord::Deadlocked
+  attr_writer :attempt_number
 
-  # Most jobs are safe to ignore if the underlying records are no longer available
-  # discard_on ActiveJob::DeserializationError
+  def attempt_number
+    @attempt_number ||= 0
+  end
+
+  def serialize
+    super.merge('attempt_number' => attempt_number + 1)
+  end
+
+  def deserialize(job_data)
+    super
+    self.attempt_number = job_data['attempt_number']
+  end
 end
