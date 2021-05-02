@@ -10,6 +10,8 @@ module OfficialWebsite
     ]
 
     def perform(date: Date.today, version: DEFAULT_VERSION)
+      raise ArgumentError.new('cannot specify a date which is greater than today') if date > Date.today
+
       # NOTE: 締め切り時刻を基準にクロールするので、そのデータが先に存在している必要がある
       # この時間的序列が生じるのは止むを得ないか・・・
       races = Race.where(date: date)
