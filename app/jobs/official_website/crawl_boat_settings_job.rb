@@ -9,6 +9,8 @@ module OfficialWebsite
       race_exhibition_information_page = OfficialWebsite::RaceExhibitionInformationPage.new(args)
       crawler = Crawler.new(race_information_page, race_exhibition_information_page)
       crawler.crawl!
+    rescue ::DataNotFound
+      raise if race_opened_on >= Date.today
     end
   end
 end

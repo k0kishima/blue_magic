@@ -7,6 +7,8 @@ module OfficialWebsite
       )
       crawler = Crawler.new(page)
       crawler.crawl!
+    rescue ::DataNotFound
+      raise if race_opened_on >= Date.today
     end
   end
 end
