@@ -15,7 +15,6 @@ class EventHolding
 
     begin
       scraper_class = OfficialWebsite::ScraperClassFactory.create!(self.name)
-      page.file.open if page.file.respond_to?(:open)
       scraper = scraper_class.new(file: page.file)
       scraper.scrape!.reject do |hash|
         hash.fetch(:day_text).include?('中止')

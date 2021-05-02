@@ -77,5 +77,3 @@ gem "activerecord-import", "~> 1.0"
 gem "shrine", "~> 3.3"
 
 gem "sidekiq-scheduler", "~> 3.0"
-
-gem "httparty", "~> 0.18.1"

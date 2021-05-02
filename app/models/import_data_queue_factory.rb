@@ -5,7 +5,6 @@ class ImportDataQueueFactory
     data = []
     pages.each do |page|
       begin
-        page.file.open
         data << scraper_class.new(file: page.file).scrape!
       rescue StandardError => e
         Rails.logger.debug("scpaping error: #{e.message} (url: #{page.origin_redirection_url})")
