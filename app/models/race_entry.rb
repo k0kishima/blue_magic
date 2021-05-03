@@ -25,6 +25,7 @@ class RaceEntry < ApplicationRecord
 
   delegate :motor_number, to: :boat_setting
   delegate :course_number, :start_time, :exhibition_time, :exhibition_time_order, to: :race_exhibition_record
+  delegate :event, to: :race
   alias_method :start_course_in_exhibition, :course_number
   alias_method :start_time_in_exhibition, :start_time
 
