@@ -11,6 +11,11 @@ describe OfficialWebsite::CrawlRaceResultsJob, type: :job do
       end
     end
 
+    # TODO: レース中止のコンテキストを追加
+    before do
+      ActiveJob::Base.queue_adapter = :test
+    end
+
     context 'when use version "1707"' do
       let(:version) { '1707' }
       let(:stadium_tel_code) { 4 }
