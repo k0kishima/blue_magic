@@ -7,6 +7,7 @@ describe BoatSettingListParser do
     let(:csv) { File.new(file_path, 'r') }
     let(:parser) { described_class.new(csv) }
 
+    # TODO: 欠場艇のデータは保存されないことを検証するサンプルを追加する
     context 'when csv format is valid' do
       let(:file_path) { "#{Rails.root}/spec/fixtures/files/csv/boat_setting_list/just_required_columns.csv" }
 
