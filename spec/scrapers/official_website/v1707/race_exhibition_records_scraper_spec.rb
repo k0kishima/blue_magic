@@ -169,6 +169,16 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
 
           it_behaves_like :cacheable
         end
+
+        context '情報が不完全な場合' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2020_06_30_12#_12R.html"
+          }
+
+          it 'raises data not found exception' do
+            expect { subject }.to raise_error(::DataNotFound)
+          end
+        end
       end
 
       context 'レース直前情報ページではないファイルが引数として渡されたとき' do
