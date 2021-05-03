@@ -26,7 +26,11 @@ describe OfficialWebsite::CrawlOpenedOrWillOpenRacesJob, type: :job do
     context 'when a date after tomorrow was specified' do
       let(:date) { Date.tomorrow }
 
-      it { expect { subject }.to raise_error(ArgumentError) }
+      it 'does not perform job' do
+        assert_no_performed_jobs do
+          subject
+        end
+      end
     end
   end
 end

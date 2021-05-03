@@ -47,7 +47,11 @@ describe OfficialWebsite::CrawlMotorRenewalsJob, type: :job do
         subject { described_class.perform_now(date: date, version: version) }
         let(:date) { Date.tomorrow }
 
-        it { expect { subject }.to raise_error(ArgumentError) }
+        it 'does not perform job' do
+          assert_no_performed_jobs do
+            subject
+          end
+        end
       end
     end
   end

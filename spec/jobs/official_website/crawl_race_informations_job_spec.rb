@@ -237,7 +237,6 @@ describe OfficialWebsite::CrawlRaceInformationsJob, type: :job do
         let(:race_opened_on) { Date.new(2021, 4, 28) }
         let(:race_number) { 1 }
 
-        it { expect { subject }.to raise_error(DataNotFound) }
         it { expect { subject rescue nil }.to_not change { Race.count } }
         it { expect { subject rescue nil }.to_not change { RaceEntry.count } }
         it { expect { subject rescue nil }.to_not change { BoatBettingContributeRateAggregation.count } }
