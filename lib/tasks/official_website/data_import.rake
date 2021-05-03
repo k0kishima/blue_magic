@@ -35,7 +35,7 @@ namespace :official_website do
       end
     end
 
-    # TODO: 一括インポートで処理するように書き直す
+    # HACK: 無理やり一括インポートで処理するようにしたけど超絶汚い
     desc 'fetch boat settings on specified date'
     task fetch_boat_settings_data_of_a_day: :environment do
       sleep_second = ENV.fetch('INTERVAL', 1).to_i
@@ -43,17 +43,45 @@ namespace :official_website do
 
       puts "start to fetch data of boat settings on #{date}"
 
-      event_holdings = EventHolding.opened_on(date)
-      event_holdings.each do |event_holding|
+      array_of_page_arrays = []
+      EventHolding.opened_on(date).each do |event_holding|
         puts "\tin stadium(tel_code: #{event_holding.stadium_tel_code})"
+
         Race.numbers.each do |race_number|
           puts "\t\tat #{race_number}R"
 
-          OfficialWebsite::CrawlBoatSettingsJob.perform_later(
+          args = {
             version: official_website_version,
             race_opened_on: date, race_number: race_number, stadium_tel_code: event_holding.stadium_tel_code
-          )
+          }
+          array_of_page_arrays << [
+            OfficialWebsite::RaceInformationPage.new(args),
+            OfficialWebsite::RaceExhibitionInformationPage.new(args)
+          ]
         end
+      end
+
+      array_of_available_scraper_class_array = array_of_page_arrays.first.map do |source_page|
+        scraper_classes = ScraperClassFactory.bulk_create!(source_page, context: :cross_pages)
+        scraper_classes.map { |scraper_class| scraper_class }
+      end
+
+      scraper_products = array_of_available_scraper_class_array.inject(:product).map(&:flatten)
+      scraper_products.each do |scraper_classes|
+        array_of_array_of_scraped_data = []
+        array_of_page_arrays.each do |page_array|
+          array_of_array_of_scraped_data << [
+            scraper_classes[0].new(file: page_array[0].file).scrape!,
+            scraper_classes[1].new(file: page_array[1].file).scrape!
+          ]
+        rescue ::DataNotFound, ::RaceCanceled
+        end
+
+        csv = CsvFactory.create!(
+          array_of_array_of_scraped_data.map { |array| array[0] }.flatten,
+          array_of_array_of_scraped_data.map { |array| array[1] }.flatten
+        )
+        ImportDataQueue.create!(file: csv)
       end
     end
 
