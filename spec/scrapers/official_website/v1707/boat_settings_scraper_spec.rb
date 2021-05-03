@@ -68,8 +68,14 @@ describe OfficialWebsite::V1707::BoatSettingsScraper do
             "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2015_11_16_03#_11R.html"
           }
 
-          it '欠場艇を除いてデータ取得できること' do
+          it '欠場艇も含めてデータ取得できること' do
             expect(subject).to contain_exactly({
+                                                 pit_number: 1,
+                                                 racer_registration_number: 3872,
+                                                 tilt: nil,
+                                                 is_new_propeller: false,
+                                               },
+                                               {
                                                  pit_number: 2,
                                                  racer_registration_number: 3880,
                                                  tilt: 0.0,

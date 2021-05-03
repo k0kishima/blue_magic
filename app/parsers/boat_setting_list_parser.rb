@@ -29,6 +29,9 @@ class BoatSettingListParser < BaseParser
     validate_header_keys!
 
     rows.map do |row|
+      is_absent = ActiveRecord::Type::Boolean.new.cast(row[20])
+      next if is_absent
+
       {
         date: row[0].to_date,
         stadium_tel_code: row[1].to_i,
@@ -39,6 +42,6 @@ class BoatSettingListParser < BaseParser
         tilt: row[21].to_f,
         propeller_renewed: ActiveRecord::Type::Boolean.new.cast(row[22]),
       }
-    end
+    end.compact
   end
 end
