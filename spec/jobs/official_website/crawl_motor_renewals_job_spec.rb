@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OfficialWebsite::CrawlMotorRenewalsJob, type: :job do
+  include_context 'with a mocked slack client'
+
   describe '#perform_now' do
     context 'when use version "1707"' do
       let(:version) { '1707' }

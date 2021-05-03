@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OfficialWebsite::CrawlOpenedOrWillOpenRacesJob, type: :job do
+  include_context 'with a mocked slack client'
+
   subject { described_class.perform_now(date: date) }
 
   describe '#perform_now' do
