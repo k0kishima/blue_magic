@@ -8,14 +8,16 @@ module OfficialWebsite
       data = []
 
       exhibition_rows.each.with_index(1) do |row, pit_number|
-        next if absence?(row)
-
         data << {
           pit_number: pit_number,
           racer_registration_number: racer_registration_number(row),
           tilt: tilt(row),
           is_new_propeller: new_propeller?(row),
         }
+      end
+
+      if data.all? { |attribute| attribute[:tilt].nil? }
+        raise ::DataNotFound
       end
 
       self.cache = data
@@ -49,9 +51,7 @@ module OfficialWebsite
 
     def tilt(exhibition_row)
       value = exhibition_row.search('td')[5].text
-      raise ::DataNotFound if value.blank?
-
-      value.to_f
+      value.blank? ? nil : value.to_f
     end
 
     def propeller(exhibition_row)
