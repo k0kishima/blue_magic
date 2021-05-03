@@ -47,7 +47,7 @@ class Race < ApplicationRecord
   def event
     @event ||= Event
                .where(stadium_tel_code: stadium_tel_code)
-               .where('starts_on <= ?', date)
+               .where(starts_on: (date - 1.week)..date)
                .last
   end
 
