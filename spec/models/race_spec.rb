@@ -114,6 +114,38 @@ RSpec.describe Race, type: :model do
       end
     end
   end
+
+  describe '#event' do
+    subject { race.event }
+
+    let(:race) { create(:race, date: Date.new(2021, 5, 1), stadium_tel_code: 4, race_number: 1) }
+
+    context 'when event exist within a week from race opened date in specified stadium' do
+      let(:event) { create(:event, starts_on: Date.new(2021, 4, 24), stadium_tel_code: 4) }
+
+      before do
+        create(:event, starts_on: Date.new(2021, 5, 1), stadium_tel_code: 3)
+        create(:event, starts_on: Date.new(2021, 5, 2), stadium_tel_code: 4)
+        event
+      end
+
+      it 'returns a event' do
+        expect(subject).to eq event
+      end
+    end
+
+    context 'when event does not exist within a week from race opened date in specified stadium' do
+      before do
+        create(:event, starts_on: Date.new(2021, 5, 1), stadium_tel_code: 3)
+        create(:event, starts_on: Date.new(2021, 4, 23), stadium_tel_code: 4)
+        create(:event, starts_on: Date.new(2021, 5, 2), stadium_tel_code: 4)
+      end
+
+      it 'returns nil' do
+        expect(subject).to be_nil
+      end
+    end
+  end
 end
 
 # == Schema Information
