@@ -6,18 +6,18 @@ class RaceExhibitionRecordsParser < BaseParser
     :pit_number,
     :racer_registration_number,
     :exhibition_time,
-    :exhibition_time_order,
     :start_course,
     :start_time,
     :is_flying,
+    :exhibition_time_order,
   ]
 
   def parse!
     validate_header_keys!
 
     rows.map do |row|
-      is_flying = ActiveRecord::Type::Boolean.new.cast(row[9])
-      start_time = row[8].to_f
+      is_flying = ActiveRecord::Type::Boolean.new.cast(row[8])
+      start_time = row[7].to_f
       signed_start_time = is_flying ? -start_time : start_time
 
       {
@@ -25,10 +25,10 @@ class RaceExhibitionRecordsParser < BaseParser
         stadium_tel_code: row[1].to_i,
         race_number: row[2].to_i,
         pit_number: row[3].to_i,
-        course_number: row[7].to_i,
+        course_number: row[6].to_i,
         start_time: signed_start_time,
         exhibition_time: row[5].to_f,
-        exhibition_time_order: row[6].to_i,
+        exhibition_time_order: row[9].to_i,
       }
     end
   end
