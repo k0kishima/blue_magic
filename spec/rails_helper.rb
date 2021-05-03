@@ -59,6 +59,8 @@ RSpec.configure do |config|
   config.before(:all) do
     FactoryBot.reload
   end
+
+  config.include ActiveJob::TestHelper, type: :job
 end
 
 require 'shoulda/matchers'
