@@ -7,7 +7,9 @@ class ImportDataQueueFactory
     data = []
     pages.each do |page|
       begin
-        data << scraper_class.new(file: page.file).scrape!
+        Retryable.retryable(tries: 3, sleep: 10, on: [Net::OpenTimeout, OpenURI::HTTPError]) do
+          data << scraper_class.new(file: page.file).scrape!
+        end
       rescue DataNotFound
         unless page.no_cache
           page.no_cache = true
@@ -18,7 +20,7 @@ class ImportDataQueueFactory
                               text: "need to confirm that it's error or not. (url: #{page.origin_redirection_url})")
         end
       rescue RaceCanceled
-        CancelRaceJob.perform_later(stadium_tel_code: page.stadium_tel_code, date: page.race_opened_on,
+        CancelRaceJob.perform_later(stadium_tel_code: page.stadium_tel_code, race_opened_on: page.race_opened_on,
                                     race_number: page.race_number)
       rescue StandardError => e
         slack_client

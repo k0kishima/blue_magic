@@ -36,6 +36,10 @@ module OfficialWebsite
         end
       end
 
+      if data.all? { |attribute| attribute[:start_course].nil? }
+        raise ::DataNotFound
+      end
+
       self.cache = data
 
       data
