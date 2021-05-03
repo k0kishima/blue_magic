@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe OfficialWebsite::CrawlOddsJob, type: :job do
   describe '#perform_now' do
+    before do
+      ActiveJob::Base.queue_adapter = :test
+    end
+
     context 'when use version "1707"' do
       let(:version) { '1707' }
 
@@ -63,26 +67,8 @@ describe OfficialWebsite::CrawlOddsJob, type: :job do
           expect { subject }.not_to change { Odds.count }
         end
 
-        context 'レースの基本情報がすでに保存されているとき' do
-          let!(:race) {
-            create(:race, date: race_opened_on, stadium_tel_code: stadium_tel_code, race_number: race_number,
-                          canceled: false)
-          }
-
-          it 'レースのステータスを更新するこt' do
-            expect { subject }.to change { race.reload.canceled }.to(true).from(false)
-          end
-        end
-
-        context 'レースの基本情報が存在しないとき' do
-          let!(:other_race) {
-            create(:race, date: race_opened_on, stadium_tel_code: stadium_tel_code, race_number: 1,
-                          canceled: false)
-          }
-
-          it 'レースを更新しないこと' do
-            expect { subject }.not_to change { other_race.canceled }
-          end
+        it 'invokes CancelRaceJob once' do
+          expect { subject }.to have_enqueued_job(CancelRaceJob).once
         end
       end
     end
