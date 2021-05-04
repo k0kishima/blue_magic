@@ -16,6 +16,9 @@ production:
   :concurrency: 25
 
 :schedule:
+  trigger_racer_registration:
+    every: '10m'
+    class: TriggerRacerRegistrationJob
   trigger_import_data:
     every: '5m'
     class: ImportAllDataJob
