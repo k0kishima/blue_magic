@@ -1,5 +1,7 @@
 module OfficialWebsite
   class ScheduleRaceDataCrawlingJob < CrawlJob
+    include CrawlingPauseable
+
     # NOTE: レースの基本情報も再取得されるが、投票締め切り時刻が変わったり中止になったりすることはあるので問題ない
     CRAWL_RACE_DATA_JOBS = [
       CrawlRaceInformationsJob,

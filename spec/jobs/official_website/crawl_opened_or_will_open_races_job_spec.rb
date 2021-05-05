@@ -14,17 +14,33 @@ describe OfficialWebsite::CrawlOpenedOrWillOpenRacesJob, type: :job do
       allow(ImportDataQueueFactory).to receive(:create!)
     end
 
-    context 'when a date before today or today was specified' do
-      let(:date) { Date.today }
+    context 'when crawling enabled' do
+      include_context 'with crawling enable setting'
 
-      it 'invokes ImportDataJob once' do
-        expect(ImportDataQueueFactory).to receive(:create!).once
-        subject
+      context 'when a date before today or today was specified' do
+        let(:date) { Date.today }
+
+        it 'invokes ImportDataJob once' do
+          expect(ImportDataQueueFactory).to receive(:create!).once
+          subject
+        end
+      end
+
+      context 'when a date after tomorrow was specified' do
+        let(:date) { Date.tomorrow }
+
+        it 'does not perform job' do
+          assert_no_performed_jobs do
+            subject
+          end
+        end
       end
     end
 
-    context 'when a date after tomorrow was specified' do
-      let(:date) { Date.tomorrow }
+    context 'when crawling disabled' do
+      include_context 'with crawling disable setting'
+
+      let(:date) { nil }
 
       it 'does not perform job' do
         assert_no_performed_jobs do

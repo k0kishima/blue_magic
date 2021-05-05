@@ -1,4 +1,6 @@
 class TriggerRacerRegistrationJob < ApplicationJob
+  include CrawlingPauseable
+
   def perform
     race_entered_racer_registration_numbers = RaceEntry.pluck(:racer_registration_number).uniq
     persisted_racer_registration_numbers = Racer.pluck(:registration_number).uniq

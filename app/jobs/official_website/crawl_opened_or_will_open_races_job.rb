@@ -1,6 +1,8 @@
 # TODO: 名前やクラスの粒度を考え直す
 module OfficialWebsite
   class CrawlOpenedOrWillOpenRacesJob < CrawlJob
+    include CrawlingPauseable
+
     SLEEP_SECOND = 1
 
     def perform(date: Date.today, version: DEFAULT_VERSION)
