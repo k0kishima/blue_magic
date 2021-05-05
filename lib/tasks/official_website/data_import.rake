@@ -70,10 +70,12 @@ namespace :official_website do
       scraper_products.each do |scraper_classes|
         array_of_array_of_scraped_data = []
         array_of_page_arrays.each do |page_array|
-          array_of_array_of_scraped_data << [
-            scraper_classes[0].new(file: page_array[0].file).scrape!,
-            scraper_classes[1].new(file: page_array[1].file).scrape!
-          ]
+          Retryable.retryable(tries: 3, sleep: 10, on: [Net::OpenTimeout, OpenURI::HTTPError]) do
+            array_of_array_of_scraped_data << [
+              scraper_classes[0].new(file: page_array[0].file).scrape!,
+              scraper_classes[1].new(file: page_array[1].file).scrape!
+            ]
+          end
         rescue ::DataNotFound, ::RaceCanceled
         end
 
@@ -91,6 +93,11 @@ namespace :official_website do
     task fetch_all_data_of_a_day: :environment do
       date = ENV.fetch('DATE').to_date
 
+      crawling_enable_origin_value = Setting.crawling_enable
+      unless crawling_enable_origin_value
+        Setting.crawling_enable = true
+      end
+
       if date == date.beginning_of_month
         puts "start to fetch events in current month"
         OfficialWebsite::CrawlEventsJob.perform_later
@@ -98,6 +105,8 @@ namespace :official_website do
 
       puts "start to fetch motor renewals on #{date}"
       OfficialWebsite::CrawlMotorRenewalsJob.perform_later
+
+      Setting.crawling_enable = crawling_enable_origin_value
 
       [
         OfficialWebsite::RaceInformationPage,
