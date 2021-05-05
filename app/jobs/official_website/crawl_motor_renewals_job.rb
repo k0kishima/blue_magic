@@ -1,5 +1,7 @@
 module OfficialWebsite
   class CrawlMotorRenewalsJob < CrawlJob
+    include CrawlingPauseable
+
     def perform(date: Date.today, version: DEFAULT_VERSION)
       raise ArgumentError.new('cannot specify a date which is greater than today') if date > Date.today
 

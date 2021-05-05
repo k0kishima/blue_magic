@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_055303) do
+ActiveRecord::Schema.define(version: 2021_05_05_200008) do
 
   create_table "boat_betting_contribute_rate_aggregations", primary_key: ["stadium_tel_code", "boat_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
@@ -199,6 +199,14 @@ ActiveRecord::Schema.define(version: 2021_04_29_055303) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["betting_deadline_at"], name: "index_races_on_betting_deadline_at"
+  end
+
+  create_table "settings", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "var", null: false
+    t.text "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["var"], name: "index_settings_on_var", unique: true
   end
 
   create_table "stadiums", primary_key: "tel_code", id: :integer, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
