@@ -1,0 +1,1 @@
+class CrawlingDisabled < StandardError; end
