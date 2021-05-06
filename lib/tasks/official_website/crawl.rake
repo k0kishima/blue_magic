@@ -40,15 +40,15 @@ namespace :official_website do
       raise ArgumentError.new('cannot specify a date which is greater than today') if date > Date.today
 
       if date == date.beginning_of_month
-        puts "start to crawl events in current month"
+        puts "start to enqueue crawl events job in current month"
         OfficialWebsite::CrawlEventsJob.perform_later(year: date.year, month: date.month,
                                                       version: official_website_version)
       end
 
-      puts "start to crawl motor renewals on #{date}"
+      puts "start to enqueue crawl motor renewals job on #{date}"
       OfficialWebsite::CrawlMotorRenewalsJob.perform_later(date: date, version: official_website_version)
 
-      puts 'start to crawl race informations'
+      puts 'start to enqueue crawl race data jobs'
       EventHolding.opened_on(date).each do |event_holding|
         puts "\tin stadium(tel_code: #{event_holding.stadium_tel_code})"
 
@@ -56,17 +56,20 @@ namespace :official_website do
           puts "\t\tat #{race_number}R"
           sleep sleep_second
 
-          page = OfficialWebsite::RaceInformationPage.new(
-            version: official_website_version, no_cache: no_cache,
-            race_opened_on: date, race_number: race_number, stadium_tel_code: event_holding.stadium_tel_code
-          )
-          crawler = Crawler.new(page)
-          crawler.crawl!
+          [
+            OfficialWebsite::CrawlRaceInformationsJob,
+            OfficialWebsite::CrawlRaceExhibitionInformationsJob,
+            OfficialWebsite::CrawlRaceResultsJob,
+            OfficialWebsite::CrawlOddsJob,
+            OfficialWebsite::CrawlBoatSettingsJob,
+          ].each do |crawl_data_job|
+            crawl_data_job.perform_later(
+              version: official_website_version,
+              race_opened_on: date, race_number: race_number, stadium_tel_code: event_holding.stadium_tel_code
+            )
+          end
         end
       end
-
-      puts 'start to schedule to crawl other data'
-      OfficialWebsite::ScheduleRaceDataCrawlingJob.perform_later(date: date, version: official_website_version)
 
       puts 'jobs have been enqueued'
     end
