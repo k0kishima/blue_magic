@@ -90,7 +90,7 @@ namespace :once do
       end
 
       # e.g.
-      # docker-compose exec app bundle exec rake once:oofficial_website:data_import:fetch_all_data_of_a_day DATE='2021-04-30'
+      # docker-compose exec app bundle exec rake once:official_website:data_import:fetch_all_data_of_a_day DATE='2021-04-30'
       desc 'fetch all data on specified date'
       task fetch_all_data_of_a_day: :environment do
         date = ENV.fetch('DATE').to_date
