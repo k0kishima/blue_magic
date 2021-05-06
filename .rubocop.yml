@@ -10,6 +10,8 @@ AllCops:
     - 'db/migrate/*.rb'
     - 'db/seeds.rb'
     - 'db/seeds/**/*.rb'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'lib/tasks/once/**/*.rake'
   NewCops: enable
 
 ### Bundler
