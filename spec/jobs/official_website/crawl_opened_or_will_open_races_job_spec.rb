@@ -11,7 +11,6 @@ describe OfficialWebsite::CrawlOpenedOrWillOpenRacesJob, type: :job do
     before do
       stub_const("#{described_class}::SLEEP_SECOND", 0)
       allow(EventHolding).to receive(:opened_on).and_return([event_holding])
-      allow(ImportDataQueueFactory).to receive(:create!)
     end
 
     context 'when crawling enabled' do
@@ -20,8 +19,8 @@ describe OfficialWebsite::CrawlOpenedOrWillOpenRacesJob, type: :job do
       context 'when a date before today or today was specified' do
         let(:date) { Date.today }
 
-        it 'invokes ImportDataJob once' do
-          expect(ImportDataQueueFactory).to receive(:create!).once
+        it 'invokes CrawlRaceInformationsJob exactly races count' do
+          expect { subject }.to have_enqueued_job(OfficialWebsite::CrawlRaceInformationsJob).exactly(12).times
           subject
         end
       end
