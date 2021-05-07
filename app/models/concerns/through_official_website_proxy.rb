@@ -9,6 +9,7 @@ module ThroughOfficialWebsiteProxy
   extend ActiveSupport::Concern
 
   included do
+    include CrawlingNotifiable
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveModel::Validations
@@ -48,7 +49,10 @@ module ThroughOfficialWebsiteProxy
 
     def headers
       h = {}
-      h['Cache-Control'] = 'no-cache' if no_cache
+      if no_cache
+        h['Cache-Control'] = 'no-cache'
+        notify_information("[info] connect by no cache: #{origin_redirection_url}")
+      end
       h
     end
   end
