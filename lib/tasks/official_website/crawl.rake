@@ -49,7 +49,11 @@ namespace :official_website do
       OfficialWebsite::CrawlMotorRenewalsJob.perform_later(date: date, version: official_website_version)
 
       puts 'start to enqueue crawl race data jobs'
-      EventHolding.opened_on(date).each do |event_holding|
+      event_holdings = []
+      Retryable.retryable(tries: 3, sleep: 10, on: [Net::OpenTimeout, OpenURI::HTTPError]) do
+        event_holdings = EventHolding.opened_on(date)
+      end
+      event_holdings.each do |event_holding|
         puts "\tin stadium(tel_code: #{event_holding.stadium_tel_code})"
 
         Race.numbers.each do |race_number|
