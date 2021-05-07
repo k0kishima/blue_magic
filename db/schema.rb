@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_05_200008) do
+ActiveRecord::Schema.define(version: 2021_05_07_110516) do
+
+  create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "forecasters_forecasting_pattern_id", null: false
+    t.integer "stadium_tel_code", null: false
+    t.date "date", null: false
+    t.integer "race_number", null: false
+    t.integer "betting_number", null: false
+    t.float "ratio_when_bet", null: false
+    t.integer "betting_amount", null: false
+    t.integer "refunded_amount"
+    t.integer "adjustment_amount"
+    t.datetime "bet_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
+  end
 
   create_table "boat_betting_contribute_rate_aggregations", primary_key: ["stadium_tel_code", "boat_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
@@ -54,6 +70,41 @@ ActiveRecord::Schema.define(version: 2021_05_05_200008) do
     t.integer "grade", null: false
     t.integer "kind", null: false
     t.boolean "canceled", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "forecasters", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.integer "status", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "reduce_odds_method", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "forecasters_forecasting_patterns", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "forecaster_id"
+    t.bigint "forecasting_pattern_id"
+    t.integer "budget_amount_per_race", null: false
+    t.integer "fund_allocation_method", null: false
+    t.integer "composition_odds", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["forecaster_id", "forecasting_pattern_id"], name: "uniq_index_1", unique: true
+    t.index ["forecaster_id"], name: "foreign_key_1"
+    t.index ["forecasting_pattern_id"], name: "foreign_key_2"
+  end
+
+  create_table "forecasting_patterns", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.json "race_filtering_condition", null: false
+    t.json "first_place_filtering_condition", null: false
+    t.json "second_place_filtering_condition", null: false
+    t.json "third_place_filtering_condition", null: false
+    t.json "odds_filtering_condition", null: false
+    t.datetime "frozen_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -246,10 +297,13 @@ ActiveRecord::Schema.define(version: 2021_05_05_200008) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "bettings", "forecasters_forecasting_patterns"
   add_foreign_key "boat_betting_contribute_rate_aggregations", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "boat_settings", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "disqualified_race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "events", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
+  add_foreign_key "forecasters_forecasting_patterns", "forecasters"
+  add_foreign_key "forecasters_forecasting_patterns", "forecasting_patterns"
   add_foreign_key "motor_betting_contribute_rate_aggregations", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "motor_maintenances", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "motor_renewals", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
