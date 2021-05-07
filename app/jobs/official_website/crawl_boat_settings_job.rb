@@ -3,7 +3,7 @@ module OfficialWebsite
     # HACK: 本来このエラーは捨てていいのだが、このジョブだとCSV生成時の配列の構造が不正でも上がってくる
     # そのケースでリトライしたら成功することがあるので一応再実行制御を入れている
     # TODO: 正式に調査する
-    retry_on ArgumentError, wait: 1.minutes, attempts: 2 do |job, errror|
+    retry_on ArgumentError, wait: 1.minutes, attempts: 3 do |job, errror|
       message = {
         error_message: error.message,
         job_name: job.class.name,
