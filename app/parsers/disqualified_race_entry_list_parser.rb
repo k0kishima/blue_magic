@@ -19,13 +19,15 @@ class DisqualifiedRaceEntryListParser < BaseParser
     rows.map do |row|
       disqualification_mark = row[10]
       next if disqualification_mark.blank?
+      disqualification = DisqualificationFactory.create!(disqualification_mark)
+      next if disqualification.blank?
 
       {
         date: row[0].to_date,
         stadium_tel_code: row[1].to_i,
         race_number: row[2].to_i,
         pit_number: row[3].to_i,
-        disqualification: DisqualificationFactory.create!(disqualification_mark),
+        disqualification: disqualification,
       }
     end.reject(&:blank?)
   end
