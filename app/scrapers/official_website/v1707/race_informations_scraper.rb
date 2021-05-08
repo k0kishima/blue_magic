@@ -34,7 +34,10 @@ module OfficialWebsite
     attr_reader :file
 
     def html
-      @html ||= Nokogiri::HTML.parse(file.read)
+      @html ||= -> do
+        file.rewind
+        Nokogiri::HTML.parse(file.read)
+      end.call
     end
 
     def course_fixed?

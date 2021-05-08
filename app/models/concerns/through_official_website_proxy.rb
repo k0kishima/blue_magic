@@ -16,18 +16,23 @@ module ThroughOfficialWebsiteProxy
 
     attribute :version, :integer,
               default: Rails.application.config.x.official_website_proxy.latest_official_website_version
-    attribute :no_cache, :boolean, default: false
 
     def uri
       "#{proxy_base_url}/file?#{query}"
     end
 
     def file
-      URI.open(uri, **headers)
+      @file ||= URI.open(uri)
     end
 
     def origin_redirection_url
       "#{proxy_base_url}/redirection?#{query}"
+    end
+
+    def reload!
+      notify_information("[info] connect by no cache: #{origin_redirection_url}")
+      headers = { 'Cache-Control' => 'no-cache' }
+      @file = URI.open(uri, **headers)
     end
 
     private
@@ -45,15 +50,6 @@ module ThroughOfficialWebsiteProxy
 
     def params
       raise NotImplementedError
-    end
-
-    def headers
-      h = {}
-      if no_cache
-        h['Cache-Control'] = 'no-cache'
-        notify_information("[info] connect by no cache: #{origin_redirection_url}")
-      end
-      h
     end
   end
 end

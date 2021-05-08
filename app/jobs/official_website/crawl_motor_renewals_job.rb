@@ -12,9 +12,10 @@ module OfficialWebsite
       event_holdings = EventHolding.opened_on(date).select(&:is_first_day)
       event_holdings.each do |event_holding|
         page = OfficialWebsite::EventEntriesPage.new(
-          version: version, no_cache: no_cache,
+          version: version,
           stadium_tel_code: event_holding.stadium_tel_code, event_starts_on: date,
         )
+        page.reload! if need_to_realod?
         begin
           data = scraper_class.new(file: page.file).scrape!
           if data.all? { |attributes| attributes.fetch(:quinella_rate_of_motor).zero? }
