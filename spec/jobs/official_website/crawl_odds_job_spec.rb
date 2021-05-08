@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OfficialWebsite::CrawlOddsJob, type: :job do
+  include_context 'with a mocked slack client'
+
   describe '#perform_now' do
     before do
       ActiveJob::Base.queue_adapter = :test

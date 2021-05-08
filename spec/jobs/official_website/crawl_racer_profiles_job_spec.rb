@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe OfficialWebsite::CrawlRacerProfilesJob, type: :job do
+  include_context 'with a mocked slack client'
+
   describe '#perform_now' do
     subject do
       VCR.use_cassette 'official_web_site_proxy/v1707/racer_profile' do

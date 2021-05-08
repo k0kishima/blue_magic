@@ -13,12 +13,14 @@ module OfficialWebsite
     end
 
     def perform(stadium_tel_code:, race_opened_on:, race_number:, version: DEFAULT_VERSION)
-      args = {
-        version: version, stadium_tel_code: stadium_tel_code,
-        race_opened_on: race_opened_on, race_number: race_number, no_cache: no_cache
-      }
+      args = { version: version, stadium_tel_code: stadium_tel_code, race_opened_on: race_opened_on,
+               race_number: race_number }
       race_information_page = OfficialWebsite::RaceInformationPage.new(args)
       race_exhibition_information_page = OfficialWebsite::RaceExhibitionInformationPage.new(args)
+      if need_to_realod?
+        race_information_page.reload!
+        race_exhibition_information_page.reload!
+      end
       crawler = Crawler.new(race_information_page, race_exhibition_information_page)
       crawler.crawl!
     rescue ::DataNotFound
