@@ -1,6 +1,6 @@
 # NOTE:
 # YAGNI原則に則って現時点では三連単のみ対応
-module Betting
+module BettingMethodSelector
   extend ActiveSupport::Concern
 
   included do

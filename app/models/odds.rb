@@ -1,6 +1,6 @@
 class Odds < ApplicationRecord
   include RaceAssociating
-  include Betting
+  include BettingMethodSelector
 
   self.table_name = :odds
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :betting_method, :betting_number]
