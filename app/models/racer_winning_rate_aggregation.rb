@@ -8,10 +8,14 @@ class RacerWinningRateAggregation < ApplicationRecord
     greater_than_or_equal_to: 0.0,
     less_than_or_equal_to: 10.0
   }
+  # 当地勝率は稀に10を超えることがある
+  # 集計期間中に当地の重賞1回だけ斡旋されててそれでパーフェクトVとか準パーフェクト達成したらなり得る
+  # 例)
+  # http://boatrace.jp/owpc/pc/race/racelist?rno=12&jcd=04&hd=20170511
   validates :rate_in_event_going_stadium, presence: true, numericality: {
     only_float: true,
     greater_than_or_equal_to: 0.0,
-    less_than_or_equal_to: 10.0
+    less_than_or_equal_to: 12.0
   }
 end
 

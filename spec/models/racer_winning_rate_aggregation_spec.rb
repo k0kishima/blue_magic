@@ -17,7 +17,7 @@ describe RacerWinningRateAggregation, type: :model do
     it {
       is_expected.to validate_numericality_of(:rate_in_event_going_stadium)
         .is_greater_than_or_equal_to(0.0)
-        .is_less_than_or_equal_to(10.0)
+        .is_less_than_or_equal_to(12.0)
     }
     it { is_expected.to validate_presence_of(:aggregated_on) }
   end
