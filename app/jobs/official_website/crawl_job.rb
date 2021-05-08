@@ -8,6 +8,7 @@ class OfficialWebsite::CrawlJob < ApplicationJob
 
   discard_on(ArgumentError, StandardError) do |job, error|
     message = {
+      exception_class: error.class,
       error_message: error.message,
       job_name: job.class.name,
       arguments: job.arguments.to_s,
