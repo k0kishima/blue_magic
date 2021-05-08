@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
     t.integer "race_number", null: false
+    t.integer "betting_method", null: false
     t.integer "betting_number", null: false
     t.float "ratio_when_bet", null: false
     t.integer "betting_amount", null: false
@@ -88,7 +89,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.bigint "forecasting_pattern_id"
     t.integer "budget_amount_per_race", null: false
     t.integer "fund_allocation_method", null: false
-    t.integer "composition_odds", null: false
+    t.float "composition_odds", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["forecaster_id", "forecasting_pattern_id"], name: "uniq_index_1", unique: true
