@@ -261,7 +261,11 @@ describe OfficialWebsite::CrawlRaceInformationsJob, type: :job do
         # TODO: 正式な処理を決める
         # proxyが落ちてるのは早めに感知したいのでslackでemergency系のチャンネルに通知飛ばすとかしたい
         # とはいえコーナーケースではあるため対応は保留し、一旦再現性を持たせたテストだけ作ってすぐ対応できるようにする
-        it { expect { subject }.to raise_error(Errno::ECONNREFUSED) }
+        it 'does not perform job' do
+          assert_no_performed_jobs do
+            subject
+          end
+        end
       end
     end
   end

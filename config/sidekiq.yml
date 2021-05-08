@@ -6,6 +6,7 @@ defaults: &defaults
     - default
     - low
   :concurrency: 1
+  :max_retries: 3
 
 development:
   <<: *defaults

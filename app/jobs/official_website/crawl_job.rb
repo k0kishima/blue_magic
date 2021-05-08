@@ -6,7 +6,7 @@ class OfficialWebsite::CrawlJob < ApplicationJob
   include PageReloadable
   include CrawlingNotifiable
 
-  discard_on(ArgumentError) do |job, error|
+  discard_on(ArgumentError, StandardError) do |job, error|
     message = {
       error_message: error.message,
       job_name: job.class.name,
@@ -15,7 +15,7 @@ class OfficialWebsite::CrawlJob < ApplicationJob
     job.notify_error(message)
   end
 
-  retry_on DataNotFound, wait: 3.minutes, attempts: 3 do |job, errror|
+  retry_on DataNotFound, wait: 3.minutes, attempts: 3 do |job, _|
     # これはリトライを諦めた時の処理なので注意
     job.notify_information("this race has been discarded because of data not found #{job.attempt_number} count")
   end
