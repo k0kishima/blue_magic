@@ -6,7 +6,7 @@
 # 例えば、艇番123、三連単オッズ10倍 で決まったレースでも4号艇がフライングしてたら返還が発生するので、購入時のオッズである10倍（¥1,000）の払戻しではなくなる
 class Payoff < ApplicationRecord
   include RaceAssociating
-  include Betting
+  include BettingMethodSelector
 
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :betting_method, :betting_number]
 
