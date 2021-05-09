@@ -22,6 +22,11 @@ describe RaceExhibitionRecord, type: :model do
     it { is_expected.to validate_presence_of(:course_number) }
     it { is_expected.to validate_inclusion_of(:course_number).in_range(1..6) }
     it { is_expected.to validate_presence_of(:start_time) }
+    it {
+      is_expected.to validate_numericality_of(:start_time)
+        .is_greater_than_or_equal_to(-1.0)
+        .is_less_than_or_equal_to(1.01)
+    }
     it { is_expected.to validate_presence_of(:exhibition_time) }
     it { is_expected.to validate_presence_of(:exhibition_time_order) }
     it { is_expected.to validate_inclusion_of(:exhibition_time_order).in_range(1..6) }
