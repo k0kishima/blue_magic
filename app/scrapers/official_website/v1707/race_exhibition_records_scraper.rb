@@ -21,19 +21,19 @@ module OfficialWebsite
           start_time: nil,
           is_flying: nil,
         }
+      end
 
-        sorted_exhibition_times = data.map { |element| element[:exhibition_time] }.sort
-        data.each do |element|
-          element[:exhibition_time_order] = sorted_exhibition_times.index(element[:exhibition_time])&.next
-        end
+      sorted_exhibition_times = data.map { |element| element[:exhibition_time] }.sort
+      data.each do |element|
+        element[:exhibition_time_order] = sorted_exhibition_times.index(element[:exhibition_time])&.next
+      end
 
-        slit_rows.each.with_index(1) do |slit_row, start_course|
-          next unless element = data.find { |e| e[:pit_number] == pit_number(slit_row) }
+      slit_rows.each.with_index(1) do |slit_row, start_course|
+        next unless element = data.find { |e| e[:pit_number] == pit_number(slit_row) }
 
-          element[:start_course] = start_course
-          element[:start_time] = formatted_start_time(slit_row)
-          element[:is_flying] = flying?(slit_row)
-        end
+        element[:start_course] = start_course
+        element[:start_time] = formatted_start_time(slit_row)
+        element[:is_flying] = flying?(slit_row)
       end
 
       if data.all? { |attribute| attribute[:start_course].nil? }
@@ -78,10 +78,6 @@ module OfficialWebsite
 
     def exhibition_time(exhibition_row)
       exhibition_row.search('td')[4].text.to_f
-    end
-
-    def new_propeller?(exhibition_row)
-      propeller(exhibition_row) == self.class::NEW_PROPELLER_MARK
     end
 
     def flying?(slit_row)
