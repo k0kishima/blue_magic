@@ -9,6 +9,7 @@ class RaceExhibitionRecordsParser < BaseParser
     :start_course,
     :start_time,
     :is_flying,
+    :is_lateness,
     :exhibition_time_order,
   ]
 
@@ -28,7 +29,7 @@ class RaceExhibitionRecordsParser < BaseParser
         course_number: row[6].to_i,
         start_time: signed_start_time,
         exhibition_time: row[5].to_f,
-        exhibition_time_order: row[9].to_i,
+        exhibition_time_order: row[10].to_i,
       }
     end
   end
