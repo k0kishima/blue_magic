@@ -32,7 +32,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 1,
                                                  start_course: 1,
                                                  start_time: 0.23,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -44,7 +45,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 2,
                                                  start_course: 2,
                                                  start_time: 0.28,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -56,7 +58,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 5,
                                                  start_course: 3,
                                                  start_time: 0.21,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -68,7 +71,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 6,
                                                  start_course: 4,
                                                  start_time: 0.21,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -80,7 +84,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 4,
                                                  start_course: 5,
                                                  start_time: 0.11,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -92,11 +97,89 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 2,
                                                  start_course: 6,
                                                  start_time: 0.04,
-                                                 is_flying: true
+                                                 is_flying: true,
+                                                 is_lateness: false,
                                                })
           end
 
           it_behaves_like :cacheable
+        end
+
+        context '出遅れが発生したとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2017_05_11_17#_2R.html"
+          }
+
+          it '出遅れも含めてデータ取得できること' do
+            expect(subject).to contain_exactly(
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 1,
+                :racer_registration_number => 4348,
+                :exhibition_time => 6.65,
+                :start_course => nil,
+                :start_time => nil,
+                :is_flying => nil,
+                :is_lateness => true,
+                :exhibition_time_order => 4 },
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 2,
+                :racer_registration_number => 3573,
+                :exhibition_time => 6.54,
+                :start_course => 1,
+                :start_time => 0.07,
+                :is_flying => false,
+                :is_lateness => false,
+                :exhibition_time_order => 1 },
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 3,
+                :racer_registration_number => 3780,
+                :exhibition_time => 6.59,
+                :start_course => 2,
+                :start_time => 0.05,
+                :is_flying => false,
+                :is_lateness => false,
+                :exhibition_time_order => 2 },
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 4,
+                :racer_registration_number => 4468,
+                :exhibition_time => 6.64,
+                :start_course => 3,
+                :start_time => 0.17,
+                :is_flying => false,
+                :is_lateness => false,
+                :exhibition_time_order => 3 },
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 5,
+                :racer_registration_number => 4168,
+                :exhibition_time => 6.66,
+                :start_course => 4,
+                :start_time => 0.04,
+                :is_flying => false,
+                :is_lateness => false,
+                :exhibition_time_order => 5 },
+              { :date => Date.new(2017, 5, 11),
+                :stadium_tel_code => 17,
+                :race_number => 2,
+                :pit_number => 6,
+                :racer_registration_number => 4350,
+                :exhibition_time => 6.69,
+                :start_course => 5,
+                :start_time => 0.06,
+                :is_flying => false,
+                :is_lateness => false,
+                :exhibition_time_order => 6 }
+            )
+          end
         end
 
         context '欠場艇が存在するとき' do
@@ -115,7 +198,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 2,
                                                  start_course: 1,
                                                  start_time: 0.21,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -127,7 +211,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 4,
                                                  start_course: 2,
                                                  start_time: 0.21,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -139,7 +224,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 3,
                                                  start_course: 3,
                                                  start_time: 0.08,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -151,7 +237,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 5,
                                                  start_course: 4,
                                                  start_time: 0.08,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                },
                                                {
                                                  date: Date.new(2015, 11, 16),
@@ -163,7 +250,8 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
                                                  exhibition_time_order: 1,
                                                  start_course: 5,
                                                  start_time: 0.32,
-                                                 is_flying: false
+                                                 is_flying: false,
+                                                 is_lateness: false,
                                                })
           end
 
