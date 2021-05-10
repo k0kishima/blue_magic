@@ -2,6 +2,8 @@ module OfficialWebsite
   class V1707::RaceExhibitionRecordsScraper < Scraper
     include OfficialWebsite::V1707::RacePageBreadcrumbsScrapable
 
+    LATENESS_MARK = 'L'
+
     def scrape!
       validate!
 
@@ -20,6 +22,7 @@ module OfficialWebsite
           start_course: nil,
           start_time: nil,
           is_flying: nil,
+          is_lateness: nil,
         }
       end
 
@@ -30,6 +33,9 @@ module OfficialWebsite
 
       slit_rows.each.with_index(1) do |slit_row, start_course|
         next unless element = data.find { |e| e[:pit_number] == pit_number(slit_row) }
+
+        element[:is_lateness] = lateness?(slit_row)
+        next if element[:is_lateness]
 
         element[:start_course] = start_course
         element[:start_time] = formatted_start_time(slit_row)
@@ -73,7 +79,12 @@ module OfficialWebsite
     end
 
     def pit_number(slit_row)
-      slit_row.search('span')[0].text.to_i rescue nil
+      # 以下のようにシンプルに取得したいがこれだと出遅れに対応できないので画像から割り出す
+      # slit_row.search('span')[0].text.to_i rescue nil
+      #
+      # 出遅れが発生した展示
+      # http://boatrace.jp/owpc/pc/race/beforeinfo?rno=2&jcd=17&hd=20170511
+      slit_row.search('img')&.attr('src')&.value&.scan(/_([1-6]{1}).png\z/)&.flatten&.first&.to_i
     end
 
     def exhibition_time(exhibition_row)
@@ -83,6 +94,10 @@ module OfficialWebsite
     def flying?(slit_row)
       html_classes = start_time_element(slit_row).attribute('class').value.split(' ')
       html_classes.include?('is-fBold')
+    end
+
+    def lateness?(slit_row)
+      start_time_text(slit_row) == self.class::LATENESS_MARK
     end
 
     def start_time_element(slit_row)

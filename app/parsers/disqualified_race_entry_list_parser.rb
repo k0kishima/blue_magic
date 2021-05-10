@@ -19,6 +19,7 @@ class DisqualifiedRaceEntryListParser < BaseParser
     rows.map do |row|
       disqualification_mark = row[10]
       next if disqualification_mark.blank?
+
       disqualification = DisqualificationFactory.create!(disqualification_mark)
       next if disqualification.blank?
 

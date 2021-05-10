@@ -1,0 +1,7 @@
+date,stadium_tel_code,race_number,pit_number,racer_registration_number,exhibition_time,start_course,start_time,is_flying,is_lateness,exhibition_time_order
+2017-05-11,17,2,1,4348,6.65,,,,true,4
+2017-05-11,17,2,2,3573,6.54,1,0.07,false,false,1
+2017-05-11,17,2,3,3780,6.59,2,0.05,false,false,2
+2017-05-11,17,2,4,4468,6.64,3,0.17,false,false,3
+2017-05-11,17,2,5,4168,6.66,4,0.04,false,false,5
+2017-05-11,17,2,6,4350,6.69,5,0.06,false,false,6
