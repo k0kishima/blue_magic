@@ -15,8 +15,13 @@ class RaceExhibitionRecord < ApplicationRecord
 
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :pit_number]
 
-  validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
-  validates :course_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
+  validates :pit_number,
+            presence: true,
+            inclusion: { in: Pit::NUMBER_RANGE }
+  validates :course_number,
+            presence: true,
+            inclusion: { in: Pit::NUMBER_RANGE },
+            uniqueness: { scope: [:stadium_tel_code, :date, :race_number] }
   validates :start_time, presence: true, numericality: {
     only_float: true,
     greater_than_or_equal_to: -1.0,

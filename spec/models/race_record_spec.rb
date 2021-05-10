@@ -23,6 +23,7 @@ describe RaceRecord, type: :model do
     it { is_expected.to validate_inclusion_of(:pit_number).in_range(1..6) }
     it { is_expected.to validate_presence_of(:course_number) }
     it { is_expected.to validate_inclusion_of(:course_number).in_range(1..6) }
+    it { is_expected.to validate_uniqueness_of(:course_number).scoped_to(:stadium_tel_code, :date, :race_number) }
     it {
       is_expected.to validate_numericality_of(:start_time)
         .is_greater_than_or_equal_to(0.0)
