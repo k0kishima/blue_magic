@@ -9,7 +9,6 @@ module ThroughOfficialWebsiteProxy
   extend ActiveSupport::Concern
 
   included do
-    include CrawlingNotifiable
     include ActiveModel::Model
     include ActiveModel::Attributes
     include ActiveModel::Validations
@@ -30,7 +29,6 @@ module ThroughOfficialWebsiteProxy
     end
 
     def reload!
-      notify_information("[info] connect by no cache: #{origin_redirection_url}")
       headers = { 'Cache-Control' => 'no-cache' }
       @file = URI.open(uri, **headers)
     end
