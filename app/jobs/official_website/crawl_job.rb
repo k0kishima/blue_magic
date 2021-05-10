@@ -6,6 +6,7 @@ class OfficialWebsite::CrawlJob < ApplicationJob
   include PageReloadable
   include CrawlingNotifiable
 
+  discard_on Slack::Web::Api::Errors::TooManyRequestsError
   discard_on(ArgumentError, StandardError) do |job, error|
     message = {
       exception_class: error.class,
