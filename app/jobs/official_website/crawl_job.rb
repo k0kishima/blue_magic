@@ -24,4 +24,5 @@ class OfficialWebsite::CrawlJob < ApplicationJob
 
   retry_on OpenURI::HTTPError, wait: 1.minutes, attempts: 3
   retry_on Net::OpenTimeout, wait: 1.minutes, attempts: 3
+  retry_on NoMethodError, wait: 3.minutes, attempts: 3
 end
