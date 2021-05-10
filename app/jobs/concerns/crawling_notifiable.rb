@@ -3,7 +3,7 @@ module CrawlingNotifiable
 
   module CHANNEL_NAMES
     EMERGENCY = '001_crawler_emergency'
-    INFORMATION = '001_crawler_info'
+    INFORMATION = '001_crawler_information'
   end
 
   included do
