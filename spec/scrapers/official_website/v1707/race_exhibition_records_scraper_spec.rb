@@ -105,6 +105,91 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
           it_behaves_like :cacheable
         end
 
+        context '欠場艇が存在するとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2015_11_16_03#_11R.html"
+          }
+
+          it '欠場艇を除いてデータ取得できること' do
+            expect(subject).to contain_exactly({
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
+                                                 pit_number: 2,
+                                                 racer_registration_number: 3880,
+                                                 exhibition_time: 6.91,
+                                                 exhibition_time_order: 2,
+                                                 start_course: 1,
+                                                 start_time: 0.21,
+                                                 is_flying: false,
+                                                 is_lateness: false,
+                                               },
+                                               {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
+                                                 pit_number: 3,
+                                                 racer_registration_number: 3793,
+                                                 exhibition_time: 7.04,
+                                                 exhibition_time_order: 4,
+                                                 start_course: 2,
+                                                 start_time: 0.21,
+                                                 is_flying: false,
+                                                 is_lateness: false,
+                                               },
+                                               {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
+                                                 pit_number: 4,
+                                                 racer_registration_number: 4357,
+                                                 exhibition_time: 7.0,
+                                                 exhibition_time_order: 3,
+                                                 start_course: 3,
+                                                 start_time: 0.08,
+                                                 is_flying: false,
+                                                 is_lateness: false,
+                                               },
+                                               {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
+                                                 pit_number: 5,
+                                                 racer_registration_number: 4037,
+                                                 exhibition_time: 7.16,
+                                                 exhibition_time_order: 5,
+                                                 start_course: 4,
+                                                 start_time: 0.08,
+                                                 is_flying: false,
+                                                 is_lateness: false,
+                                               },
+                                               {
+                                                 date: Date.new(2015, 11, 16),
+                                                 stadium_tel_code: 3,
+                                                 race_number: 11,
+                                                 pit_number: 6,
+                                                 racer_registration_number: 3797,
+                                                 exhibition_time: 6.78,
+                                                 exhibition_time_order: 1,
+                                                 start_course: 5,
+                                                 start_time: 0.32,
+                                                 is_flying: false,
+                                                 is_lateness: false,
+                                               })
+          end
+
+          it_behaves_like :cacheable
+        end
+
+        context '展示に参加しなかった艇が存在するとき' do
+          let(:file_path) {
+            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2017_06_25_06#_10R.html"
+          }
+
+          xit '不参加の艇も含めて取得できること' do
+          end
+        end
+
         context '出遅れが発生したとき' do
           context '進入自体は正常にできている場合' do
             let(:file_path) {
@@ -259,82 +344,6 @@ describe OfficialWebsite::V1707::RaceExhibitionRecordsScraper do
               )
             end
           end
-        end
-
-        context '欠場艇が存在するとき' do
-          let(:file_path) {
-            "#{Rails.root}/spec/fixtures/files/official_website/v1707/race_before_information/2015_11_16_03#_11R.html"
-          }
-
-          it '欠場艇を除いてデータ取得できること' do
-            expect(subject).to contain_exactly({
-                                                 date: Date.new(2015, 11, 16),
-                                                 stadium_tel_code: 3,
-                                                 race_number: 11,
-                                                 pit_number: 2,
-                                                 racer_registration_number: 3880,
-                                                 exhibition_time: 6.91,
-                                                 exhibition_time_order: 2,
-                                                 start_course: 1,
-                                                 start_time: 0.21,
-                                                 is_flying: false,
-                                                 is_lateness: false,
-                                               },
-                                               {
-                                                 date: Date.new(2015, 11, 16),
-                                                 stadium_tel_code: 3,
-                                                 race_number: 11,
-                                                 pit_number: 3,
-                                                 racer_registration_number: 3793,
-                                                 exhibition_time: 7.04,
-                                                 exhibition_time_order: 4,
-                                                 start_course: 2,
-                                                 start_time: 0.21,
-                                                 is_flying: false,
-                                                 is_lateness: false,
-                                               },
-                                               {
-                                                 date: Date.new(2015, 11, 16),
-                                                 stadium_tel_code: 3,
-                                                 race_number: 11,
-                                                 pit_number: 4,
-                                                 racer_registration_number: 4357,
-                                                 exhibition_time: 7.0,
-                                                 exhibition_time_order: 3,
-                                                 start_course: 3,
-                                                 start_time: 0.08,
-                                                 is_flying: false,
-                                                 is_lateness: false,
-                                               },
-                                               {
-                                                 date: Date.new(2015, 11, 16),
-                                                 stadium_tel_code: 3,
-                                                 race_number: 11,
-                                                 pit_number: 5,
-                                                 racer_registration_number: 4037,
-                                                 exhibition_time: 7.16,
-                                                 exhibition_time_order: 5,
-                                                 start_course: 4,
-                                                 start_time: 0.08,
-                                                 is_flying: false,
-                                                 is_lateness: false,
-                                               },
-                                               {
-                                                 date: Date.new(2015, 11, 16),
-                                                 stadium_tel_code: 3,
-                                                 race_number: 11,
-                                                 pit_number: 6,
-                                                 racer_registration_number: 3797,
-                                                 exhibition_time: 6.78,
-                                                 exhibition_time_order: 1,
-                                                 start_course: 5,
-                                                 start_time: 0.32,
-                                                 is_flying: false,
-                                                 is_lateness: false,
-                                               })
-          end
-
-          it_behaves_like :cacheable
         end
 
         context '情報が不完全な場合' do
