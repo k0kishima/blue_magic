@@ -35,9 +35,9 @@ module OfficialWebsite
         next unless element = data.find { |e| e[:pit_number] == pit_number(slit_row) }
 
         element[:is_lateness] = lateness?(slit_row)
+        element[:start_course] = start_course
         next if element[:is_lateness]
 
-        element[:start_course] = start_course
         element[:start_time] = formatted_start_time(slit_row)
         element[:is_flying] = flying?(slit_row)
       end
