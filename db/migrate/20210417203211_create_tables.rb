@@ -91,19 +91,29 @@ class CreateTables < ActiveRecord::Migration[6.1]
     end
     add_foreign_key :weather_conditions, :stadiums, column: :stadium_tel_code, primary_key: :tel_code
 
-    create_table :race_exhibition_records, primary_key: [:stadium_tel_code, :date, :race_number, :pit_number] do |t|
+    create_table :start_exhibition_records, primary_key: [:stadium_tel_code, :date, :race_number, :pit_number] do |t|
       t.integer  :stadium_tel_code, null: false
       t.date :date, null: false
       t.integer :race_number, null: false
       t.integer :pit_number, null: false
       t.integer :course_number, null: false
       t.float :start_time, null: false
+
+      t.timestamps
+    end
+    add_foreign_key :start_exhibition_records, :stadiums, column: :stadium_tel_code, primary_key: :tel_code
+
+    create_table :circumference_exhibition_records, primary_key: [:stadium_tel_code, :date, :race_number, :pit_number] do |t|
+      t.integer  :stadium_tel_code, null: false
+      t.date :date, null: false
+      t.integer :race_number, null: false
+      t.integer :pit_number, null: false
       t.float :exhibition_time, null: false
       t.integer :exhibition_time_order, null: false
 
       t.timestamps
     end
-    add_foreign_key :race_exhibition_records, :stadiums, column: :stadium_tel_code, primary_key: :tel_code
+    add_foreign_key :circumference_exhibition_records, :stadiums, column: :stadium_tel_code, primary_key: :tel_code
 
     create_table :race_records, primary_key: [:stadium_tel_code, :date, :race_number, :pit_number] do |t|
       t.integer  :stadium_tel_code, null: false

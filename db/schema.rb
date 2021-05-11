@@ -54,6 +54,17 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.index ["stadium_tel_code", "date", "race_number", "motor_number"], name: "uniq_index_2", unique: true
   end
 
+  create_table "circumference_exhibition_records", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.integer "stadium_tel_code", null: false
+    t.date "date", null: false
+    t.integer "race_number", null: false
+    t.integer "pit_number", null: false
+    t.float "exhibition_time", null: false
+    t.integer "exhibition_time_order", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "disqualified_race_entries", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
@@ -179,19 +190,6 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.index ["stadium_tel_code", "date", "race_number", "racer_registration_number"], name: "uniq_index_1", unique: true
   end
 
-  create_table "race_exhibition_records", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
-    t.integer "stadium_tel_code", null: false
-    t.date "date", null: false
-    t.integer "race_number", null: false
-    t.integer "pit_number", null: false
-    t.integer "course_number", null: false
-    t.float "start_time", null: false
-    t.float "exhibition_time", null: false
-    t.integer "exhibition_time_order", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "race_records", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
@@ -273,6 +271,17 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "start_exhibition_records", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.integer "stadium_tel_code", null: false
+    t.date "date", null: false
+    t.integer "race_number", null: false
+    t.integer "pit_number", null: false
+    t.integer "course_number", null: false
+    t.float "start_time", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "weather_conditions", primary_key: ["stadium_tel_code", "date", "race_number", "in_performance"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
@@ -301,6 +310,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
   add_foreign_key "bettings", "forecasters_forecasting_patterns"
   add_foreign_key "boat_betting_contribute_rate_aggregations", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "boat_settings", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
+  add_foreign_key "circumference_exhibition_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "disqualified_race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "events", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "forecasters_forecasting_patterns", "forecasters"
@@ -311,9 +321,9 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
   add_foreign_key "odds", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "payoffs", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
-  add_foreign_key "race_exhibition_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "race_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "races", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
+  add_foreign_key "start_exhibition_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "weather_conditions", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "winning_race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
 end
