@@ -20,12 +20,10 @@ class RaceExhibitionRecordsParser < BaseParser
       is_lateness = ActiveRecord::Type::Boolean.new.cast(row[9])
       if is_lateness
         signed_start_time = RaceExhibitionRecord::LATENESS_START_TIME
-        course_number = (row[6].presence || rows.map { |row| row[6].to_i }.max.next).to_i
       else
         is_flying = ActiveRecord::Type::Boolean.new.cast(row[8])
         start_time = row[7].to_f
         signed_start_time = is_flying ? -start_time : start_time
-        course_number = row[6].to_i
       end
 
       {
@@ -33,7 +31,7 @@ class RaceExhibitionRecordsParser < BaseParser
         stadium_tel_code: row[1].to_i,
         race_number: row[2].to_i,
         pit_number: row[3].to_i,
-        course_number: course_number,
+        course_number: row[6].to_i,
         start_time: signed_start_time,
         exhibition_time: row[5].to_f,
         exhibition_time_order: row[10].to_i,
