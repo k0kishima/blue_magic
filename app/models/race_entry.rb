@@ -12,7 +12,8 @@ class RaceEntry < ApplicationRecord
       .where(disqualified_race_entries: { disqualification: [nil, *Disqualification.cannnot_pre_fetchable_ids] })
   }
 
-  has_one :race_exhibition_record, foreign_key: self.primary_keys
+  has_one :start_exhibition_record, foreign_key: self.primary_keys
+  has_one :circumference_exhibition_record, foreign_key: self.primary_keys
   has_one :race_record, foreign_key: self.primary_keys
   has_one :boat_setting, foreign_key: self.primary_keys
   has_one :disqualified_race_entry, foreign_key: self.primary_keys
@@ -24,7 +25,8 @@ class RaceEntry < ApplicationRecord
   validates :racer_registration_number, presence: true
 
   delegate :motor_number, to: :boat_setting
-  delegate :course_number, :start_time, :exhibition_time, :exhibition_time_order, to: :race_exhibition_record
+  delegate :course_number, :start_time, to: :start_exhibition_record
+  delegate :exhibition_time, :exhibition_time_order, to: :circumference_exhibition_record
   delegate :event, to: :race
   alias_method :start_course_in_exhibition, :course_number
   alias_method :start_time_in_exhibition, :start_time

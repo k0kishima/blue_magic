@@ -15,8 +15,10 @@ class ImporterClassFactory
       MotorBettingContributeRateAggregationImporter
     when 'RacerWinningRateAggregationParser'
       RacerWinningRateAggregationImporter
-    when 'RaceExhibitionRecordsParser'
-      RaceExhibitionRecordsImporter
+    when 'StartExhibitionRecordListParser'
+      StartExhibitionRecordsImporter
+    when 'CircumferenceExhibitionRecordListParser'
+      CircumferenceExhibitionRecordsImporter
     when 'RacerConditionListParser'
       RacerConditionsImporter
     when 'WeatherConditionListParser'
