@@ -1,4 +1,4 @@
-class RaceExhibitionRecordsParser < BaseParser
+class RaceExhibitionRecordListParser < BaseParser
   HEADER_KEYS = [
     :date,
     :stadium_tel_code,
@@ -19,7 +19,7 @@ class RaceExhibitionRecordsParser < BaseParser
     rows.map do |row|
       is_lateness = ActiveRecord::Type::Boolean.new.cast(row[9])
       if is_lateness
-        signed_start_time = RaceExhibitionRecord::LATENESS_START_TIME
+        signed_start_time = StartExhibitionRecord::LATENESS_START_TIME
       else
         is_flying = ActiveRecord::Type::Boolean.new.cast(row[8])
         start_time = row[7].to_f

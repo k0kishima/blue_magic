@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RaceExhibitionRecordsParser do
+describe RaceExhibitionRecordListParser do
   describe '#parse!' do
     subject { parser.parse! }
 
