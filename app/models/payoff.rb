@@ -8,6 +8,8 @@ class Payoff < ApplicationRecord
   include RaceAssociating
   include BettingMethodSelector
 
+  REFUND_RATE = 0.75
+
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :betting_method, :betting_number]
 
   validates :amount, presence: true
