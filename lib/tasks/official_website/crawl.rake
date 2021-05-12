@@ -21,8 +21,7 @@ namespace :official_website do
         Rake::Task['official_website:crawl:crawl_all_data_of_a_day'].execute
       end
 
-      slack_client = Slack::Web::Client.new
-      slack_client.chat_postMessage(channel: '001_crawler_info', text: "monthly crawling have done (#{year}/#{month})")
+      puts "all jobs have enqueued (#{year}/#{month})"
     end
 
     # e.g.
