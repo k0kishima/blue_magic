@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SimulateOddsRatioDecreaseService, type: :model do
+RSpec.describe SimulateOddsRatioDecreaseService, type: :service do
   describe '.call' do
     subject do
       described_class.call(before_purchase_total_sales_per_one_race: before_purchase_total_sales_per_one_race,
