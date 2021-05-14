@@ -1,0 +1,8 @@
+ja:
+  kpi:
+    race_entry:
+      nige_succeed_rate:
+        name: 'イン逃げ率'
+        description: |-
+          決まり手「イン逃げ」での1着回数 / 1コース出走回数
+          ※ 1コースでのみ有効
