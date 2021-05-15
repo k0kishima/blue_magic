@@ -1,0 +1,145 @@
+require 'rails_helper'
+
+describe Kpi::RaceEntry::AssistTrickKpiAggregator, type: :model do
+  let(:aggregator) {
+    described_class.new(kpi: kpi, trick: trick, aggregation_range: aggregate_starts_on..aggregate_ends_on,
+                        source: source)
+  }
+  let(:kpi) { Kpi::RaceEntry::SasareRate.instance }
+  let(:aggregate_starts_on) { Date.new(2020, 12, 1) }
+  let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
+
+  describe '#aggregate!' do
+    subject { aggregator.aggregate! }
+
+    context 'when given a trick which is an assist trick' do
+      context 'when given valid source' do
+        context 'when aggregate sasare rate' do
+          let(:trick) { AssistTrick::Sasare.instance }
+          let(:racer_1) { create(:racer, registration_number: 33333, last_name: '非集計対象者') }
+          let(:racer_2) { create(:racer, registration_number: 77777, last_name: '集計対象者') }
+          let(:source) { build(:race_entry, racer_registration_number: racer_2.registration_number) }
+
+          before do
+            # 集計期間内のレース
+            create(:race, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8)
+            create(:race, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 12)
+            create(:race, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 6)
+            create(:race, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 12)
+
+            # 集計期間外のレース
+            create(:race, date: aggregate_starts_on.yesterday, stadium_tel_code: 4, race_number: 12)
+            create(:race, date: aggregate_ends_on.tomorrow, stadium_tel_code: 5, race_number: 5)
+
+            # 集計期間内の出走者
+            ## 対象者
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 4,
+                                racer_registration_number: racer_2.registration_number)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 12, pit_number: 1,
+                                racer_registration_number: racer_2.registration_number)
+            create(:race_entry, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 6, pit_number: 5,
+                                racer_registration_number: racer_2.registration_number)
+            create(:race_entry, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 12, pit_number: 1,
+                                racer_registration_number: racer_2.registration_number)
+            ## 非対象者
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 1,
+                                racer_registration_number: racer_1.registration_number)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 5, race_number: 6, pit_number: 1,
+                                racer_registration_number: racer_1.registration_number)
+
+            # 集計期間外の出走者
+            create(:race_entry, date: aggregate_starts_on.yesterday, stadium_tel_code: 4, race_number: 12,
+                                pit_number: 1, racer_registration_number: racer_2.registration_number)
+            create(:race_entry, date: aggregate_ends_on.tomorrow, stadium_tel_code: 5, race_number: 5, pit_number: 6,
+                                racer_registration_number: racer_2.registration_number)
+
+            # 集計期間内のレース結果
+            ## 対象者
+            ### ４枠から前付けしてイン強奪したが差されて負けた（分子も分母も増える）
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 4,
+                                 course_number: 1, arrival: 1)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 2,
+                                racer_registration_number: 123456)
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 2,
+                                 course_number: 2, arrival: 1)
+            create(:winning_race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8,
+                                        pit_number: 2, winning_trick: :sashi)
+            ### 1コースには入ったがまくられて負け（分母だけ増える）
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 12, pit_number: 1,
+                                 course_number: 1, arrival: 6)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 12, pit_number: 6,
+                                racer_registration_number: 345678)
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 6,
+                                 course_number: 6, arrival: 1)
+            create(:winning_race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8,
+                                        pit_number: 6, winning_trick: :makuri)
+            ### KPIと関係のないコース・着順(分子も分母も増えない)
+            create(:race_record, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 6, pit_number: 5,
+                                 course_number: 5, arrival: 4)
+            ### 枠なりで1コース進入・イン逃げ成功（分母だけ増える）
+            create(:race_record, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 12, pit_number: 1,
+                                 course_number: 1, arrival: 1)
+            create(:winning_race_entry, date: aggregate_ends_on, stadium_tel_code: 5, race_number: 12,
+                                        pit_number: 1, winning_trick: :nige,)
+
+            ## 非対象者(分子も分母も増えない)
+            ### 差されて負け
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 5, race_number: 6, pit_number: 1,
+                                 course_number: 1, arrival: 6)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 5, race_number: 6, pit_number: 2,
+                                racer_registration_number: 345678)
+            create(:race_record, date: aggregate_starts_on, stadium_tel_code: 5, race_number: 6, pit_number: 2,
+                                 course_number: 2, arrival: 1)
+            create(:winning_race_entry, date: aggregate_starts_on, stadium_tel_code: 5, race_number: 6,
+                                        pit_number: 2, winning_trick: :sashi,)
+
+            # 集計期間外のレース結果(分子も分母も増えない)
+            ### まくり差されて負け
+            create(:race_record, date: aggregate_starts_on.yesterday, stadium_tel_code: 4, race_number: 12,
+                                 pit_number: 1, course_number: 1, arrival: 2)
+            create(:race_entry, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 12, pit_number: 3,
+                                racer_registration_number: 123456)
+            create(:race_record, date: aggregate_starts_on.yesterday, stadium_tel_code: 4, race_number: 12,
+                                 pit_number: 3, course_number: 3, arrival: 1)
+            create(:winning_race_entry, date: aggregate_starts_on.yesterday, stadium_tel_code: 4, race_number: 12,
+                                        pit_number: 3, winning_trick: :makurizashi)
+            ### 明らかに関係なし
+            create(:race_record, date: aggregate_ends_on.tomorrow, stadium_tel_code: 5, race_number: 5, pit_number: 6,
+                                 course_number: 6, arrival: 6)
+          end
+
+          it 'returns a kpi aggregation' do
+            # 対象のレーサー以外含まれていないこと
+            #   指定された決まり手のみ集計されること
+            #   期間内のみ集計されること
+            # 出走記録がない場合（例えば欠場など）は集計されないこと
+            # 枠番じゃなくて本番の進入コース基準で集計されること
+            expect(subject).to have_attributes(
+              kpi: kpi,
+              value: Rational(1, 3).to_f,
+              aggregate_starts_on: aggregate_starts_on,
+              aggregate_ends_on: aggregate_ends_on,
+            )
+          end
+        end
+      end
+
+      context 'when given valid source' do
+        let(:trick) { AssistTrick::Sasare.instance }
+        let(:source) {
+          create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 4,
+                               course_number: 1, arrival: 1)
+        }
+
+        it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
+      end
+    end
+
+    context 'when given a trick which is not an assist trick' do
+      let(:trick) { WinningTrick::Nige.instance }
+      let(:source) { build(:race_entry, racer_registration_number: 77777) }
+
+      it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
+    end
+  end
+end

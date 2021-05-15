@@ -1,9 +1,9 @@
-module WinningTrickKpiAggregatable
+module AssistTrickKpiAggregatable
   extend ActiveSupport::Concern
 
   included do
     def aggregate!(source:, aggregation_range:)
-      Kpi::RaceEntry::WinningTrickKpiAggregator
+      Kpi::RaceEntry::AssistTrickKpiAggregator
         .new(
           kpi: self,
           trick: trick,
@@ -12,11 +12,15 @@ module WinningTrickKpiAggregatable
         ).aggregate!
     end
 
-    def trick_id
-      trick.id
+    def assist_winning_trick_ids
+      assist_winning_tricks.map(&:id)
     end
 
     private
+
+    def assist_winning_tricks
+      raise NotImplementedError
+    end
 
     def trick
       raise NotImplementedError
