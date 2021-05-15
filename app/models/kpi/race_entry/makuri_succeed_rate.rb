@@ -13,5 +13,3 @@ module Kpi::RaceEntry
     end
   end
 end
-
-

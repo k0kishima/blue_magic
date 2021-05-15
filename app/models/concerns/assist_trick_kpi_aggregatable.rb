@@ -12,11 +12,15 @@ module AssistTrickKpiAggregatable
         ).aggregate!
     end
 
-    def winning_trick_ids
-      raise NotImplementedError
+    def assist_winning_trick_ids
+      assist_winning_tricks.map(&:id)
     end
 
     private
+
+    def assist_winning_tricks
+      raise NotImplementedError
+    end
 
     def trick
       raise NotImplementedError

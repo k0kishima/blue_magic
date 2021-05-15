@@ -1,19 +1,19 @@
 module Kpi::RaceEntry
-  class SasareRate < Base
+  class MakurareRate < Base
     include AssistTrickKpiAggregatable
 
     def key
-      :sasare_rate
+      :makurare_rate
     end
 
     private
 
     def assist_winning_tricks
-      [WinningTrick::Sashi.instance, WinningTrick::Makurizashi.instance]
+      [WinningTrick::Makuri.instance]
     end
 
     def trick
-      @trick ||= AssistTrick::Sasare.instance
+      @trick ||= AssistTrick::Makurare.instance
     end
   end
 end
