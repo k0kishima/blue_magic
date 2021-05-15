@@ -20,7 +20,7 @@ class AssistTrick < Trick
   end
 
   # TODO: これは技でもアシストでもなく単に負パターンなのでそういうクラスに切り出す
-  class SASARE < AssistTrick
+  class Sasare < AssistTrick
     def id
       ID::SASARE
     end
@@ -35,7 +35,7 @@ class AssistTrick < Trick
   end
 
   # TODO: これは技でもアシストでもなく単に負パターンなのでそういうクラスに切り出す
-  class MAKURARE < AssistTrick
+  class Makurare < AssistTrick
     def id
       ID::MAKURARE
     end
