@@ -18,9 +18,15 @@ module Kpi::RaceEntry
     def aggregate!
       validate!
 
+      value = begin
+        Rational(numerator, denominator).to_f
+      rescue ZeroDivisionError
+        0
+      end
+
       ::Kpi::Aggregation.new(
         kpi: kpi,
-        value: Rational(numerator, denominator).to_f,
+        value: value,
         aggregate_starts_on: aggregate_starts_on,
         aggregate_ends_on: aggregate_ends_on,
       )
