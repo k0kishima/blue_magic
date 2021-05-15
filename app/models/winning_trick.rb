@@ -38,7 +38,7 @@ class WinningTrick < Trick
     end
   end
 
-  class MakuriZashi < WinningTrick
+  class Makurizashi < WinningTrick
     def id
       ID::MAKURIZASHI
     end
