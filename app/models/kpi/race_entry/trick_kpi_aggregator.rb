@@ -1,13 +1,23 @@
 module Kpi::RaceEntry
   class TrickKpiAggregator
-    def initialize(kpi:, trick:, aggregation_range:, source:)
-      @kpi = kpi
-      @trick = trick
-      @aggregation_range = aggregation_range
-      @source = source
-    end
+    include ActiveModel::Model
+    include ActiveModel::Attributes
 
-    def aggregate
+    attribute :kpi
+    attribute :trick
+    attribute :aggregation_range
+    attribute :source
+
+    validates :kpi, presence: true
+    validates :trick, presence: true
+    validates :aggregation_range, presence: true
+    validates :source, presence: true
+
+    validate :source_must_be_a_kpi_subject
+
+    def aggregate!
+      validate!
+
       ::Kpi::Aggregation.new(
         kpi: kpi,
         value: Rational(numerator, denominator).to_f,
@@ -17,8 +27,6 @@ module Kpi::RaceEntry
     end
 
     private
-
-    attr_reader :kpi, :trick, :aggregation_range, :source
 
     def aggregate_starts_on
       aggregation_range.first
@@ -67,6 +75,12 @@ module Kpi::RaceEntry
 
     def numerator
       raise NotImplementedError
+    end
+
+    def source_must_be_a_kpi_subject
+      return if source.is_a?(kpi.subject)
+
+      errors.add(:source, "#{source.class} cannot aggregate as #{kpi.class.name}")
     end
   end
 end
