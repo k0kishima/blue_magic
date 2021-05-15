@@ -1,0 +1,23 @@
+ja:
+  kpi:
+    race_entry:
+      nige_succeed_rate:
+        name: '逃げ成功率'
+        description: |-
+          決まり手「逃げ」での1着回数 / 1コース出走回数
+          ※ 枠番や展示での進入コースではなく本番での進入コース基準
+      sashi_succeed_rate:
+        name: '差し成功率'
+        description: |-
+          決まり手「差し」での1着回数 / 2〜6コースでの出走回数
+          ※ 枠番や展示での進入コースではなく本番での進入コース基準
+      makuri_succeed_rate:
+        name: 'まくり成功率'
+        description: |-
+          決まり手「差し」での1着回数 / 2〜6コースでの出走回数
+          ※ 枠番や展示での進入コースではなく本番での進入コース基準
+      makurizashi_succeed_rate:
+        name: 'まくり差し成功率'
+        description: |-
+          決まり手「まくり差し」での1着回数 / 3〜6コースでの出走回数
+          ※ 枠番や展示での進入コースではなく本番での進入コース基準
