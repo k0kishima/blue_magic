@@ -83,3 +83,7 @@ gem "slack-ruby-client", "~> 0.17.0"
 gem "retryable", "~> 3.0"
 
 gem "rails-settings-cached", "~> 2.5"
+
+gem "graphql", "~> 1.12"
+
+gem "graphiql-rails", "~> 1.7"
