@@ -1,7 +1,5 @@
-module AssistTrickKpiAggregatable
-  extend ActiveSupport::Concern
-
-  included do
+module Kpi::RaceEntry
+  class AssistTrickKpi < Base
     def aggregate!(source:, aggregation_range:)
       Kpi::RaceEntry::AssistTrickKpiAggregator
         .new(

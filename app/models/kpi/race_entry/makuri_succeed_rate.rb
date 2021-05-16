@@ -1,7 +1,5 @@
 module Kpi::RaceEntry
-  class MakuriSucceedRate < Base
-    include WinningTrickKpiAggregatable
-
+  class MakuriSucceedRate < WinningTrickKpi
     def key
       :makuri_succeed_rate
     end

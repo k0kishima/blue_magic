@@ -1,7 +1,5 @@
 module Kpi::RaceEntry
-  class NigashiRate < Base
-    include AssistTrickKpiAggregatable
-
+  class NigashiRate < AssistTrickKpi
     def key
       :nigashi_rate
     end

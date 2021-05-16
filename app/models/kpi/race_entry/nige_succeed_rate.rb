@@ -1,7 +1,5 @@
 module Kpi::RaceEntry
-  class NigeSucceedRate < Base
-    include WinningTrickKpiAggregatable
-
+  class NigeSucceedRate < WinningTrickKpi
     def key
       :nige_succeed_rate
     end
