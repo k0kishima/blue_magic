@@ -1,7 +1,5 @@
 module Kpi::RaceEntry
-  class MakurareRate < Base
-    include AssistTrickKpiAggregatable
-
+  class MakurareRate < AssistTrickKpi
     def key
       :makurare_rate
     end
