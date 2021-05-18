@@ -37,3 +37,15 @@ ja:
         name: '逃げ成功率'
         description: |-
           指定された風速・風向での決まり手「逃げ」成功率
+      sashi_succeed_rate:
+        name: '差し成功率'
+        description: |-
+          指定された風速・風向での決まり手「差し」成功率
+      makuri_succeed_rate:
+        name: 'まくり成功率'
+        description: |-
+          指定された風速・風向での決まり手「まくり」成功率
+      makurizashi_succeed_rate:
+        name: 'まくり差し成功率'
+        description: |-
+          指定された風速・風向での決まり手「まくり差し」成功率
