@@ -15,6 +15,14 @@ class RaceRecord < ApplicationRecord
                          allow_nil: true
   validates :start_order, inclusion: { in: Pit::NUMBER_RANGE }, allow_nil: true
   validates :arrival, inclusion: { in: Pit::NUMBER_RANGE }, allow_nil: true
+
+  def winner?
+    winning_race_entry.present?
+  end
+
+  def winning_trick_id
+    winner? ? winning_race_entry.winning_trick_id : nil
+  end
 end
 
 # == Schema Information
