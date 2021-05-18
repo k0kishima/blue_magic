@@ -1,5 +1,6 @@
 ja:
   kpi:
+    # ------------------------------------------------------------
     race_entry:
       nige_succeed_rate:
         name: '逃げ成功率'
@@ -12,7 +13,7 @@ ja:
       makuri_succeed_rate:
         name: 'まくり成功率'
         description: |-
-          決まり手「差し」での1着回数 / 2〜6コースでの出走回数
+          決まり手「まくり」での1着回数 / 2〜6コースでの出走回数
       makurizashi_succeed_rate:
         name: 'まくり差し成功率'
         description: |-
@@ -30,3 +31,21 @@ ja:
         name: 'まくられ率'
         description: |-
           1コースから進入し、決まり手が「まくり」で負けたレース数 / 指定したコースで進入したレース数（「まくり」が決まらなかった場合も含む）
+    # ------------------------------------------------------------
+    stadium:
+      nige_succeed_rate:
+        name: '逃げ成功率'
+        description: |-
+          指定された風速・風向での決まり手「逃げ」成功率
+      sashi_succeed_rate:
+        name: '差し成功率'
+        description: |-
+          指定された風速・風向での決まり手「差し」成功率
+      makuri_succeed_rate:
+        name: 'まくり成功率'
+        description: |-
+          指定された風速・風向での決まり手「まくり」成功率
+      makurizashi_succeed_rate:
+        name: 'まくり差し成功率'
+        description: |-
+          指定された風速・風向での決まり手「まくり差し」成功率
