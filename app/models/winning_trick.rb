@@ -8,6 +8,10 @@ class WinningTrick < Trick
     MEGUMARE = 6
   end
 
+  def self.ids
+    ID.constants.map { |constant_name| ID.const_get(constant_name) }.sort
+  end
+
   class Nige < WinningTrick
     def id
       ID::NIGE
