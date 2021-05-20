@@ -1,27 +1,23 @@
 module Kpi::RaceEntry
   class AssistTrickKpi < Base
     def aggregate!(source:, aggregation_range:)
-      Kpi::RaceEntry::AssistTrickKpiAggregator
-        .new(
-          kpi: self,
-          trick: trick,
-          aggregation_range: aggregation_range,
-          source: source
-        ).aggregate!
-    end
+      raise ArgumentError, "#{source.class} cannot aggregate as #{self.class.name}" unless source.is_a?(subject)
 
-    def assist_winning_trick_ids
-      assist_winning_tricks.map(&:id)
-    end
+      raise DataNotPrepared,
+            'the source object does not have exhibition data yet' if source.course_number_in_exhibition.blank?
 
-    private
+      calculator = RacerAssistTrickSucceedRateCalculator.new(
+        racer_registration_number: source.racer_registration_number,
+        course_number: source.course_number_in_exhibition,
+        trick: trick
+      )
 
-    def assist_winning_tricks
-      raise NotImplementedError
-    end
-
-    def trick
-      raise NotImplementedError
+      ::Kpi::Aggregation.new(
+        kpi: self,
+        value: calculator.calculate!(aggregation_range: aggregation_range),
+        aggregate_starts_on: aggregation_range.first,
+        aggregate_ends_on: aggregation_range.last,
+      )
     end
   end
 end

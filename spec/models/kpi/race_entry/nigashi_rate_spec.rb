@@ -10,15 +10,25 @@ describe Kpi::RaceEntry::NigashiRate, type: :model do
     let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
 
     context 'when a race entry given' do
-      let(:source) { build(:race_entry, racer_registration_number: 77_777) }
+      let(:source) { create(:race_entry) }
 
-      it 'returns a kpi aggregation' do
-        expect(subject).to have_attributes(
-          kpi: kpi,
-          value: 0,
-          aggregate_starts_on: aggregate_starts_on,
-          aggregate_ends_on: aggregate_ends_on,
-        )
+      context 'when the race entry has exhibition data' do
+        before do
+          create(:start_exhibition_record, course_number: 2, **source.attributes.slice(*RaceEntry.primary_keys))
+        end
+
+        it 'returns a kpi aggregation' do
+          expect(subject).to have_attributes(
+            kpi: kpi,
+            value: 0,
+            aggregate_starts_on: aggregate_starts_on,
+            aggregate_ends_on: aggregate_ends_on,
+          )
+        end
+      end
+
+      context 'when the race entry does not have exhibition data yet' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
       end
     end
 
@@ -28,7 +38,7 @@ describe Kpi::RaceEntry::NigashiRate, type: :model do
                              course_number: 1, arrival: 1)
       }
 
-      it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
+      it { expect { subject }.to raise_error(ArgumentError) }
     end
   end
 end

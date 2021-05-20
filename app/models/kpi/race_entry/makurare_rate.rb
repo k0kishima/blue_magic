@@ -6,10 +6,6 @@ module Kpi::RaceEntry
 
     private
 
-    def assist_winning_tricks
-      [WinningTrick::Makuri.instance]
-    end
-
     def trick
       @trick ||= AssistTrick::Makurare.instance
     end

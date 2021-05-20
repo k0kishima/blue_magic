@@ -10,9 +10,13 @@ describe Kpi::RaceEntry::NigeSucceedRate, type: :model do
     let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
 
     context 'when a race entry given' do
-      let(:source) { create(:race_entry, :with_start_exhibition_record) }
+      let(:source) { create(:race_entry) }
 
       context 'when the race entry has exhibition data' do
+        before do
+          create(:start_exhibition_record, course_number: 1, **source.attributes.slice(*RaceEntry.primary_keys))
+        end
+
         it 'returns a kpi aggregation' do
           expect(subject).to have_attributes(
             kpi: kpi,
@@ -24,8 +28,6 @@ describe Kpi::RaceEntry::NigeSucceedRate, type: :model do
       end
 
       context 'when the race entry does not have exhibition data yet' do
-        let(:source) { build(:race_entry) }
-
         it { expect { subject }.to raise_error(DataNotPrepared) }
       end
     end
