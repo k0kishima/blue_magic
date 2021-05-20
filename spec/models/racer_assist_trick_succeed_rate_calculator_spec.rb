@@ -45,11 +45,9 @@ describe RacerAssistTrickSucceedRateCalculator, type: :model do
     let(:aggregation_range) { aggregation_starts_on..aggregation_ends_on }
 
     context 'when object is valid' do
-      describe 'to calculate nige' do
+      describe 'to calculate nigashi rate' do
         let(:trick) { AssistTrick::Nigashi.instance }
         let(:course_number) { 2 }
-        let(:racer_1) { create(:racer, registration_number: 33_333, last_name: '非集計対象者') }
-        let(:racer_2) { create(:racer, registration_number: 77_777, last_name: '集計対象者') }
 
         before do
           # 集計期間内のレース
@@ -85,8 +83,10 @@ describe RacerAssistTrickSucceedRateCalculator, type: :model do
           # 集計対象者がイン逃げ成功したレースで2コース進入（分子も分母も増える）
           RaceEntry.find_by(date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1,
                             pit_number: 2).update!(racer_registration_number: racer_registration_number)
+
+          # 集計対象者がイン逃げ成功したレースで3コース進入（分子も分母も増えない）
           RaceEntry.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1,
-                            pit_number: 2).update!(racer_registration_number: racer_registration_number)
+                            pit_number: 3).update!(racer_registration_number: racer_registration_number)
 
           # 集計対象者がイン逃げ失敗したレースで2コース（分母のみ増える）
           RaceEntry.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2,
@@ -95,6 +95,63 @@ describe RacerAssistTrickSucceedRateCalculator, type: :model do
           # 集計期間外のレース
           create(:race, :with_race_entries, date: aggregation_starts_on.yesterday, stadium_tel_code: 4, race_number: 1)
           create(:race, :with_race_entries, date: aggregation_ends_on.tomorrow, stadium_tel_code: 5, race_number: 5)
+        end
+
+        it 'returns a trick succeed rate' do
+          expect(subject).to eq Rational(1, 2)
+        end
+      end
+
+      describe 'to calculate sasare rate' do
+        let(:trick) { AssistTrick::Sasare.instance }
+        let(:course_number) { 1 }
+
+        before do
+          # 集計期間内のレース
+          create(:race, :with_race_entries, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1)
+          create_list(:race_record, 6, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1)
+          create(:race, :with_race_entries, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 2)
+          create_list(:race_record, 6, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 2)
+          create(:race, :with_race_entries, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1)
+          create_list(:race_record, 6, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1)
+          create(:race, :with_race_entries, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2)
+          create_list(:race_record, 6, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2)
+
+          ## 決まり手が差しのレース
+          RaceRecord.find_by(date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1,
+                             pit_number: 2).update!(arrival: 1)
+          create(:winning_race_entry, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1, pit_number: 2,
+                                      winning_trick: :sashi)
+          RaceRecord.find_by(date: aggregation_starts_on, stadium_tel_code: 4, race_number: 2,
+                             pit_number: 2).update!(arrival: 1)
+          create(:winning_race_entry, date: aggregation_starts_on, stadium_tel_code: 4, race_number: 2, pit_number: 2,
+                                      winning_trick: :sashi)
+          ## 決まり手がまくり差しのレース
+          RaceRecord.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1,
+                             pit_number: 3).update!(arrival: 1)
+          create(:winning_race_entry, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1, pit_number: 3,
+                                      winning_trick: :makurizashi)
+          ## 決まり手が逃げのレース
+          RaceRecord.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2,
+                             pit_number: 1).update!(arrival: 1)
+          create(:winning_race_entry, date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2, pit_number: 1,
+                                      winning_trick: :nige)
+
+          # 集計対象者が差しで決まったレースで1コース進入（分子も分母も増える）
+          RaceEntry.find_by(date: aggregation_starts_on, stadium_tel_code: 4, race_number: 1,
+                            pit_number: 1).update!(racer_registration_number: racer_registration_number)
+
+          # 集計対象者が差しで決まったレースで1コース以外で進入（分子も分母も増えない）
+          RaceEntry.find_by(date: aggregation_starts_on, stadium_tel_code: 4, race_number: 2,
+                            pit_number: 3).update!(racer_registration_number: racer_registration_number)
+
+          # 集計対象者がまくり差しで決まったレースで1コース進入（分子も分母も増える）
+          RaceEntry.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 1,
+                            pit_number: 1).update!(racer_registration_number: racer_registration_number)
+
+          # 集計対象者がイン逃げ成功（分母のみ増える）
+          RaceEntry.find_by(date: aggregation_ends_on, stadium_tel_code: 5, race_number: 2,
+                            pit_number: 1).update!(racer_registration_number: racer_registration_number)
         end
 
         it 'returns a trick succeed rate' do

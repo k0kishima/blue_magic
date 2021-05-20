@@ -31,7 +31,7 @@ class RacerAssistTrickSucceedRateCalculator
       .includes({ race_entries: { race_record: :winning_race_entry } })
 
     numerator = races.select do |race|
-      race.winner.present? && race.winner.winning_trick_id == trick.asist_trick_id
+      race.winner.present? && race.winner.winning_trick_id.in?(trick.asist_trick_ids)
     end.count
 
     begin
