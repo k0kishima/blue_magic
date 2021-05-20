@@ -14,7 +14,7 @@ class AssistTrick < Trick
       [2, 3]
     end
 
-    def asist
+    def asist_trick_id
       WinningTrick::ID::NIGE
     end
   end
@@ -29,7 +29,7 @@ class AssistTrick < Trick
       [1]
     end
 
-    def asist
+    def asist_trick_id
       WinningTrick::ID::SASHI
     end
   end
@@ -44,7 +44,7 @@ class AssistTrick < Trick
       [1]
     end
 
-    def asist
+    def asist_trick_id
       WinningTrick::ID::MAKURARE
     end
   end

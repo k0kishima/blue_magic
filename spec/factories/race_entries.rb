@@ -5,6 +5,12 @@ FactoryBot.define do
     sequence(:race_number, Race.numbers.cycle)
     sequence(:racer_registration_number) { |n| n }
     sequence(:pit_number, (Pit::NUMBER_RANGE).to_a.cycle)
+
+    trait :with_start_exhibition_record do
+      after(:create) do |race_entry|
+        create(:start_exhibition_record, race_entry.attributes.slice(*RaceEntry.primary_keys))
+      end
+    end
   end
 end
 

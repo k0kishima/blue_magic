@@ -6,10 +6,6 @@ module Kpi::RaceEntry
 
     private
 
-    def assist_winning_tricks
-      [WinningTrick::Sashi.instance, WinningTrick::Makurizashi.instance]
-    end
-
     def trick
       @trick ||= AssistTrick::Sasare.instance
     end

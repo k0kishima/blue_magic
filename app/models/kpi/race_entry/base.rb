@@ -1,14 +1,6 @@
-class Kpi::RaceEntry::Base
-  include Singleton
-  include ActiveModel::Model
-  include ActiveModel::Attributes
-
+class Kpi::RaceEntry::Base < Kpi::Base
   def subject
     RaceEntry
-  end
-
-  def key
-    raise NotImplementedError
   end
 
   def name

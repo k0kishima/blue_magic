@@ -1,10 +1,7 @@
 class Kpi::Base
+  include Singleton
   include ActiveModel::Model
   include ActiveModel::Attributes
-
-  attribute :key, :string
-  attribute :name, :string
-  attribute :description, :string
 
   class << self
     def all
@@ -14,6 +11,18 @@ class Kpi::Base
       kpis = Kpi::RaceEntry::Base.descendants
       kpis.map(&:instance)
     end
+  end
+
+  def key
+    raise NotImplementedError
+  end
+
+  def name
+    raise NotImplementedError
+  end
+
+  def description
+    raise NotImplementedError
   end
 
   def subject
