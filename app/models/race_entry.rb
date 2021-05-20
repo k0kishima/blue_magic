@@ -25,14 +25,19 @@ class RaceEntry < ApplicationRecord
   validates :racer_registration_number, presence: true
 
   delegate :motor_number, to: :boat_setting
-  delegate :course_number, :start_time, to: :start_exhibition_record
   delegate :exhibition_time, :exhibition_time_order, to: :circumference_exhibition_record
   delegate :event, to: :race
-  alias_method :start_course_in_exhibition, :course_number
-  alias_method :start_time_in_exhibition, :start_time
 
   def absent?
     disqualified_race_entry.present? && disqualified_race_entry.disqualification == Disqualification::ID::ABSENT
+  end
+
+  def course_number_in_exhibition
+    start_exhibition_record&.course_number
+  end
+
+  def start_time_in_exhibition
+    start_exhibition_record&.start_time
   end
 end
 

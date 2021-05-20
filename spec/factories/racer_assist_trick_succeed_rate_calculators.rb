@@ -5,4 +5,3 @@ FactoryBot.define do
     trick { AssistTrick::Nigashi.instance }
   end
 end
-

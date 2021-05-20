@@ -10,15 +10,23 @@ describe Kpi::RaceEntry::NigeSucceedRate, type: :model do
     let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
 
     context 'when a race entry given' do
-      let(:source) { build(:race_entry, racer_registration_number: 77_777) }
+      let(:source) { create(:race_entry, :with_start_exhibition_record) }
 
-      it 'returns a kpi aggregation' do
-        expect(subject).to have_attributes(
-          kpi: kpi,
-          value: 0,
-          aggregate_starts_on: aggregate_starts_on,
-          aggregate_ends_on: aggregate_ends_on,
-        )
+      context 'when the race entry has exhibition data' do
+        it 'returns a kpi aggregation' do
+          expect(subject).to have_attributes(
+            kpi: kpi,
+            value: 0,
+            aggregate_starts_on: aggregate_starts_on,
+            aggregate_ends_on: aggregate_ends_on,
+          )
+        end
+      end
+
+      context 'when the race entry does not have exhibition data yet' do
+        let(:source) { build(:race_entry) }
+
+        it { expect { subject }.to raise_error(DataNotPrepared) }
       end
     end
 
@@ -28,7 +36,7 @@ describe Kpi::RaceEntry::NigeSucceedRate, type: :model do
                              course_number: 1, arrival: 1)
       }
 
-      it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
+      it { expect { subject }.to raise_error(ArgumentError) }
     end
   end
 end
