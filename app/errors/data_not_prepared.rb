@@ -1,0 +1,1 @@
+class DataNotPrepared < StandardError; end
