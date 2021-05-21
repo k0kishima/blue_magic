@@ -1,6 +1,7 @@
 class Kpi::Base
   include ActiveModel::Model
   include ActiveModel::Attributes
+  include ActiveModel::Validations
 
   attribute :source
   validates :source, presence: true
@@ -39,6 +40,10 @@ class Kpi::Base
 
   def aggregation_ends_on
     raise NotImplementedError
+  end
+
+  def offset_date
+    source.date
   end
 
   def source_must_be_a_race

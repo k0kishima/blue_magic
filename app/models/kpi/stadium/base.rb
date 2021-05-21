@@ -1,14 +1,6 @@
-class Kpi::Stadium::Base
-  include Singleton
-  include ActiveModel::Model
-  include ActiveModel::Attributes
-
-  def subject
+class Kpi::Stadium::Base < Kpi::Base
+  def type
     Stadium
-  end
-
-  def key
-    raise NotImplementedError
   end
 
   def name
@@ -17,5 +9,9 @@ class Kpi::Stadium::Base
 
   def description
     I18n.t("kpi.stadium.#{key}.description")
+  end
+
+  def subject
+    @subject ||= source.stadium
   end
 end
