@@ -1,7 +1,10 @@
 class Kpi::Base
-  include Singleton
   include ActiveModel::Model
   include ActiveModel::Attributes
+
+  attribute :source
+  validates :source, presence: true
+  validate :source_must_be_a_race
 
   class << self
     def applicable
@@ -28,5 +31,20 @@ class Kpi::Base
 
   def subject
     raise NotImplementedError
+  end
+
+  def aggregation_starts_on
+    raise NotImplementedError
+  end
+
+  def aggregation_ends_on
+    raise NotImplementedError
+  end
+
+  def source_must_be_a_race
+    return if source.blank?
+    return if source.is_a?(Race)
+
+    errors.add(:source, 'source must be a race object.')
   end
 end
