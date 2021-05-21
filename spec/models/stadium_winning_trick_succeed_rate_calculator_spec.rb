@@ -4,7 +4,6 @@ describe StadiumWinningTrickSucceedRateCalculator, type: :model do
   describe 'validation' do
     it { is_expected.to validate_presence_of(:stadium_tel_code) }
     it { is_expected.to validate_presence_of(:trick) }
-    it { is_expected.to validate_presence_of(:course_number) }
     it {
       is_expected.to validate_inclusion_of(:trick).in_array([
                                                               WinningTrick::Nige.instance,
