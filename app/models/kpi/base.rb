@@ -4,12 +4,13 @@ class Kpi::Base
   include ActiveModel::Attributes
 
   class << self
-    def all
+    def applicable
       # HACK: これやらないと未使用のクラスが読み込まれる機会がないためObjectSpaceにサブクラスが入らなくて .subclasses や .descendants の返り値が空になってしまう
       # Rails.application.eager_load! で関係ないファイル全部読むよりはマシではあるのでワークアラウンドとして使用
       Dir[Rails.root.join('app', 'models', 'kpi', '**', '*.rb')].each { |f| require f }
-      kpis = Kpi::RaceEntry::Base.descendants
-      kpis.map(&:instance)
+      Kpi::Stadium::WinningTrickKpi.descendants +
+        Kpi::RaceEntry::WinningTrickKpi.descendants +
+        Kpi::RaceEntry::AssistTrickKpi.descendants
     end
   end
 
