@@ -87,3 +87,5 @@ gem "rails-settings-cached", "~> 2.5"
 gem "graphql", "~> 1.12"
 
 gem "graphiql-rails", "~> 1.7"
+
+gem "hashie", "~> 4.1"
