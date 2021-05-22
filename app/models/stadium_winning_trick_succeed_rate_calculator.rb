@@ -7,7 +7,6 @@ class StadiumWinningTrickSucceedRateCalculator
   attribute :course_number
 
   validates :stadium_tel_code, presence: true
-  validates :course_number, presence: true
   validates :trick, presence: true,
                     inclusion: { in: [
                       WinningTrick::Nige.instance,
@@ -27,21 +26,14 @@ class StadiumWinningTrickSucceedRateCalculator
       wind_angle = context.fetch(:wind_angle, nil)
       raise ArgumentError.new("wind angle not specifed") if !wind_velocity.zero? && wind_angle.nil?
 
-      races =
-        races
-        .joins(:weather_conditions)
-        .merge(
-          WeatherCondition
-            .where(in_performance: true)
-            .where(wind_velocity: wind_velocity, wind_angle: wind_angle)
-        )
+      races = races.by_wind_condition_in_performance(wind_velocity: wind_velocity, wind_angle: wind_angle)
     end
 
     races = races.includes({ race_entries: { race_record: :winning_race_entry } })
 
-    numerator = races.select do |race|
-      winner = race.winner
-      winner.present? && winner.winning_trick_id == trick.id && winner.race_record.course_number == course_number
+    winners = races.map(&:winner).reject(&:blank?)
+    numerator = winners.select do |winner|
+      winner.winning_trick_id == trick.id && (course_number.blank? || winner.race_record.course_number == course_number)
     end.count
 
     begin

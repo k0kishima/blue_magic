@@ -51,6 +51,14 @@ class Race < ApplicationRecord
                .last
   end
 
+  def weather_condition_in_performance
+    weather_conditions.find { |weather_condition| weather_condition.in_performance }
+  end
+
+  def weather_condition_in_exhibition
+    weather_conditions.find { |weather_condition| !weather_condition.in_performance }
+  end
+
   def race_status
     status.upcase
   end

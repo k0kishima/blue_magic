@@ -1,5 +1,8 @@
 class Kpi::RaceEntry::Base < Kpi::Base
-  def subject
+  attribute :pit_number
+  validates :pit_number, presence: true
+
+  def type
     RaceEntry
   end
 
@@ -9,5 +12,16 @@ class Kpi::RaceEntry::Base < Kpi::Base
 
   def description
     I18n.t("kpi.race_entry.#{key}.description")
+  end
+
+  def subject
+    @subject ||= -> do
+      validate!
+
+      subject = source.race_entries.find { |race_entry| race_entry.pit_number == pit_number }
+      raise DataNotPrepared, 'the race does not have a race entry at which specified pit_number' if subject.blank?
+
+      subject
+    end.call
   end
 end

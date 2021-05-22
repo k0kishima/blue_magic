@@ -1,27 +1,33 @@
 require 'rails_helper'
 
 describe Kpi::Stadium::NigeSucceedRate, type: :model do
-  let(:kpi) { described_class.instance }
+  let(:kpi) { described_class.new }
 
-  describe '#aggregate!' do
-    subject {
-      kpi.aggregate!(stadium_tel_code: stadium_tel_code, course_number: course_number,
-                     aggregation_range: aggregate_starts_on..aggregate_ends_on, context: context)
-    }
+  describe '#value!' do
+    subject { kpi.value! }
 
-    let(:aggregate_starts_on) { Date.new(2020, 12, 1) }
-    let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
-    let(:stadium_tel_code) { 4 }
-    let(:course_number) { 1 }
-    let(:context) { {} }
+    context 'when source is present' do
+      let(:race) { create(:race) }
 
-    it 'returns a kpi aggregation' do
-      expect(subject).to have_attributes(
-        kpi: kpi,
-        value: 0,
-        aggregate_starts_on: aggregate_starts_on,
-        aggregate_ends_on: aggregate_ends_on,
-      )
+      before do
+        kpi.source = race
+      end
+
+      context 'when race has weather information in exhibition' do
+        let!(:weather_condition_in_exhibition) { create(:weather_condition, race: race, in_performance: false) }
+
+        it 'returns value' do
+          expect(subject).to eq 0
+        end
+      end
+
+      context 'when race does not have weather information in exhibition' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    context 'when source is blank' do
+      it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
     end
   end
 end
