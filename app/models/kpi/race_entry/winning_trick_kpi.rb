@@ -1,6 +1,5 @@
 module Kpi::RaceEntry
   class WinningTrickKpi < TrickKpi
-
     def value!
       check_data_preparation!
 

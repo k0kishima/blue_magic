@@ -18,9 +18,10 @@ class Kpi::RaceEntry::Base < Kpi::Base
     @subject ||= -> do
       validate!
 
-      race_entry = source.race_entries.find{|race_entry| race_entry.pit_number == pit_number }
-      raise DataNotPrepared, 'the race does not have a race entry at which specified pit_number' if race_entry.blank?
-      race_entry
+      subject = source.race_entries.find { |race_entry| race_entry.pit_number == pit_number }
+      raise DataNotPrepared, 'the race does not have a race entry at which specified pit_number' if subject.blank?
+
+      subject
     end.call
   end
 end

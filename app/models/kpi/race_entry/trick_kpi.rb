@@ -18,7 +18,8 @@ module Kpi::RaceEntry
 
     def check_data_preparation!
       return if subject.course_number_in_exhibition.present?
-      raise DataNotPrepared, 'the source object does not have exhibition data yet' 
+
+      raise DataNotPrepared, 'the source object does not have exhibition data yet'
     end
   end
 end
