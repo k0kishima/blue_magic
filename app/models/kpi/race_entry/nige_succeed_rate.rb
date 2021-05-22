@@ -1,9 +1,5 @@
 module Kpi::RaceEntry
   class NigeSucceedRate < WinningTrickKpi
-    def key
-      :nige_succeed_rate
-    end
-
     private
 
     def trick

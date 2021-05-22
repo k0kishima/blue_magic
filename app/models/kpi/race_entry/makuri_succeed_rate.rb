@@ -1,9 +1,5 @@
 module Kpi::RaceEntry
   class MakuriSucceedRate < WinningTrickKpi
-    def key
-      :makuri_succeed_rate
-    end
-
     private
 
     def trick

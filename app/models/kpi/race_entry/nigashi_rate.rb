@@ -1,9 +1,5 @@
 module Kpi::RaceEntry
   class NigashiRate < AssistTrickKpi
-    def key
-      :nigashi_rate
-    end
-
     private
 
     def assist_winning_tricks

@@ -1,9 +1,5 @@
 module Kpi::RaceEntry
   class MakurareRate < AssistTrickKpi
-    def key
-      :makurare_rate
-    end
-
     private
 
     def trick

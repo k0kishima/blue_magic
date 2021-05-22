@@ -1,9 +1,5 @@
 module Kpi::RaceEntry
   class SashiSucceedRate < WinningTrickKpi
-    def key
-      :sashi_succeed_rate
-    end
-
     private
 
     def trick

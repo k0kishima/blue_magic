@@ -16,11 +16,12 @@ class Kpi::Base
         Kpi::RaceEntry::WinningTrickKpi.descendants +
         Kpi::RaceEntry::AssistTrickKpi.descendants
     end
-  end
 
-  def key
-    raise NotImplementedError
+    def key
+      name.split('::').last.underscore
+    end
   end
+  delegate :key, to: :class
 
   def name
     raise NotImplementedError

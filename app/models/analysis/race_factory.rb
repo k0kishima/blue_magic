@@ -6,9 +6,9 @@ module Analysis
       kpis.each { |kpi| kpi.source = race }
 
       # todo: 3セットの和が引数と一致するかを確かめたい
-      race_kpis = kpis.select { |kpi| kpi.type == Race }
-      stadium_kpis = kpis.select { |kpi| kpi.type == Stadium }
-      race_entry_kpis = kpis.select { |kpi| kpi.type == RaceEntry }
+      race_kpis = kpis.select { |kpi| kpi.operand == :itself }
+      stadium_kpis = kpis.select { |kpi| kpi.operand == :stadium }
+      race_entry_kpis = kpis.select { |kpi| kpi.operand == :race_entries }
 
       # 基本的な情報はKPIとして指定されていなくてもデフォルトで持つ
       race_analysis = race.attributes.slice(*Race.primary_keys)
