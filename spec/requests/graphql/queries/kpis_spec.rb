@@ -3,11 +3,11 @@ require 'rails_helper'
 describe 'graphql kpiQuery', type: :request do
   subject { post graphql_path, params: { query: query } }
 
-  let(:kpi1) { Kpi::RaceEntry::NigeSucceedRate.instance }
-  let(:kpi2) { Kpi::RaceEntry::MakurareRate.instance }
+  let(:kpi_class_1) { Kpi::RaceEntry::NigeSucceedRate }
+  let(:kpi_class_2) { Kpi::RaceEntry::MakurareRate }
 
   before do
-    allow(Kpi::Base).to receive(:all).and_return([kpi1, kpi2])
+    allow(Kpi::Base).to receive(:applicable).and_return([kpi_class_1, kpi_class_2])
   end
 
   context 'when any keyword not specified' do
@@ -18,7 +18,7 @@ describe 'graphql kpiQuery', type: :request do
             key
             name
             description
-            subject
+            type
           }
         }
       QUERY
@@ -32,13 +32,13 @@ describe 'graphql kpiQuery', type: :request do
           "key" => "nige_succeed_rate",
           "name" => "逃げ成功率",
           "description" => "決まり手「逃げ」での1着回数 / 1コース出走回数",
-          "subject" => "RaceEntry"
+          "type" => "RaceEntry"
         },
         {
           "key" => "makurare_rate",
           "name" => "まくられ率",
           "description" => "1コースから進入し、決まり手が「まくり」で負けたレース数 / 指定したコースで進入したレース数（「まくり」が決まらなかった場合も含む）",
-          "subject" => "RaceEntry"
+          "type" => "RaceEntry"
         }
       )
     end
@@ -52,7 +52,7 @@ describe 'graphql kpiQuery', type: :request do
             key
             name
             description
-            subject
+            type
           }
         }
       QUERY
@@ -67,7 +67,7 @@ describe 'graphql kpiQuery', type: :request do
           "key" => "nige_succeed_rate",
           "name" => "逃げ成功率",
           "description" => "決まり手「逃げ」での1着回数 / 1コース出走回数",
-          "subject" => "RaceEntry"
+          "type" => "RaceEntry"
         },
       )
     end
