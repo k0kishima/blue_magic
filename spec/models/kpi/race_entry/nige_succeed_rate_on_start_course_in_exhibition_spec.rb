@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe Kpi::RaceEntry::NigashiRate, type: :model do
+describe Kpi::RaceEntry::NigeSucceedRateOnStartCourseInExhibition, type: :model do
   let(:kpi) { described_class.new(pit_number: pit_number) }
-  let(:pit_number) { 2 }
+  let(:pit_number) { 1 }
 
   describe '#value!' do
     subject { kpi.value! }
@@ -17,7 +17,7 @@ describe Kpi::RaceEntry::NigashiRate, type: :model do
 
         context 'when race entry has start exhibition record' do
           let!(:start_exhibition_record) {
-            create(:start_exhibition_record, **race.slice(*Race.primary_keys), pit_number: 2, course_number: 2)
+            create(:start_exhibition_record, **race.slice(*Race.primary_keys), pit_number: 1, course_number: 1)
           }
 
           it 'returns value' do

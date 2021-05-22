@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'graphql kpiQuery', type: :request do
   subject { post graphql_path, params: { query: query } }
 
-  let(:kpi_class_1) { Kpi::RaceEntry::NigeSucceedRate }
-  let(:kpi_class_2) { Kpi::RaceEntry::MakurareRate }
+  let(:kpi_class_1) { Kpi::RaceEntry::NigeSucceedRateOnStartCourseInExhibition }
+  let(:kpi_class_2) { Kpi::RaceEntry::MakurareRateOnStartCourseInExhibition }
 
   before do
     allow(Kpi::Base).to receive(:applicable).and_return([kpi_class_1, kpi_class_2])
@@ -18,7 +18,7 @@ describe 'graphql kpiQuery', type: :request do
             key
             name
             description
-            type
+            operand
           }
         }
       QUERY
@@ -29,16 +29,16 @@ describe 'graphql kpiQuery', type: :request do
       json_response = JSON.parse(response.body)
       expect(json_response['data']['kpis']).to contain_exactly(
         {
-          "key" => "nige_succeed_rate",
+          "key" => "nige_succeed_rate_on_start_course_in_exhibition",
           "name" => "逃げ成功率",
           "description" => "決まり手「逃げ」での1着回数 / 1コース出走回数",
-          "type" => "RaceEntry"
+          "operand" => "race_entries"
         },
         {
-          "key" => "makurare_rate",
+          "key" => "makurare_rate_on_start_course_in_exhibition",
           "name" => "まくられ率",
           "description" => "1コースから進入し、決まり手が「まくり」で負けたレース数 / 指定したコースで進入したレース数（「まくり」が決まらなかった場合も含む）",
-          "type" => "RaceEntry"
+          "operand" => "race_entries"
         }
       )
     end
@@ -52,7 +52,7 @@ describe 'graphql kpiQuery', type: :request do
             key
             name
             description
-            type
+            operand
           }
         }
       QUERY
@@ -64,10 +64,10 @@ describe 'graphql kpiQuery', type: :request do
       json_response = JSON.parse(response.body)
       expect(json_response['data']['kpis']).to contain_exactly(
         {
-          "key" => "nige_succeed_rate",
+          "key" => "nige_succeed_rate_on_start_course_in_exhibition",
           "name" => "逃げ成功率",
           "description" => "決まり手「逃げ」での1着回数 / 1コース出走回数",
-          "type" => "RaceEntry"
+          "operand" => "race_entries"
         },
       )
     end

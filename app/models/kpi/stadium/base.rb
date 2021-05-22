@@ -1,6 +1,6 @@
 class Kpi::Stadium::Base < Kpi::Base
-  def type
-    Stadium
+  def operand
+    :stadium
   end
 
   def name

@@ -1,9 +1,5 @@
 module Kpi::Stadium
-  class NigeSucceedRate < WinningTrickKpi
-    def key
-      :nige_succeed_rate
-    end
-
+  class NigeSucceedRateInCurrentWeatherCondition < WinningTrickKpi
     private
 
     def trick

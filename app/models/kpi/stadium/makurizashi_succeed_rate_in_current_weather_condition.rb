@@ -1,9 +1,5 @@
 module Kpi::Stadium
-  class MakurizashiSucceedRate < WinningTrickKpi
-    def key
-      :makurizashi_succeed_rate
-    end
-
+  class MakurizashiSucceedRateInCurrentWeatherCondition < WinningTrickKpi
     private
 
     def trick
