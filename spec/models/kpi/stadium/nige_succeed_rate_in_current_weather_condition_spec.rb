@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Kpi::Stadium::NigeSucceedRate, type: :model do
+describe Kpi::Stadium::NigeSucceedRateInCurrentWeatherCondition, type: :model do
   let(:kpi) { described_class.new }
 
   describe '#value!' do

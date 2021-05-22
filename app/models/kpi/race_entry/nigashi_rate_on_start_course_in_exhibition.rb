@@ -1,5 +1,5 @@
 module Kpi::RaceEntry
-  class NigashiRate < AssistTrickKpi
+  class NigashiRateOnStartCourseInExhibition < AssistTrickKpi
     private
 
     def assist_winning_tricks

@@ -1,5 +1,5 @@
-module Kpi::RaceEntry
-  class NigeSucceedRate < WinningTrickKpi
+module Kpi::Stadium
+  class NigeSucceedRateInCurrentWeatherCondition < WinningTrickKpi
     private
 
     def trick

@@ -1,5 +1,5 @@
 module Kpi::Stadium
-  class SashiSucceedRate < WinningTrickKpi
+  class SashiSucceedRateInCurrentWeatherCondition < WinningTrickKpi
     private
 
     def trick

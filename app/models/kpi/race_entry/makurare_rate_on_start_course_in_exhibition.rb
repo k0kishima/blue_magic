@@ -1,5 +1,5 @@
 module Kpi::RaceEntry
-  class MakurareRate < AssistTrickKpi
+  class MakurareRateOnStartCourseInExhibition < AssistTrickKpi
     private
 
     def trick

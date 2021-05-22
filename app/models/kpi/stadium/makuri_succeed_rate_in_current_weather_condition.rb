@@ -1,5 +1,5 @@
-module Kpi::RaceEntry
-  class MakuriSucceedRate < WinningTrickKpi
+module Kpi::Stadium
+  class MakuriSucceedRateInCurrentWeatherCondition < WinningTrickKpi
     private
 
     def trick

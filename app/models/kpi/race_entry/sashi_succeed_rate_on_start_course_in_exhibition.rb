@@ -1,5 +1,5 @@
 module Kpi::RaceEntry
-  class SashiSucceedRate < WinningTrickKpi
+  class SashiSucceedRateOnStartCourseInExhibition < WinningTrickKpi
     private
 
     def trick
