@@ -1,44 +1,44 @@
 require 'rails_helper'
 
 describe Kpi::RaceEntry::NigeSucceedRate, type: :model do
-  let(:kpi) { described_class.instance }
+  let(:kpi) { described_class.new(pit_number: pit_number) }
+  let(:pit_number) { 1 }
 
-  describe '#aggregate!' do
-    subject { kpi.aggregate!(source: source, aggregation_range: aggregate_starts_on..aggregate_ends_on) }
+  describe '#value!' do
+    subject { kpi.value! }
 
-    let(:aggregate_starts_on) { Date.new(2020, 12, 1) }
-    let(:aggregate_ends_on) { Date.new(2020, 12, 3) }
+    context 'when source is present' do
+      before do
+        kpi.source = race
+      end
 
-    context 'when a race entry given' do
-      let(:source) { create(:race_entry) }
+      context 'when race entry is present' do
+        let(:race) { create(:race, :with_race_entries) }
 
-      context 'when the race entry has exhibition data' do
-        before do
-          create(:start_exhibition_record, course_number: 1, **source.attributes.slice(*RaceEntry.primary_keys))
+        context 'when race entry has start exhibition record' do
+          let!(:start_exhibition_record) {
+            create(:start_exhibition_record, **race.slice(*Race.primary_keys), pit_number: 1, course_number: 1)
+          }
+
+          it 'returns value' do
+            expect(subject).to eq 0
+          end
         end
 
-        it 'returns a kpi aggregation' do
-          expect(subject).to have_attributes(
-            kpi: kpi,
-            value: 0,
-            aggregate_starts_on: aggregate_starts_on,
-            aggregate_ends_on: aggregate_ends_on,
-          )
+        context 'when race entry does not have start exhibition record' do
+          it { expect { subject }.to raise_error(DataNotPrepared) }
         end
       end
 
-      context 'when the race entry does not have exhibition data yet' do
+      context 'when race entry is not present' do
+        let(:race) { create(:race) }
+
         it { expect { subject }.to raise_error(DataNotPrepared) }
       end
     end
 
-    context 'when a object which is not race entry given' do
-      let(:source) {
-        create(:race_record, date: aggregate_starts_on, stadium_tel_code: 4, race_number: 8, pit_number: 4,
-                             course_number: 1, arrival: 1)
-      }
-
-      it { expect { subject }.to raise_error(ArgumentError) }
+    context 'when source is blank' do
+      it { expect { subject }.to raise_error(ActiveModel::ValidationError) }
     end
   end
 end
