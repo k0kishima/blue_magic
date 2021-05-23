@@ -20,8 +20,12 @@ class Kpi::Base
     def key
       name.split('::').last.underscore
     end
+
+    def operand
+      raise NotImplementedError
+    end
   end
-  delegate :key, to: :class
+  delegate :key, :operand, to: :class
 
   def name
     raise NotImplementedError
