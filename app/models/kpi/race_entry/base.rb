@@ -2,7 +2,7 @@ class Kpi::RaceEntry::Base < Kpi::Base
   attribute :pit_number
   validates :pit_number, presence: true
 
-  def operand
+  def self.operand
     :race_entries
   end
 

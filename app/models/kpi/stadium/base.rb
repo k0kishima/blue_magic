@@ -1,5 +1,5 @@
 class Kpi::Stadium::Base < Kpi::Base
-  def operand
+  def self.operand
     :stadium
   end
 
