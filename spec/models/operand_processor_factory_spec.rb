@@ -7,7 +7,6 @@ class RaceMock
   attribute :race_number, :integer
 
   attr_accessor :stadium, :race_entries
-  alias race_entry race_entries
 end
 
 class StadiumMock
@@ -46,7 +45,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
     context 'when subject is race' do
       describe 'to create race type operand' do
         let(:hash) do
-          { item: :itself, attr: :race_number }
+          { item: :itself, attribute: :race_number }
         end
         let(:race) do
           RaceMock.new(race_number: 12)
@@ -60,7 +59,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
 
       describe 'to create stadium type operand' do
         let(:hash) do
-          { item: :stadium, attr: :tel_code }
+          { item: :stadium, attribute: :tel_code }
         end
         let(:race) do
           race = RaceMock.new
@@ -76,7 +75,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
 
       describe 'to create stadium type operand' do
         let(:hash) do
-          { item: :race_entry, modifier: [:pit_number, 1], attr: :in_nige_succeed_rate }
+          { item: :race_entries, modifier: [:pit_number, 1], attribute: :in_nige_succeed_rate }
         end
         let(:race) do
           race = RaceMock.new
@@ -95,7 +94,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
 
       context 'when unknown item specified' do
         let(:hash) do
-          { item: :racer, modifier: [:pit_number, 1], attr: :in_nige_succeed_rate }
+          { item: :racer, modifier: [:pit_number, 1], attribute: :in_nige_succeed_rate }
         end
         let(:race) do
           race = RaceMock.new
