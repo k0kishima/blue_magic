@@ -95,6 +95,27 @@ class Race < ApplicationRecord
     odds.map(&:ratio).sd
   end
 
+  def is_special_race
+    title&.include?('特')
+  end
+
+  def is_selection_race
+    title&.include?('選抜')
+  end
+
+  def is_semifinal
+    # NOTE: ナイターは9〜11Rが準優で、12Rが一般戦の場合がある
+    return false if race_number < 9
+
+    title&.match?(/\A準優/)
+  end
+
+  def is_final
+    return false unless race_number == 12
+
+    title&.match?(/\A優勝/)
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date

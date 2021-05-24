@@ -146,6 +146,90 @@ RSpec.describe Race, type: :model do
       end
     end
   end
+
+  describe '#is_special_race' do
+    subject { race.is_special_race }
+
+    let(:race) { build(:race, title: title) }
+
+    context 'when title is present' do
+      context 'when title includes "特"' do
+        let(:title) { '特賞' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when title does not include "特"' do
+        let(:title) { '予選' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when title is blank' do
+      let(:title) { '' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_selection_race' do
+    subject { race.is_selection_race }
+
+    let(:race) { build(:race, title: title) }
+
+    context 'when title is present' do
+      context 'when title includes "選抜"' do
+        let(:title) { '選抜' }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when title does not include "選抜"' do
+        let(:title) { '予選' }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when title is blank' do
+      let(:title) { '' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_semifinal' do
+    subject { race.is_semifinal }
+
+    context 'when race number greater than or equal to 9' do
+      let(:race) { build(:race, race_number: 9, title: '準優勝戦') }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when race number less than 9' do
+      let(:race) { build(:race, race_number: 8, title: '準優進出戦') }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#is_final' do
+    subject { race.is_final }
+
+    context 'when race number equal to 12' do
+      let(:race) { build(:race, race_number: 12, title: '優勝戦') }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when race number less than 12' do
+      let(:race) { build(:race, race_number: 11, title: '準優勝戦') }
+
+      it { is_expected.to be false }
+    end
+  end
 end
 
 # == Schema Information
