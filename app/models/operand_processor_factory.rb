@@ -12,17 +12,17 @@ class OperandProcessorFactory
       return ->(_) { value }
     end
 
-    attr = hash.fetch(:attr)
+    attribute_name = hash.fetch(:attribute)
     modifier = hash.fetch(:modifier, nil)
 
     # NOTE: try だと method_missing が動作しないので send を使用
     if modifier.blank?
-      ->(object) { object.try(item).send(attr) }
+      ->(object) { object.try(item).send(attribute_name) }
     else
       lambda do |object|
         modifier_attr, modifier_value = modifier
         entity = object.try(item).find { |e| e.send(modifier_attr) == modifier_value }
-        entity.send(attr)
+        entity.send(attribute_name)
       end
     end
   end

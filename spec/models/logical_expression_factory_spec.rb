@@ -7,7 +7,6 @@ class RaceMock
   attribute :race_number, :integer
 
   attr_accessor :stadium, :race_entries
-  alias race_entry race_entries
 end
 
 class RaceEntryMock
@@ -37,13 +36,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
           and: [
             {
               '<=': [
-                { item: :race_entry, modifier: [:pit_number, 1], attr: :performance_score },
+                { item: :race_entries, modifier: [:pit_number, 1], attribute: :performance_score },
                 { item: :literal, value: 10 }
               ]
             },
             {
               '>': [
-                { item: :race_entry, modifier: [:pit_number, 4], attr: :performance_score },
+                { item: :race_entries, modifier: [:pit_number, 4], attribute: :performance_score },
                 { item: :literal, value: 12 }
               ]
             }
@@ -76,13 +75,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
               and: [
                 {
                   '<=': [
-                    { item: :race_entry, modifier: [:pit_number, 1], attr: :performance_score },
+                    { item: :race_entries, modifier: [:pit_number, 1], attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 },
                 {
                   '>': [
-                    { item: :race_entry, modifier: [:pit_number, 4], attr: :performance_score },
+                    { item: :race_entries, modifier: [:pit_number, 4], attribute: :performance_score },
                     { item: :literal, value: 12 }
                   ]
                 }
@@ -92,13 +91,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
               and: [
                 {
                   '<': [
-                    { item: :race_entry, modifier: [:pit_number, 2], attr: :performance_score },
+                    { item: :race_entries, modifier: [:pit_number, 2], attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 },
                 {
                   '<': [
-                    { item: :race_entry, modifier: [:pit_number, 3], attr: :performance_score },
+                    { item: :race_entries, modifier: [:pit_number, 3], attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 }
@@ -116,7 +115,7 @@ RSpec.describe LogicalExpressionFactory, type: :model do
 
     context 'when invalid structured hash given' do
       let(:hash) do
-        { item: :racer, modifier: [:pit_number, 1], attr: :in_nige_succeed_rate }
+        { item: :racer, modifier: [:pit_number, 1], attribute: :in_nige_succeed_rate }
       end
       let(:race) { RaceMock.new }
 

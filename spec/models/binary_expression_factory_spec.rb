@@ -22,7 +22,7 @@ RSpec.describe BinaryExpressionFactory, type: :model do
 
     context 'when invalid format hash given' do
       let(:hash) do
-        { item: :stadium, attr: :tel_code }
+        { item: :stadium, attribute: :tel_code }
       end
 
       it 'raises ArgumentError' do
@@ -33,7 +33,7 @@ RSpec.describe BinaryExpressionFactory, type: :model do
     context 'when valid format hash given' do
       describe 'boolean operation' do
         let(:hash) do
-          { in?: [{ item: :stadium, attr: :tel_code }, { item: :literal, value: [3, 4, 5] }] }
+          { in?: [{ item: :stadium, attribute: :tel_code }, { item: :literal, value: [3, 4, 5] }] }
         end
         let(:race_1) do
           race = RaceMock.new
@@ -55,7 +55,7 @@ RSpec.describe BinaryExpressionFactory, type: :model do
 
       describe 'numerical calculation' do
         let(:hash) do
-          { '+' => [{ item: :stadium, attr: :tel_code }, { item: :itself, attr: :race_number }] }
+          { '+' => [{ item: :stadium, attribute: :tel_code }, { item: :itself, attribute: :race_number }] }
         end
 
         let(:race_1) do
@@ -80,11 +80,11 @@ RSpec.describe BinaryExpressionFactory, type: :model do
         let(:hash) do
           {
             '>' => [
-              { item: :stadium, attr: :tel_code },
+              { item: :stadium, attribute: :tel_code },
               {
                 '+' => [
-                  { item: :stadium, attr: :tel_code },
-                  { item: :itself, attr: :race_number }
+                  { item: :stadium, attribute: :tel_code },
+                  { item: :itself, attribute: :race_number }
                 ]
               }
             ]
