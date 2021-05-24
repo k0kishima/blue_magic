@@ -88,4 +88,54 @@ describe Kpi::Factory, type: :model do
       it { expect { subject }.to raise_error(KeyError) }
     end
   end
+
+  describe '.create_recursively!' do
+    subject { described_class.create_recursively!(hash) }
+
+    let(:hash) do
+      {
+        and: [
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '<': [
+              { item: :race_entries, modifier: [:pit_number, 1],
+                attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.7 }
+            ]
+          },
+        ]
+      }
+    end
+
+    it 'creates kpis recursively from the hash' do
+      kpis = subject
+      expect(kpis.map(&:class)).to eq [Kpi::Race::SeriesGrade,
+                                       Kpi::Race::IsSpecialRace,
+                                       Kpi::RaceEntry::NigeSucceedRateOnStartCourseInExhibition]
+      expect(kpis.map(&:attributes)).to eq [{ "source" => nil },
+                                            { "source" => nil },
+                                            { "source" => nil, "pit_number" => 1 }]
+    end
+  end
 end
