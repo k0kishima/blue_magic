@@ -1,8 +1,8 @@
 class Kpi::Factory
   class << self
     def create!(hash)
-      operand = hash.fetch(:item)
-      key = hash.fetch(:attribute)
+      operand = hash.symbolize_keys.fetch(:item)
+      key = hash.symbolize_keys.fetch(:attribute)
 
       kpi_class =
         Kpi::Base.applicable
@@ -14,7 +14,7 @@ class Kpi::Factory
       kpi = kpi_class.new
 
       # この処理がない場合invalidになるKPIオブジェクトもあるが、ここではインスタンスを生成するまでが責務なのでvalidなものを生成するところまでの責任は負わない
-      attribute_name, value = hash.fetch(:modifier, [])
+      attribute_name, value = hash.symbolize_keys.fetch(:modifier, [])
       kpi.try!("#{attribute_name}=", value) if attribute_name.present?
 
       kpi

@@ -5,6 +5,18 @@ class ForecastingPattern < ApplicationRecord
   validates :second_place_filtering_condition, presence: true
   validates :third_place_filtering_condition, presence: true
   validates :odds_filtering_condition, presence: true
+
+  def match?(race)
+    race_analysis = Analysis::RaceFactory.create!(race, *kpis_to_filter_race)
+    expression = LogicalExpressionFactory.create!(race_filtering_condition)
+    expression.call(race_analysis)
+  end
+
+  private
+
+  def kpis_to_filter_race
+    @kpis_to_filter_race ||= Kpi::Factory.create_recursively!(race_filtering_condition)
+  end
 end
 
 # == Schema Information
