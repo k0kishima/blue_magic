@@ -6,14 +6,14 @@ FactoryBot.define do
         and: [
           {
             '>': [
-              { item: :race_entry, modifier: [:pit_number, 1],
-                attr: :in_nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :race_entries, modifier: [:pit_number, 1],
+                attribute: :nige_succeed_rate_on_start_course_in_exhibition },
               { item: :literal, value: 0.5 }
             ]
           },
           {
             '==': [
-              { item: :race_entry, modifier: [:pit_number, 1], attr: :start_course_in_exhibition },
+              { item: :race_entries, modifier: [:pit_number, 1], attribute: :start_course_in_exhibition },
               { item: :literal, value: 1 }
             ]
           }
@@ -25,19 +25,19 @@ FactoryBot.define do
         and: [
           {
             '==': [
-              { item: :itself, attr: :pit_number },
+              { item: :itself, attribute: :pit_number },
               { item: :literal, value: 1 }
             ]
           },
           {
             '>': [
-              { item: :itself, attr: :in_nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :itself, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
               { item: :literal, value: 0.5 }
             ]
           },
           {
             '==': [
-              { item: :itself, attr: :start_course_in_exhibition },
+              { item: :itself, attribute: :start_course_in_exhibition },
               { item: :literal, value: 1 }
             ]
           }
@@ -49,7 +49,7 @@ FactoryBot.define do
         and: [
           {
             '>': [
-              { item: :itself, attr: :winning_rate_in_event_going_stadium },
+              { item: :itself, attribute: :winning_rate_in_event_going_stadium },
               { item: :literal, value: 5 }
             ]
           }
@@ -61,7 +61,7 @@ FactoryBot.define do
         and: [
           {
             '>': [
-              { item: :itself, attr: :winning_rate_in_event_going_stadium },
+              { item: :itself, attribute: :winning_rate_in_event_going_stadium },
               { item: :literal, value: 3.5 }
             ]
           }
@@ -73,13 +73,13 @@ FactoryBot.define do
         and: [
           {
             '>=': [
-              { item: :itself, attr: :ratio },
+              { item: :itself, attribute: :ratio },
               { item: :literal, value: 15 }
             ]
           },
           {
             '<=': [
-              { item: :itself, attr: :ratio },
+              { item: :itself, attribute: :ratio },
               { item: :literal, value: 50 }
             ]
           }
