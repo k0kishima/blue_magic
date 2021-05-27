@@ -52,8 +52,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    load Rails.root.join('db', 'seeds.rb')
-    DatabaseCleaner.clean_with :truncation, { except: %w(stadiums) }
+    Rails.application.load_seed
+    DatabaseCleaner.clean_with :truncation, { except: %w(stadiums kpis) }
   end
 
   config.before(:all) do

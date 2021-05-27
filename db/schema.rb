@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_110516) do
+ActiveRecord::Schema.define(version: 2021_05_27_110231) do
 
   create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "forecasters_forecasting_pattern_id", null: false
@@ -127,6 +127,16 @@ ActiveRecord::Schema.define(version: 2021_05_07_110516) do
     t.text "error_messages"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "kpis", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "entry_object_class_name", null: false, comment: "値の算出をするために利用するオブジェクトのことをentry object と定義し、そのクラス名をここで指定（webpackのエントリーポイントとのアナロジーからこのように命名）"
+    t.string "name", null: false
+    t.text "description"
+    t.string "attribute_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_object_class_name", "attribute_name"], name: "index_kpis_on_entry_object_class_name_and_attribute_name", unique: true
   end
 
   create_table "motor_betting_contribute_rate_aggregations", primary_key: ["stadium_tel_code", "motor_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
