@@ -8,4 +8,12 @@ class Trick
   def available_course_number
     raise NotImplementedError
   end
+
+  def winning_trick?
+    raise NotImplementedError
+  end
+
+  def assist_trick?
+    raise NotImplementedError
+  end
 end

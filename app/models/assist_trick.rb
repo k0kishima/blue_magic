@@ -5,6 +5,18 @@ class AssistTrick < Trick
     MAKURARE = 9
   end
 
+  def self.ids
+    ID.constants.map { |constant_name| ID.const_get(constant_name) }.sort
+  end
+
+  def winning_trick?
+    false
+  end
+
+  def assist_trick?
+    true
+  end
+
   class Nigashi < AssistTrick
     def id
       ID::NIGASHI
