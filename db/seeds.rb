@@ -33,3 +33,22 @@ Stadium.create(
       {"tel_code"=>24, "name"=>"大村", "prefecture_id"=>42, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>32.8972, "lng"=>129.95, "elevation"=>6.0}
   ]
 )
+
+Kpi.insert_all(
+  [
+      {id: 1, entry_object_class_name: "RaceEntry", name: "逃げ成功率", description: "決まり手「逃げ」での1着回数 / 1コース出走回数", attribute_name: "nige_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 2, entry_object_class_name: "RaceEntry", name: "差し成功率", description: "決まり手「差し」での1着回数 / 2〜6コースでの出走回数", attribute_name: "sashi_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 3, entry_object_class_name: "RaceEntry", name: "まくり成功率", description: "決まり手「まくり」での1着回数 / 2〜6コースでの出走回数", attribute_name: "makuri_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 4, entry_object_class_name: "RaceEntry", name: "まくり差し成功率", description: "決まり手「まくり差し」での1着回数 / 3〜6コースでの出走回数", attribute_name: "makurizashi_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 5, entry_object_class_name: "RaceEntry", name: "逃がし率", description: "指定したコースで進入した際に決まり手が「逃げ」で負けたレース数 / 指定したコースで進入したレース数（「逃げ」が決まらなかった場合も含む）", attribute_name: "nigashi_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 6, entry_object_class_name: "RaceEntry", name: "差され率", description: "1コースから進入し、決まり手が「差し」で負けたレース数 / 指定したコースで進入したレース数（「差し」が決まらなかった場合も含む）\n※ ここではまくり差しと差しを区別しない(= 「まくり差し」で負けても分子は増える)", attribute_name: "sasare_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 7, entry_object_class_name: "RaceEntry", name: "まくられ率", description: "1コースから進入し、決まり手が「まくり」で負けたレース数 / 指定したコースで進入したレース数（「まくり」が決まらなかった場合も含む）", attribute_name: "makurare_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 8, entry_object_class_name: "Stadium", name: "逃げ成功率", description: "指定された風速・風向での決まり手「逃げ」成功率", attribute_name: "nige_succeed_rate_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 9, entry_object_class_name: "Stadium", name: "差し成功率", description: "指定された風速・風向での決まり手「差し」成功率", attribute_name: "sashi_succeed_rate_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 10, entry_object_class_name: "Stadium", name: "まくり成功率", description: "指定された風速・風向での決まり手「まくり」成功率", attribute_name: "makuri_succeed_rate_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 11, entry_object_class_name: "Stadium", name: "まくり差し成功率", description: "指定された風速・風向での決まり手「まくり差し」成功率", attribute_name: "makurizashi_succeed_rate_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 12, entry_object_class_name: "Stadium", name: "まくり差し成功率", description: "指定された風速・風向での決まり手「まくり差し」成功率", attribute_name: "makurizashi_succeed_rate_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 13, entry_object_class_name: "Race", name: "グレード", description: "節のグレード", attribute_name: "series_grade", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 14, entry_object_class_name: "Race", name: "特選・特賞フラグ", description: "特選レースもしくは特賞レースかどうか", attribute_name: "is_special_race", created_at: Time.zone.now, updated_at: Time.zone.now, },
+  ]
+)
