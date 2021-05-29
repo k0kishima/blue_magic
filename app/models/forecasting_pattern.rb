@@ -7,15 +7,42 @@ class ForecastingPattern < ApplicationRecord
   validates :odds_filtering_condition, presence: true
 
   def match?(race)
-    race_analysis = Analysis::RaceFactory.create!(race, *kpis_to_filter_race)
+    race_analysis = kpis_to_filter_race.map do |kpi|
+      kpi.entry_object = race
+      [kpi.key, kpi.value!]
+    end.to_h
     expression = LogicalExpressionFactory.create!(race_filtering_condition)
-    expression.call(race_analysis)
+    expression.call(Hashie::Mash.new(race_analysis))
+  end
+
+  def recommended_formation(race)
+    Formation.new(candicates(race.race_entries).map { |race_entries| race_entries.map(&:pit_number) })
   end
 
   private
 
   def kpis_to_filter_race
-    @kpis_to_filter_race ||= Kpi::Factory.create_recursively!(race_filtering_condition)
+    @kpis_to_filter_race ||= KpiFactory.create_recursively!(entry_object_class_name: 'Race',
+                                                            hash: race_filtering_condition)
+  end
+
+  def filtered_race_entries(race_entries:, where:)
+    kpis = KpiFactory.create_recursively!(entry_object_class_name: 'RaceEntry',
+                                          hash: try("#{where}_place_filtering_condition"))
+    expression = LogicalExpressionFactory.create!(try("#{where}_place_filtering_condition"))
+    race_entries.select do |race_entry|
+      race_entry_analysis = kpis.map do |kpi|
+        kpi.entry_object = race_entry
+        [kpi.key, kpi.value!]
+      end.to_h
+      expression.call(Hashie::Mash.new(race_entry_analysis))
+    end
+  end
+
+  def candicates(race_entries)
+    %i[first second third].map do |place|
+      filtered_race_entries(race_entries: race_entries, where: place)
+    end
   end
 end
 
