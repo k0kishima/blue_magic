@@ -49,5 +49,9 @@ Kpi.insert_all(
       {id: 11, type: "StadiumWinningTrickKpi", entry_object_class_name: "Race", name: "まくり差し成功率", description: "指定された風速・風向での決まり手「まくり差し」成功率", attribute_name: "makurizashi_succeed_rate_of_stadium_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 12, type: "AttributionalKpi", entry_object_class_name: "Race", name: "グレード", description: "節のグレード", attribute_name: "series_grade", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 13, type: "AttributionalKpi", entry_object_class_name: "Race", name: "特選・特賞フラグ", description: "特選レースもしくは特賞レースかどうか", attribute_name: "is_special_race", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 14, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "枠番", description: "", attribute_name: "pit_number", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 15, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "スタート展示進入コース", description: "", attribute_name: "course_number_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 16, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "スタート展示ST", description: "", attribute_name: "start_time_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 17, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示タイム", description: "", attribute_name: "exhibition_time", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
