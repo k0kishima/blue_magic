@@ -4,12 +4,8 @@ module Resolvers
 
     type [Types::KpiType], null: false
 
-    argument :keyword, String, required: false
-
-    def resolve(keyword: nil)
-      kpis = Kpi::Base.applicable.map(&:new)
-      kpis = kpis.select { |kpi| kpi.name.include?(keyword) } if keyword.present?
-      kpis
+    def resolve
+      Kpi.all
     end
   end
 end
