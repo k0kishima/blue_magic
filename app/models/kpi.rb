@@ -1,12 +1,10 @@
 class Kpi < ApplicationRecord
   attribute :entry_object
-  attribute :calculator
 
   validates :entry_object_class_name, presence: true
   validates :name, presence: true
   validates :attribute_name, presence: true
   validates :entry_object, presence: true, on: :calculation
-  validates :calculator, presence: true, on: :calculation
   validate :entry_object_must_be_a_specified_class, on: :calculation
 
   # NOTE: カラム名を key にすると SQL の予約語と衝突するのでこのようなゲッターの定義としている
@@ -17,8 +15,7 @@ class Kpi < ApplicationRecord
   end
 
   def value!
-    validate!(:calculation)
-    calculator.calculate!(entry_object)
+    raise NotImplementedError
   end
 
   private
