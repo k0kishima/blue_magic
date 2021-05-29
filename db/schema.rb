@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_110231) do
   end
 
   create_table "kpis", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.string "type", null: false
     t.string "entry_object_class_name", null: false, comment: "値の算出をするために利用するオブジェクトのことをentry object と定義し、そのクラス名をここで指定（webpackのエントリーポイントとのアナロジーからこのように命名）"
     t.string "name", null: false
     t.text "description"
