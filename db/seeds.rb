@@ -53,5 +53,6 @@ Kpi.insert_all(
       {id: 15, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "スタート展示進入コース", description: "", attribute_name: "course_number_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 16, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "スタート展示ST", description: "", attribute_name: "start_time_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 17, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示タイム", description: "", attribute_name: "exhibition_time", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 18, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "オッズ", description: "", attribute_name: "ratio", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )

@@ -129,8 +129,93 @@ describe ForecastingPattern, type: :model do
         allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.60)
       end
 
-      it 'returns a formation' do
+      it 'returns a blank formation' do
         expect(subject.betting_numbers).to eq []
+      end
+    end
+  end
+
+  describe '#recommend_odds' do
+    subject { forecasting_pattern.recommend_odds(race) }
+
+    let(:race) { create(:race) }
+    let(:forecasting_pattern) { create(:forecasting_pattern, odds_filtering_condition: odds_filtering_condition) }
+    let(:odds_filtering_condition) do
+      {
+        and: [
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 20 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          }
+        ]
+      }
+    end
+
+    context 'when the race is matched' do
+      before do
+        allow(forecasting_pattern).to receive(:match?).and_return(true)
+      end
+
+      context 'when race entries are matched' do
+        before do
+          # [123, 124, 132, 134]
+          allow(forecasting_pattern).to receive(:recommended_formation).and_return(Formation.new([[1], [2, 3],
+                                                                                                  [2, 3, 4]]))
+        end
+
+        context 'when matched odds is present' do
+          let(:odds1_which_is_expect_to_match) { create(:odds, race: race, betting_number: 123, ratio: 20) }
+          let(:odds2_which_is_expect_to_match) { create(:odds, race: race, betting_number: 132, ratio: 100) }
+
+          before do
+            odds1_which_is_expect_to_match
+            odds2_which_is_expect_to_match
+            create(:odds, race: race, betting_number: 213, ratio: 20)
+            create(:odds, race: race, betting_number: 134, ratio: 100.1)
+          end
+
+          it 'returns odds array which was matched the condition' do
+            expect(subject).to eq [odds1_which_is_expect_to_match, odds2_which_is_expect_to_match]
+          end
+        end
+
+        context 'when matched odds is not present' do
+          before do
+            create(:odds, race: race, betting_number: 123, ratio: 19.9)
+          end
+
+          it 'returns a blank array' do
+            expect(subject).to eq []
+          end
+        end
+      end
+
+      context 'when race entries are not matched' do
+        before do
+          allow(forecasting_pattern).to receive(:recommended_formation).and_return(Formation.new([[], [], []]))
+        end
+
+        it 'returns a blank array' do
+          expect(subject).to eq []
+        end
+      end
+    end
+
+    context 'when the race is not matched' do
+      before do
+        allow(forecasting_pattern).to receive(:match?).and_return(false)
+      end
+
+      it 'returns a blank array' do
+        expect(subject).to eq []
       end
     end
   end
