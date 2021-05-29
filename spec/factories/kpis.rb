@@ -9,6 +9,7 @@ end
 # Table name: kpis
 #
 #  id                                                                                                                                                                                      :bigint           not null, primary key
+#  type                                                                                                                                                                                    :string(255)      not null
 #  entry_object_class_name(値の算出をするために利用するオブジェクトのことをentry object と定義し、そのクラス名をここで指定（webpackのエントリーポイントとのアナロジーからこのように命名）) :string(255)      not null
 #  name                                                                                                                                                                                    :string(255)      not null
 #  description                                                                                                                                                                             :text(65535)
@@ -20,4 +21,3 @@ end
 #
 #  index_kpis_on_entry_object_class_name_and_attribute_name  (entry_object_class_name,attribute_name) UNIQUE
 #
-# rubocop:enable Layout/LineLength
