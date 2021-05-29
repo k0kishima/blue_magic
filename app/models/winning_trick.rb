@@ -12,6 +12,14 @@ class WinningTrick < Trick
     ID.constants.map { |constant_name| ID.const_get(constant_name) }.sort
   end
 
+  def winning_trick?
+    true
+  end
+
+  def assist_trick?
+    false
+  end
+
   class Nige < WinningTrick
     def id
       ID::NIGE
