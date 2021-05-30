@@ -185,6 +185,10 @@ describe ForecastingPattern, type: :model do
           it 'returns odds array which was matched the condition' do
             expect(subject).to eq [odds1_which_is_expect_to_match, odds2_which_is_expect_to_match]
           end
+
+          it 'returns odds array of which all elements have a forecasting_pattern_id' do
+            expect(subject.all? { |odds| odds.forecasting_pattern_id == forecasting_pattern.id }).to be true
+          end
         end
 
         context 'when matched odds is not present' do
