@@ -5,6 +5,8 @@ class Odds < ApplicationRecord
   self.table_name = :odds
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :betting_method, :betting_number]
 
+  attribute :forecasting_pattern_id, :integer
+
   belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
 
   validates :ratio, presence: true
