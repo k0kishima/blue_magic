@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_110231) do
+ActiveRecord::Schema.define(version: 2021_05_31_215606) do
 
   create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "forecasters_forecasting_pattern_id", null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_110231) do
     t.integer "status", null: false
     t.string "name", null: false
     t.text "description"
-    t.integer "reduce_odds_method", null: false
+    t.integer "betting_strategy"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
