@@ -29,17 +29,13 @@ class ForecastingPattern < ApplicationRecord
 
     expression = LogicalExpressionFactory.create!(odds_filtering_condition)
 
-    odds = odds.select do |o|
+    odds.select do |o|
       odds_analysis = kpis_to_filter_odds.map do |kpi|
         kpi.entry_object = o
         [kpi.key, kpi.value!]
       end.to_h
       expression.call(Hashie::Mash.new(odds_analysis))
     end
-
-    odds.each { |o| o.forecasting_pattern_id = id }
-
-    odds
   end
 
   private
