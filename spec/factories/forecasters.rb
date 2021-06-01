@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :forecaster do
     status { :active }
     name { 'ver1.0' }
-    reduce_odds_method { ReduceOddsMethod::ID::TAKE_THE_FIRST }
+    betting_strategy { :take_the_first_forecasting_pattern }
   end
 end
 
@@ -10,11 +10,11 @@ end
 #
 # Table name: forecasters
 #
-#  id                 :bigint           not null, primary key
-#  status             :integer          not null
-#  name               :string(255)      not null
-#  description        :text(65535)
-#  reduce_odds_method :integer          not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id               :bigint           not null, primary key
+#  status           :integer          not null
+#  name             :string(255)      not null
+#  description      :text(65535)
+#  betting_strategy :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #

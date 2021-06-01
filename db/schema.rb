@@ -10,22 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_110231) do
+ActiveRecord::Schema.define(version: 2021_06_01_093625) do
 
   create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "forecasters_forecasting_pattern_id", null: false
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
     t.integer "race_number", null: false
-    t.integer "betting_method", null: false
     t.integer "betting_number", null: false
-    t.float "ratio_when_bet", null: false
     t.integer "betting_amount", null: false
     t.integer "refunded_amount"
     t.integer "adjustment_amount"
-    t.datetime "bet_at", null: false
+    t.boolean "dry_run", null: false
+    t.datetime "voted_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "betting_method", null: false
     t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
   end
 
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_110231) do
     t.integer "status", null: false
     t.string "name", null: false
     t.text "description"
-    t.integer "reduce_odds_method", null: false
+    t.integer "betting_strategy"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -262,6 +262,20 @@ ActiveRecord::Schema.define(version: 2021_05_27_110231) do
     t.index ["betting_deadline_at"], name: "index_races_on_betting_deadline_at"
   end
 
+  create_table "recommend_odds", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.bigint "forecasters_forecasting_pattern_id", null: false
+    t.integer "stadium_tel_code", null: false
+    t.date "date", null: false
+    t.integer "race_number", null: false
+    t.integer "betting_method", null: false
+    t.integer "betting_number", null: false
+    t.float "ratio_when_forecasting", null: false
+    t.integer "should_purchase_quantity", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
+  end
+
   create_table "settings", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "var", null: false
     t.text "value"
@@ -334,6 +348,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_110231) do
   add_foreign_key "race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "race_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "races", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
+  add_foreign_key "recommend_odds", "forecasters_forecasting_patterns"
   add_foreign_key "start_exhibition_records", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "weather_conditions", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"
   add_foreign_key "winning_race_entries", "stadiums", column: "stadium_tel_code", primary_key: "tel_code"

@@ -1,13 +1,12 @@
 FactoryBot.define do
-  factory :betting do
+  factory :recommend_odds do
     date { Time.zone.today }
     sequence(:stadium_tel_code, (Stadium::TELCODE_RANGE).to_a.cycle)
     sequence(:race_number, Race.numbers.cycle)
     betting_number { 123 }
     betting_method { :trifecta }
-    betting_amount { 10_000 }
-    voted_at { Time.zone.now }
-    dry_run { true }
+    ratio_when_forecasting { 10.5 }
+    should_purchase_quantity { 20 }
 
     trait :with_forecasters_forecasting_pattern do
       association :forecasters_forecasting_pattern, factory: :forecasters_forecasting_pattern
@@ -17,21 +16,18 @@ end
 
 # == Schema Information
 #
-# Table name: bettings
+# Table name: recommend_odds
 #
 #  forecasters_forecasting_pattern_id :bigint           not null, primary key
 #  stadium_tel_code                   :integer          not null, primary key
 #  date                               :date             not null, primary key
 #  race_number                        :integer          not null, primary key
+#  betting_method                     :integer          not null
 #  betting_number                     :integer          not null
-#  betting_amount                     :integer          not null
-#  refunded_amount                    :integer
-#  adjustment_amount                  :integer
-#  dry_run                            :boolean          not null
-#  voted_at                           :datetime         not null
+#  ratio_when_forecasting             :float(24)        not null
+#  should_purchase_quantity           :integer          not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
-#  betting_method                     :float(24)        not null
 #
 # Indexes
 #
