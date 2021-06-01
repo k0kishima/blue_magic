@@ -13,8 +13,8 @@ describe ForecastingPattern, type: :model do
     it { is_expected.to validate_presence_of(:odds_filtering_condition) }
   end
 
-  describe '#match?' do
-    subject { forecasting_pattern.match?(race) }
+  describe '#forecastable?' do
+    subject { forecasting_pattern.forecastable?(race) }
 
     let(:forecasting_pattern) { create(:forecasting_pattern, race_filtering_condition: race_filtering_condition) }
     let(:race_filtering_condition) do
@@ -114,19 +114,35 @@ describe ForecastingPattern, type: :model do
                                                race_number: race.race_number)
     end
 
-    context 'when race entries matched in all place' do
+    context 'when the race is forecastable' do
       before do
-        allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.61)
+        allow(forecasting_pattern).to receive(:forecastable?).and_return(true)
       end
 
-      it 'returns a formation' do
-        expect(subject.betting_numbers).to eq [123, 124, 132, 134]
+      context 'when race entries matched in all place' do
+        before do
+          allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.61)
+        end
+
+        it 'returns a formation' do
+          expect(subject.betting_numbers).to eq [123, 124, 132, 134]
+        end
+      end
+
+      context 'when any race entries not matched' do
+        before do
+          allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.60)
+        end
+
+        it 'returns a blank formation' do
+          expect(subject.betting_numbers).to eq []
+        end
       end
     end
 
-    context 'when any race entries not matched' do
+    context 'when the race is not forecastable' do
       before do
-        allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.60)
+        allow(forecasting_pattern).to receive(:forecastable?).and_return(false)
       end
 
       it 'returns a blank formation' do
@@ -159,9 +175,9 @@ describe ForecastingPattern, type: :model do
       }
     end
 
-    context 'when the race is matched' do
+    context 'when the race is forecastable' do
       before do
-        allow(forecasting_pattern).to receive(:match?).and_return(true)
+        allow(forecasting_pattern).to receive(:forecastable?).and_return(true)
       end
 
       context 'when race entries are matched' do
@@ -209,9 +225,9 @@ describe ForecastingPattern, type: :model do
       end
     end
 
-    context 'when the race is not matched' do
+    context 'when the race is not forecastable' do
       before do
-        allow(forecasting_pattern).to receive(:match?).and_return(false)
+        allow(forecasting_pattern).to receive(:forecastable?).and_return(false)
       end
 
       it 'returns a blank array' do
