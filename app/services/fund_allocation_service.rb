@@ -1,5 +1,3 @@
-class OverBudget < StandardError; end
-
 class FundAllocationService
   include ServiceBase
 
