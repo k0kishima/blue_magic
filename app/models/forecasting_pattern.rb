@@ -6,7 +6,7 @@ class ForecastingPattern < ApplicationRecord
   validates :third_place_filtering_condition, presence: true
   validates :odds_filtering_condition, presence: true
 
-  def match?(race)
+  def forecastable?(race)
     race_analysis = kpis_to_filter_race.map do |kpi|
       kpi.entry_object = race
       [kpi.key, kpi.value!]
@@ -16,12 +16,15 @@ class ForecastingPattern < ApplicationRecord
   end
 
   def recommended_formation(race)
-    Formation.new(candicates(race.race_entries).map { |race_entries| race_entries.map(&:pit_number) })
+    filtered_race_entries = if forecastable?(race)
+                              candicates(race.race_entries).map { |race_entries| race_entries.map(&:pit_number) }
+                            else
+                              [[], [], []]
+                            end
+    Formation.new(filtered_race_entries)
   end
 
   def recommend_odds(race)
-    return [] unless match?(race)
-
     formation = recommended_formation(race)
     return [] if formation.betting_numbers.blank?
 

@@ -5,18 +5,17 @@ FactoryBot.define do
       {
         and: [
           {
-            '>': [
-              { item: :race_entries, modifier: [:pit_number, 1],
-                attribute: :nige_succeed_rate_on_start_course_in_exhibition },
-              { item: :literal, value: 0.5 }
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
             ]
           },
           {
-            '==': [
-              { item: :race_entries, modifier: [:pit_number, 1], attribute: :start_course_in_exhibition },
-              { item: :literal, value: 1 }
+            '>': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.5 }
             ]
-          }
+          },
         ]
       }
     }
