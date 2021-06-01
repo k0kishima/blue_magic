@@ -15,7 +15,7 @@ class ForecastingPattern < ApplicationRecord
     expression.call(Hashie::Mash.new(race_analysis))
   end
 
-  def recommended_formation(race)
+  def recommended_formation_of(race)
     filtered_race_entries = if forecastable?(race)
                               candicates(race.race_entries).map { |race_entries| race_entries.map(&:pit_number) }
                             else
@@ -24,8 +24,8 @@ class ForecastingPattern < ApplicationRecord
     Formation.new(filtered_race_entries)
   end
 
-  def recommend_odds(race)
-    formation = recommended_formation(race)
+  def recommend_odds_of(race)
+    formation = recommended_formation_of(race)
     return [] if formation.betting_numbers.blank?
 
     odds = race.odds.select { |o| o.betting_number.in?(formation.betting_numbers) }

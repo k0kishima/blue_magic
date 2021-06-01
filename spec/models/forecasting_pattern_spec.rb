@@ -54,8 +54,8 @@ describe ForecastingPattern, type: :model do
     end
   end
 
-  describe '#recommended_formation' do
-    subject { forecasting_pattern.recommended_formation(race) }
+  describe '#recommended_formation_of' do
+    subject { forecasting_pattern.recommended_formation_of(race) }
 
     let(:forecasting_pattern) do
       create(
@@ -151,8 +151,8 @@ describe ForecastingPattern, type: :model do
     end
   end
 
-  describe '#recommend_odds' do
-    subject { forecasting_pattern.recommend_odds(race) }
+  describe '#recommend_odds_of' do
+    subject { forecasting_pattern.recommend_odds_of(race) }
 
     let(:race) { create(:race) }
     let(:forecasting_pattern) { create(:forecasting_pattern, odds_filtering_condition: odds_filtering_condition) }
@@ -183,8 +183,8 @@ describe ForecastingPattern, type: :model do
       context 'when race entries are matched' do
         before do
           # [123, 124, 132, 134]
-          allow(forecasting_pattern).to receive(:recommended_formation).and_return(Formation.new([[1], [2, 3],
-                                                                                                  [2, 3, 4]]))
+          allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[1], [2, 3],
+                                                                                                     [2, 3, 4]]))
         end
 
         context 'when matched odds is present' do
@@ -216,7 +216,7 @@ describe ForecastingPattern, type: :model do
 
       context 'when race entries are not matched' do
         before do
-          allow(forecasting_pattern).to receive(:recommended_formation).and_return(Formation.new([[], [], []]))
+          allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[], [], []]))
         end
 
         it 'returns a blank array' do
