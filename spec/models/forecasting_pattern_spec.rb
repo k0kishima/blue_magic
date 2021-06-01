@@ -175,37 +175,50 @@ describe ForecastingPattern, type: :model do
       }
     end
 
-    context 'when the race is forecastable' do
-      before do
-        allow(forecasting_pattern).to receive(:forecastable?).and_return(true)
-      end
-
-      context 'when race entries are matched' do
+    context 'when the race has odds' do
+      context 'when the race is forecastable' do
         before do
-          # [123, 124, 132, 134]
-          allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[1], [2, 3],
-                                                                                                     [2, 3, 4]]))
+          allow(forecasting_pattern).to receive(:forecastable?).and_return(true)
         end
 
-        context 'when matched odds is present' do
-          let(:odds1_which_is_expect_to_match) { create(:odds, race: race, betting_number: 123, ratio: 20) }
-          let(:odds2_which_is_expect_to_match) { create(:odds, race: race, betting_number: 132, ratio: 100) }
-
+        context 'when race entries are matched' do
           before do
-            odds1_which_is_expect_to_match
-            odds2_which_is_expect_to_match
+            # [123, 124, 132, 134]
+            allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[1], [2, 3],
+                                                                                                       [2, 3, 4]]))
+          end
+
+          context 'when matched odds is present' do
+            let(:odds1_which_is_expect_to_match) { create(:odds, race: race, betting_number: 123, ratio: 20) }
+            let(:odds2_which_is_expect_to_match) { create(:odds, race: race, betting_number: 132, ratio: 100) }
+
+            before do
+              odds1_which_is_expect_to_match
+              odds2_which_is_expect_to_match
+              create(:odds, race: race, betting_number: 213, ratio: 20)
+              create(:odds, race: race, betting_number: 134, ratio: 100.1)
+            end
+
+            it 'returns odds array which was matched the condition' do
+              expect(subject).to eq [odds1_which_is_expect_to_match, odds2_which_is_expect_to_match]
+            end
+          end
+
+          context 'when matched odds is not present' do
+            before do
+              create(:odds, race: race, betting_number: 123, ratio: 19.9)
+            end
+
+            it 'returns a blank array' do
+              expect(subject).to eq []
+            end
+          end
+        end
+
+        context 'when race entries are not matched' do
+          before do
             create(:odds, race: race, betting_number: 213, ratio: 20)
-            create(:odds, race: race, betting_number: 134, ratio: 100.1)
-          end
-
-          it 'returns odds array which was matched the condition' do
-            expect(subject).to eq [odds1_which_is_expect_to_match, odds2_which_is_expect_to_match]
-          end
-        end
-
-        context 'when matched odds is not present' do
-          before do
-            create(:odds, race: race, betting_number: 123, ratio: 19.9)
+            allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[], [], []]))
           end
 
           it 'returns a blank array' do
@@ -214,9 +227,10 @@ describe ForecastingPattern, type: :model do
         end
       end
 
-      context 'when race entries are not matched' do
+      context 'when the race is not forecastable' do
         before do
-          allow(forecasting_pattern).to receive(:recommended_formation_of).and_return(Formation.new([[], [], []]))
+          create(:odds, race: race, betting_number: 213, ratio: 20)
+          allow(forecasting_pattern).to receive(:forecastable?).and_return(false)
         end
 
         it 'returns a blank array' do
@@ -225,14 +239,8 @@ describe ForecastingPattern, type: :model do
       end
     end
 
-    context 'when the race is not forecastable' do
-      before do
-        allow(forecasting_pattern).to receive(:forecastable?).and_return(false)
-      end
-
-      it 'returns a blank array' do
-        expect(subject).to eq []
-      end
+    context 'when the race does not have odds' do
+      it { expect { subject }.to raise_error(DataNotPrepared) }
     end
   end
 end

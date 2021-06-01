@@ -25,13 +25,14 @@ class ForecastingPattern < ApplicationRecord
   end
 
   def recommend_odds_of(race)
+    raise DataNotPrepared if race.odds.blank?
+
     formation = recommended_formation_of(race)
     return [] if formation.betting_numbers.blank?
 
     odds = race.odds.select { |o| o.betting_number.in?(formation.betting_numbers) }
 
     expression = LogicalExpressionFactory.create!(odds_filtering_condition)
-
     odds.select do |o|
       odds_analysis = kpis_to_filter_odds.map do |kpi|
         kpi.entry_object = o
