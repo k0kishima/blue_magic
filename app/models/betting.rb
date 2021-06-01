@@ -6,9 +6,8 @@ class Betting < ApplicationRecord
 
   belongs_to :forecasters_forecasting_pattern
 
-  validates :ratio_when_bet, presence: true
   validates :betting_amount, presence: true
-  validates :bet_at, presence: true
+  validates :voted_at, presence: true
 
   def betting_numbers
     betting_number.to_s.split('').map(&:to_i)
@@ -23,15 +22,15 @@ end
 #  stadium_tel_code                   :integer          not null, primary key
 #  date                               :date             not null, primary key
 #  race_number                        :integer          not null, primary key
-#  betting_method                     :integer          not null
 #  betting_number                     :integer          not null
-#  ratio_when_bet                     :float(24)        not null
 #  betting_amount                     :integer          not null
 #  refunded_amount                    :integer
 #  adjustment_amount                  :integer
-#  bet_at                             :datetime         not null
+#  dry_run                            :boolean          not null
+#  voted_at                           :datetime         not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
+#  betting_method                     :float(24)        not null
 #
 # Indexes
 #

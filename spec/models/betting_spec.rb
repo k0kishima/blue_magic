@@ -7,7 +7,6 @@ describe Betting, type: :model do
     subject { betting }
 
     it { is_expected.to belong_to(:stadium) }
-    it { is_expected.to belong_to(:forecasters_forecasting_pattern) }
   end
 
   describe 'validations' do
@@ -20,9 +19,8 @@ describe Betting, type: :model do
     it { is_expected.to validate_presence_of(:date) }
     it { is_expected.to validate_presence_of(:betting_method) }
     it { is_expected.to validate_presence_of(:betting_number) }
-    it { is_expected.to validate_presence_of(:ratio_when_bet) }
     it { is_expected.to validate_presence_of(:betting_amount) }
-    it { is_expected.to validate_presence_of(:bet_at) }
+    it { is_expected.to validate_presence_of(:voted_at) }
   end
 end
 
@@ -34,15 +32,15 @@ end
 #  stadium_tel_code                   :integer          not null, primary key
 #  date                               :date             not null, primary key
 #  race_number                        :integer          not null, primary key
-#  betting_method                     :integer          not null
 #  betting_number                     :integer          not null
-#  ratio_when_bet                     :float(24)        not null
 #  betting_amount                     :integer          not null
 #  refunded_amount                    :integer
 #  adjustment_amount                  :integer
-#  bet_at                             :datetime         not null
+#  dry_run                            :boolean          not null
+#  voted_at                           :datetime         not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
+#  betting_method                     :float(24)        not null
 #
 # Indexes
 #

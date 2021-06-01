@@ -5,9 +5,9 @@ FactoryBot.define do
     sequence(:race_number, Race.numbers.cycle)
     betting_number { 123 }
     betting_method { :trifecta }
-    ratio_when_bet { 100.0 }
     betting_amount { 10_000 }
-    bet_at { Time.zone.now }
+    voted_at { Time.zone.now }
+    dry_run { true }
 
     trait :with_forecasters_forecasting_pattern do
       association :forecasters_forecasting_pattern, factory: :forecasters_forecasting_pattern
@@ -23,15 +23,15 @@ end
 #  stadium_tel_code                   :integer          not null, primary key
 #  date                               :date             not null, primary key
 #  race_number                        :integer          not null, primary key
-#  betting_method                     :integer          not null
 #  betting_number                     :integer          not null
-#  ratio_when_bet                     :float(24)        not null
 #  betting_amount                     :integer          not null
 #  refunded_amount                    :integer
 #  adjustment_amount                  :integer
-#  bet_at                             :datetime         not null
+#  dry_run                            :boolean          not null
+#  voted_at                           :datetime         not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
+#  betting_method                     :float(24)        not null
 #
 # Indexes
 #
