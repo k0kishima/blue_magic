@@ -1,6 +1,7 @@
 class ForecastersForecastingPattern < ApplicationRecord
   belongs_to :forecaster
   belongs_to :forecasting_pattern
+  has_many :recommend_odds, class_name: 'RecommendOdds'
 
   validates :fund_allocation_method, presence: true, inclusion: { in: FundAllocationMethod.all }
   validates :budget_amount_per_race, presence: true
@@ -8,6 +9,36 @@ class ForecastersForecastingPattern < ApplicationRecord
 
   def target_amount
     budget_amount_per_race * composition_odds
+  end
+
+  def create_recommend_odds_of!(race)
+    odds = forecasting_pattern.recommend_odds_of(race)
+
+    should_purchase_quantities_indexed_by_betting_number = FundAllocationService.call(
+      budget_amount: budget_amount_per_race,
+      target_amount: target_amount,
+      odds: odds,
+      fund_allocation_method: fund_allocation_method
+    )
+
+    recommend_odds_collection = odds.map do |o|
+      should_purchase_quantity = should_purchase_quantities_indexed_by_betting_number[o.betting_number]
+      if should_purchase_quantity.present?
+        recommend_odds.build(
+          **race.attributes.slice(*Race.primary_keys),
+          betting_method: o.betting_method,
+          betting_number: o.betting_number,
+          ratio_when_forecasting: o.ratio,
+          should_purchase_quantity: should_purchase_quantity
+        )
+      else
+        nil
+      end
+    end.compact
+
+    RecommendOdds.import!(recommend_odds_collection, all_or_none: true, raise_error: true, validate_uniqueness: true)
+  rescue OverBudget
+    []
   end
 end
 
