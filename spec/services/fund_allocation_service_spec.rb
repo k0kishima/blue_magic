@@ -41,6 +41,14 @@ RSpec.describe FundAllocationService, type: :model do
             expect { subject }.to raise_error OverBudget
           end
         end
+
+        context 'when empty odds given' do
+          let(:odds) { [] }
+
+          it 'returns an empty hash' do
+            expect(subject).to eq({})
+          end
+        end
       end
 
       context 'when fund allocation method is BET_WITHIN_BUDGET_BY_ASC' do
@@ -76,6 +84,14 @@ RSpec.describe FundAllocationService, type: :model do
                                     123 => 50.0,
                                     124 => 50.0,
                                   })
+          end
+        end
+
+        context 'when empty odds given' do
+          let(:odds) { [] }
+
+          it 'returns an empty hash' do
+            expect(subject).to eq({})
           end
         end
       end
@@ -115,6 +131,14 @@ RSpec.describe FundAllocationService, type: :model do
                                   })
           end
         end
+
+        context 'when empty odds given' do
+          let(:odds) { [] }
+
+          it 'returns an empty hash' do
+            expect(subject).to eq({})
+          end
+        end
       end
 
       context 'when fund allocation method is ALL_BET' do
@@ -151,6 +175,14 @@ RSpec.describe FundAllocationService, type: :model do
                                     124 => 50.0,
                                     125 => 25.0,
                                   })
+          end
+        end
+
+        context 'when empty odds given' do
+          let(:odds) { [] }
+
+          it 'returns an empty hash' do
+            expect(subject).to eq({})
           end
         end
       end
