@@ -7,6 +7,7 @@ RSpec.describe RecommendOdds, type: :model do
     subject { recommend_odds }
 
     it { is_expected.to belong_to(:forecasters_forecasting_pattern) }
+    it { is_expected.to have_one(:betting) }
   end
 
   describe 'validations' do
