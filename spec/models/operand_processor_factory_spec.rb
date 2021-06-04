@@ -7,6 +7,12 @@ class RaceMock
   attribute :race_number, :integer
 
   attr_accessor :stadium, :race_entries
+
+  Pit::NUMBER_RANGE.each do |pit_number|
+    class_eval %Q{
+      def pit_number_#{pit_number} = race_entries.find{|re| re.pit_number == #{pit_number} }
+    }
+  end
 end
 
 class StadiumMock
@@ -75,7 +81,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
 
       describe 'to create stadium type operand' do
         let(:hash) do
-          { item: :race_entries, modifier: [:pit_number, 1], attribute: :in_nige_succeed_rate }
+          { item: :pit_number_1, attribute: :in_nige_succeed_rate }
         end
         let(:race) do
           race = RaceMock.new
@@ -94,7 +100,7 @@ RSpec.describe OperandProcessorFactory, type: :model do
 
       context 'when unknown item specified' do
         let(:hash) do
-          { item: :racer, modifier: [:pit_number, 1], attribute: :in_nige_succeed_rate }
+          { item: :racer, attribute: :in_nige_succeed_rate }
         end
         let(:race) do
           race = RaceMock.new
