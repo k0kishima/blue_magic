@@ -9,6 +9,6 @@ class CreateKpis < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :kpis, [:entry_object_class_name, :attribute_name], unique: true
+    add_index :kpis, :attribute_name, unique: true
   end
 end

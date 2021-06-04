@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2021_06_01_093625) do
     t.string "attribute_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["entry_object_class_name", "attribute_name"], name: "index_kpis_on_entry_object_class_name_and_attribute_name", unique: true
+    t.index ["attribute_name"], name: "index_kpis_on_attribute_name", unique: true
   end
 
   create_table "motor_betting_contribute_rate_aggregations", primary_key: ["stadium_tel_code", "motor_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
