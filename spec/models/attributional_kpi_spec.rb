@@ -47,5 +47,5 @@ end
 #
 # Indexes
 #
-#  index_kpis_on_entry_object_class_name_and_attribute_name  (entry_object_class_name,attribute_name) UNIQUE
+#  index_kpis_on_attribute_name  (attribute_name) UNIQUE
 #

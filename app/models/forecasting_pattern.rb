@@ -45,18 +45,15 @@ class ForecastingPattern < ApplicationRecord
   private
 
   def kpis_to_filter_race
-    @kpis_to_filter_race ||= KpiFactory.create_recursively!(entry_object_class_name: 'Race',
-                                                            hash: race_filtering_condition)
+    @kpis_to_filter_race ||= KpiFactory.create_recursively!(hash: race_filtering_condition)
   end
 
   def kpis_to_filter_odds
-    @kpis_to_filter_odds ||= KpiFactory.create_recursively!(entry_object_class_name: 'Odds',
-                                                            hash: odds_filtering_condition)
+    @kpis_to_filter_odds ||= KpiFactory.create_recursively!(hash: odds_filtering_condition)
   end
 
   def filtered_race_entries(race_entries:, where:)
-    kpis = KpiFactory.create_recursively!(entry_object_class_name: 'RaceEntry',
-                                          hash: try("#{where}_place_filtering_condition"))
+    kpis = KpiFactory.create_recursively!(hash: try("#{where}_place_filtering_condition"))
     expression = LogicalExpressionFactory.create!(try("#{where}_place_filtering_condition"))
     race_entries.select do |race_entry|
       race_entry_analysis = kpis.map do |kpi|
