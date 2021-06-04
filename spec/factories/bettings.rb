@@ -23,6 +23,7 @@ end
 #  stadium_tel_code                   :integer          not null, primary key
 #  date                               :date             not null, primary key
 #  race_number                        :integer          not null, primary key
+#  betting_method                     :integer          not null
 #  betting_number                     :integer          not null
 #  betting_amount                     :integer          not null
 #  refunded_amount                    :integer
@@ -31,7 +32,6 @@ end
 #  voted_at                           :datetime         not null
 #  created_at                         :datetime         not null
 #  updated_at                         :datetime         not null
-#  betting_method                     :float(24)        not null
 #
 # Indexes
 #

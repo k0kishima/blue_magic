@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2021_06_01_093625) do
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
     t.integer "race_number", null: false
+    t.integer "betting_method", null: false
     t.integer "betting_number", null: false
     t.integer "betting_amount", null: false
     t.integer "refunded_amount"
@@ -25,7 +26,6 @@ ActiveRecord::Schema.define(version: 2021_06_01_093625) do
     t.datetime "voted_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.float "betting_method", null: false
     t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
   end
 
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2021_06_01_093625) do
     t.integer "status", null: false
     t.string "name", null: false
     t.text "description"
-    t.integer "betting_strategy"
+    t.integer "betting_strategy", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
