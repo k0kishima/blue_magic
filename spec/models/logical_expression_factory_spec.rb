@@ -7,6 +7,12 @@ class RaceMock
   attribute :race_number, :integer
 
   attr_accessor :stadium, :race_entries
+
+  Pit::NUMBER_RANGE.each do |pit_number|
+    class_eval %Q{
+      def pit_number_#{pit_number} = race_entries.find{|re| re.pit_number == #{pit_number} }
+    }
+  end
 end
 
 class RaceEntryMock
@@ -36,13 +42,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
           and: [
             {
               '<=': [
-                { item: :race_entries, modifier: [:pit_number, 1], attribute: :performance_score },
+                { item: :pit_number_1, attribute: :performance_score },
                 { item: :literal, value: 10 }
               ]
             },
             {
               '>': [
-                { item: :race_entries, modifier: [:pit_number, 4], attribute: :performance_score },
+                { item: :pit_number_4, attribute: :performance_score },
                 { item: :literal, value: 12 }
               ]
             }
@@ -75,13 +81,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
               and: [
                 {
                   '<=': [
-                    { item: :race_entries, modifier: [:pit_number, 1], attribute: :performance_score },
+                    { item: :pit_number_1, attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 },
                 {
                   '>': [
-                    { item: :race_entries, modifier: [:pit_number, 4], attribute: :performance_score },
+                    { item: :pit_number_4, attribute: :performance_score },
                     { item: :literal, value: 12 }
                   ]
                 }
@@ -91,13 +97,13 @@ RSpec.describe LogicalExpressionFactory, type: :model do
               and: [
                 {
                   '<': [
-                    { item: :race_entries, modifier: [:pit_number, 2], attribute: :performance_score },
+                    { item: :pit_number_2, attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 },
                 {
                   '<': [
-                    { item: :race_entries, modifier: [:pit_number, 3], attribute: :performance_score },
+                    { item: :pit_number_3, attribute: :performance_score },
                     { item: :literal, value: 10 }
                   ]
                 }
