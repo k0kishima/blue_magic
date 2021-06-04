@@ -2,6 +2,7 @@
 class Setting < RailsSettings::Base
   cache_prefix { "v1" }
 
+  field :voting_enable, type: :boolean, default: false
   field :crawling_enable, type: :boolean, default: true
 end
 
