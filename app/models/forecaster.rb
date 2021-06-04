@@ -6,7 +6,7 @@ class Forecaster < ApplicationRecord
   has_many :recommend_odds, through: :forecasters_forecasting_patterns, class_name: 'RecommendOdds'
 
   enum status: { active: 1, simulating: 2 }
-  enum betting_strategy: { take_the_first_forecasting_pattern: 1, take_all_forecasting_patterns: 2 }
+  enum betting_strategy: { take_the_first_forecasting_pattern: 1, take_all_forecasting_patterns: 2, take_all_forecasting_patterns_without_duplication: 3 }
 
   validates :name, presence: true
   validates :status, presence: true

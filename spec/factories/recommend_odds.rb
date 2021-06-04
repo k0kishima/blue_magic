@@ -11,6 +11,12 @@ FactoryBot.define do
     trait :with_forecasters_forecasting_pattern do
       association :forecasters_forecasting_pattern, factory: :forecasters_forecasting_pattern
     end
+
+    trait :with_betting do
+      after(:create) do |recommend_odds|
+        create(:betting, recommend_odds.attributes.slice(*RecommendOdds.primary_keys))
+      end
+    end
   end
 end
 
