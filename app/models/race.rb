@@ -116,6 +116,12 @@ class Race < ApplicationRecord
     title&.match?(/\A優勝/)
   end
 
+  Pit::NUMBER_RANGE.each do |pit_number|
+    class_eval %Q{
+      def pit_number_#{pit_number} = race_entries.find{|re| re.pit_number == #{pit_number} }
+    }
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date
