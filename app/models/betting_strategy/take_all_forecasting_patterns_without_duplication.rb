@@ -20,4 +20,3 @@ module BettingStrategy
     end
   end
 end
-
