@@ -10,7 +10,11 @@ class KpiFactory
       rescue KeyError
         nil
       end.compact.uniq
-      Kpi.where(attribute_name: attribute_names)
+
+      cache_key = ['kpi', Digest::MD5.hexdigest(attribute_names.sort.join('-'))].join(':')
+      Rails.cache.fetch(cache_key, expires_in: 3.minutes) do
+        Kpi.where(attribute_name: attribute_names)
+      end
     end
 
     private
