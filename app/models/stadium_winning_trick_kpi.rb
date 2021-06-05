@@ -4,9 +4,11 @@ class StadiumWinningTrickKpi < Kpi
   def value!
     validate!(:calculation)
 
-    calculator = StadiumWinningTrickSucceedRateCalculator.new(trick: trick,
-                                                              stadium_tel_code: entry_object.stadium_tel_code)
-    calculator.calculate!(aggregation_range: aggregation_starts_on..aggregation_ends_on, context: context)
+    Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+      calculator = StadiumWinningTrickSucceedRateCalculator.new(trick: trick,
+                                                                stadium_tel_code: entry_object.stadium_tel_code)
+      calculator.calculate!(aggregation_range: aggregation_starts_on..aggregation_ends_on, context: context)
+    end
   end
 
   private
@@ -42,6 +44,21 @@ class StadiumWinningTrickKpi < Kpi
     raise DataNotPrepared if entry_object.weather_condition_in_exhibition.blank?
 
     entry_object.weather_condition_in_exhibition.slice(:wind_angle, :wind_velocity)
+  end
+
+  def cache_key
+    [
+      self.class.name.underscore,
+      Digest::MD5.hexdigest(
+        [
+          attribute_name,
+          entry_object.stadium_tel_code,
+          context,
+          aggregation_starts_on,
+          aggregation_ends_on
+        ].map(&:to_s).join('-')
+      )
+    ].join(':')
   end
 end
 
