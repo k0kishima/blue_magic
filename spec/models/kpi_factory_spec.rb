@@ -67,7 +67,7 @@ describe KpiFactory, type: :model do
     end
 
     it 'creates kpis recursively from the hash' do
-      expect(subject).to eq [series_grade_kpi, is_special_race_kpi]
+      expect(subject).to match_array([series_grade_kpi, is_special_race_kpi])
     end
   end
 end

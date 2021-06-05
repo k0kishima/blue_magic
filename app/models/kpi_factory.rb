@@ -5,11 +5,12 @@ class KpiFactory
     end
 
     def create_recursively!(hash:)
-      extract_hash_recursively!(hash: hash).map do |h|
-        create!(hash: h)
+      attribute_names = extract_hash_recursively!(hash: hash).map do |h|
+        h.symbolize_keys.fetch(:attribute)
       rescue KeyError
         nil
       end.compact.uniq
+      Kpi.where(attribute_name: attribute_names)
     end
 
     private
