@@ -7,10 +7,7 @@ class ForecastingPattern < ApplicationRecord
   validates :odds_filtering_condition, presence: true
 
   def forecastable?(race)
-    race_analysis = kpis_to_filter_race.map do |kpi|
-      kpi.entry_object = race
-      [kpi.key, kpi.value!]
-    end.to_h
+    race_analysis = AnalysisFactory.create!(entry_object: race, filtering_condition: race_filtering_condition)
     expression = LogicalExpressionFactory.create!(race_filtering_condition)
     expression.call(Hashie::Mash.new(race_analysis))
   end
@@ -34,32 +31,18 @@ class ForecastingPattern < ApplicationRecord
 
     expression = LogicalExpressionFactory.create!(odds_filtering_condition)
     odds.select do |o|
-      odds_analysis = kpis_to_filter_odds.map do |kpi|
-        kpi.entry_object = o
-        [kpi.key, kpi.value!]
-      end.to_h
+      odds_analysis = AnalysisFactory.create!(entry_object: o, filtering_condition: odds_filtering_condition)
       expression.call(Hashie::Mash.new(odds_analysis))
     end
   end
 
   private
 
-  def kpis_to_filter_race
-    @kpis_to_filter_race ||= KpiFactory.create_recursively!(hash: race_filtering_condition)
-  end
-
-  def kpis_to_filter_odds
-    @kpis_to_filter_odds ||= KpiFactory.create_recursively!(hash: odds_filtering_condition)
-  end
-
   def filtered_race_entries(race_entries:, where:)
-    kpis = KpiFactory.create_recursively!(hash: try("#{where}_place_filtering_condition"))
-    expression = LogicalExpressionFactory.create!(try("#{where}_place_filtering_condition"))
+    filtering_condition = try("#{where}_place_filtering_condition")
+    expression = LogicalExpressionFactory.create!(filtering_condition)
     race_entries.select do |race_entry|
-      race_entry_analysis = kpis.map do |kpi|
-        kpi.entry_object = race_entry
-        [kpi.key, kpi.value!]
-      end.to_h
+      race_entry_analysis = AnalysisFactory.create!(entry_object: race_entry, filtering_condition: filtering_condition)
       expression.call(Hashie::Mash.new(race_entry_analysis))
     end
   end
