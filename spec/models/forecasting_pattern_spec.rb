@@ -28,18 +28,18 @@ describe ForecastingPattern, type: :model do
           },
           {
             '>': [
-              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
               { item: :literal, value: 0.5 }
             ]
           },
         ]
       }
     end
-    let(:race) { create(:race, title: '一般戦') }
+    let(:race) { create(:race, :with_race_entries, title: '一般戦') }
 
     context 'when the race is matched the filtering condition' do
       before do
-        allow_any_instance_of(StadiumWinningTrickKpi).to receive(:value!).and_return(0.51)
+        allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.51)
       end
 
       it { is_expected.to be true }
@@ -47,7 +47,7 @@ describe ForecastingPattern, type: :model do
 
     context 'when the race is not matched the filtering condition' do
       before do
-        allow_any_instance_of(StadiumWinningTrickKpi).to receive(:value!).and_return(0.50)
+        allow_any_instance_of(RacerWinningTrickKpi).to receive(:value!).and_return(0.50)
       end
 
       it { is_expected.to be false }
