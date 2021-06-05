@@ -5,12 +5,14 @@ class RacerWinningTrickKpi < Kpi
     validate!(:calculation)
     check_data_preparation!
 
-    calculator = RacerWinningTrickSucceedRateCalculator.new(
-      trick: trick,
-      racer_registration_number: entry_object.racer_registration_number,
-      course_number: entry_object.course_number_in_exhibition,
-    )
-    calculator.calculate!(aggregation_range: aggregation_starts_on..aggregation_ends_on)
+    Rails.cache.fetch(cache_key, expires_in: 30.minutes) do
+      calculator = RacerWinningTrickSucceedRateCalculator.new(
+        trick: trick,
+        racer_registration_number: entry_object.racer_registration_number,
+        course_number: entry_object.course_number_in_exhibition,
+      )
+      calculator.calculate!(aggregation_range: aggregation_starts_on..aggregation_ends_on)
+    end
   end
 
   private
@@ -46,6 +48,21 @@ class RacerWinningTrickKpi < Kpi
     return if entry_object.course_number_in_exhibition.present?
 
     raise DataNotPrepared, 'the source object does not have exhibition data yet'
+  end
+
+  def cache_key
+    [
+      self.class.name.underscore,
+      Digest::MD5.hexdigest(
+        [
+          attribute_name,
+          entry_object.racer_registration_number,
+          entry_object.course_number_in_exhibition,
+          aggregation_starts_on,
+          aggregation_ends_on
+        ].map(&:to_s).join('-')
+      )
+    ].join(':')
   end
 end
 

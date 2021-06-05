@@ -6,7 +6,7 @@ class RecommendOdds < ApplicationRecord
   self.primary_keys = %i[forecasters_forecasting_pattern_id stadium_tel_code date race_number]
 
   belongs_to :forecasters_forecasting_pattern
-  has_one :betting, foreign_key: self.primary_keys
+  has_one :betting, foreign_key: self.primary_keys, dependent: :destroy
 
   validates :ratio_when_forecasting, presence: true
   validates :should_purchase_quantity, presence: true
