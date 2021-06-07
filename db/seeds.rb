@@ -61,5 +61,8 @@ Kpi.upsert_all(
       {id: 23, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期失格回数合計", description: "", attribute_name: "racer_disqualification_total_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 24, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期F回数", description: "", attribute_name: "racer_flying_count_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 25, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期L回数", description: "", attribute_name: "racer_lateness_count_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 26, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今節失格回数合計", description: "", attribute_name: "racer_disqualification_total_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 27, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今節F回数", description: "", attribute_name: "racer_flying_count_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 28, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今節L回数", description: "", attribute_name: "racer_lateness_count_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
