@@ -116,6 +116,10 @@ class Race < ApplicationRecord
     title&.match?(/\A優勝/)
   end
 
+  def absent_race_entries_count
+    @absent_race_entries_count ||= race_entries.absent.count
+  end
+
   Pit::NUMBER_RANGE.each do |pit_number|
     class_eval %Q{
       def pit_number_#{pit_number} = race_entries.find{|re| re.pit_number == #{pit_number} }

@@ -57,5 +57,6 @@ Kpi.insert_all(
       {id: 19, type: "AttributionalKpi", entry_object_class_name: "Race", name: "選抜フラグ", description: "選抜レースかどうか", attribute_name: "is_selection_race", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 20, type: "AttributionalKpi", entry_object_class_name: "Race", name: "準優勝戦フラグ", description: "準優勝戦かどうか", attribute_name: "is_semifinal", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 21, type: "AttributionalKpi", entry_object_class_name: "Race", name: "優勝戦フラグ", description: "優勝戦かどうか", attribute_name: "is_final", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 22, type: "AttributionalKpi", entry_object_class_name: "Race", name: "欠場艇数", description: "", attribute_name: "absent_race_entries_count", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
