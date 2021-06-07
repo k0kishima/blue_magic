@@ -34,7 +34,7 @@ Stadium.insert_all(
   ]
 )
 
-Kpi.insert_all(
+Kpi.upsert_all(
   [
       {id: 1, type: "RacerWinningTrickKpi", entry_object_class_name: "RaceEntry", name: "逃げ成功率", description: "決まり手「逃げ」での1着回数 / 1コース出走回数", attribute_name: "nige_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 2, type: "RacerWinningTrickKpi", entry_object_class_name: "RaceEntry", name: "差し成功率", description: "決まり手「差し」での1着回数 / 2〜6コースでの出走回数", attribute_name: "sashi_succeed_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
@@ -58,5 +58,8 @@ Kpi.insert_all(
       {id: 20, type: "AttributionalKpi", entry_object_class_name: "Race", name: "準優勝戦フラグ", description: "準優勝戦かどうか", attribute_name: "is_semifinal", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 21, type: "AttributionalKpi", entry_object_class_name: "Race", name: "優勝戦フラグ", description: "優勝戦かどうか", attribute_name: "is_final", created_at: Time.zone.now, updated_at: Time.zone.now, },
       {id: 22, type: "AttributionalKpi", entry_object_class_name: "Race", name: "欠場艇数", description: "", attribute_name: "absent_race_entries_count", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 23, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期失格回数合計", description: "", attribute_name: "racer_disqualification_total_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 24, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期F回数", description: "", attribute_name: "racer_flying_count_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
+      {id: 25, type: "RacerDisqualificationKpi", entry_object_class_name: "RaceEntry", name: "今期L回数", description: "", attribute_name: "racer_lateness_count_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
