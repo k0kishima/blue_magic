@@ -5,32 +5,32 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Stadium.create(
+Stadium.insert_all(
   [
-      {"tel_code"=>1, "name"=>"桐生", "prefecture_id"=>10, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>36.4039, "lng"=>139.291, "elevation"=>130.3},
-      {"tel_code"=>2, "name"=>"戸田", "prefecture_id"=>11, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>35.8031, "lng"=>139.655, "elevation"=>5.0},
-      {"tel_code"=>3, "name"=>"江戸川", "prefecture_id"=>13, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>35.6925, "lng"=>139.859, "elevation"=>1.8},
-      {"tel_code"=>4, "name"=>"平和島", "prefecture_id"=>13, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>35.5853, "lng"=>139.738, "elevation"=>2.3},
-      {"tel_code"=>5, "name"=>"多摩川", "prefecture_id"=>13, "water_quality"=>"sea", "tide_fluctuation"=>false, "lat"=>35.6573, "lng"=>139.495, "elevation"=>41.5},
-      {"tel_code"=>6, "name"=>"浜名湖", "prefecture_id"=>22, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>34.6985, "lng"=>137.57, "elevation"=>5.2},
-      {"tel_code"=>7, "name"=>"蒲郡", "prefecture_id"=>23, "water_quality"=>"brackish", "tide_fluctuation"=>false, "lat"=>34.8233, "lng"=>137.203, "elevation"=>4.4},
-      {"tel_code"=>8, "name"=>"常滑", "prefecture_id"=>23, "water_quality"=>"sea", "tide_fluctuation"=>false, "lat"=>34.8857, "lng"=>136.832, "elevation"=>4.1},
-      {"tel_code"=>9, "name"=>"津", "prefecture_id"=>24, "water_quality"=>"brackish", "tide_fluctuation"=>false, "lat"=>34.6812, "lng"=>136.517, "elevation"=>4.1},
-      {"tel_code"=>10, "name"=>"三国", "prefecture_id"=>18, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>36.2327, "lng"=>136.183, "elevation"=>7.1},
-      {"tel_code"=>11, "name"=>"びわこ", "prefecture_id"=>25, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>35.0173, "lng"=>135.859, "elevation"=>87.1},
-      {"tel_code"=>12, "name"=>"住之江", "prefecture_id"=>27, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>34.6116, "lng"=>135.469, "elevation"=>4.9},
-      {"tel_code"=>13, "name"=>"尼崎", "prefecture_id"=>28, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>34.7195, "lng"=>135.392, "elevation"=>3.6},
-      {"tel_code"=>14, "name"=>"鳴門", "prefecture_id"=>36, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.1908, "lng"=>134.607, "elevation"=>1.1},
-      {"tel_code"=>15, "name"=>"丸亀", "prefecture_id"=>37, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.3033, "lng"=>133.794, "elevation"=>5.6},
-      {"tel_code"=>16, "name"=>"児島", "prefecture_id"=>33, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.4488, "lng"=>133.807, "elevation"=>10.5},
-      {"tel_code"=>17, "name"=>"宮島", "prefecture_id"=>34, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.0105, "lng"=>131.833, "elevation"=>6.5},
-      {"tel_code"=>18, "name"=>"徳山", "prefecture_id"=>35, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.3149, "lng"=>132.304, "elevation"=>1.5},
-      {"tel_code"=>19, "name"=>"下関", "prefecture_id"=>35, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.0192, "lng"=>131.002, "elevation"=>4.8},
-      {"tel_code"=>20, "name"=>"若松", "prefecture_id"=>40, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>33.8873, "lng"=>130.763, "elevation"=>2.2},
-      {"tel_code"=>21, "name"=>"芦屋", "prefecture_id"=>40, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>33.874, "lng"=>130.662, "elevation"=>5.0},
-      {"tel_code"=>22, "name"=>"福岡", "prefecture_id"=>40, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>33.5993, "lng"=>130.395, "elevation"=>5.0},
-      {"tel_code"=>23, "name"=>"唐津", "prefecture_id"=>41, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>33.4242, "lng"=>129.994, "elevation"=>5.0},
-      {"tel_code"=>24, "name"=>"大村", "prefecture_id"=>42, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>32.8972, "lng"=>129.95, "elevation"=>6.0}
+      {"tel_code"=>1, "name"=>"桐生", "prefecture_id"=>10, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>36.4039, "lng"=>139.291, "elevation"=>130.3, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>2, "name"=>"戸田", "prefecture_id"=>11, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>35.8031, "lng"=>139.655, "elevation"=>5.0, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>3, "name"=>"江戸川", "prefecture_id"=>13, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>35.6925, "lng"=>139.859, "elevation"=>1.8, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>4, "name"=>"平和島", "prefecture_id"=>13, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>35.5853, "lng"=>139.738, "elevation"=>2.3, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>5, "name"=>"多摩川", "prefecture_id"=>13, "water_quality"=>"sea", "tide_fluctuation"=>false, "lat"=>35.6573, "lng"=>139.495, "elevation"=>41.5, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>6, "name"=>"浜名湖", "prefecture_id"=>22, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>34.6985, "lng"=>137.57, "elevation"=>5.2, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>7, "name"=>"蒲郡", "prefecture_id"=>23, "water_quality"=>"brackish", "tide_fluctuation"=>false, "lat"=>34.8233, "lng"=>137.203, "elevation"=>4.4, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>8, "name"=>"常滑", "prefecture_id"=>23, "water_quality"=>"sea", "tide_fluctuation"=>false, "lat"=>34.8857, "lng"=>136.832, "elevation"=>4.1, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>9, "name"=>"津", "prefecture_id"=>24, "water_quality"=>"brackish", "tide_fluctuation"=>false, "lat"=>34.6812, "lng"=>136.517, "elevation"=>4.1, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>10, "name"=>"三国", "prefecture_id"=>18, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>36.2327, "lng"=>136.183, "elevation"=>7.1, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>11, "name"=>"びわこ", "prefecture_id"=>25, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>35.0173, "lng"=>135.859, "elevation"=>87.1, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>12, "name"=>"住之江", "prefecture_id"=>27, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>34.6116, "lng"=>135.469, "elevation"=>4.9, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>13, "name"=>"尼崎", "prefecture_id"=>28, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>34.7195, "lng"=>135.392, "elevation"=>3.6, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>14, "name"=>"鳴門", "prefecture_id"=>36, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.1908, "lng"=>134.607, "elevation"=>1.1, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>15, "name"=>"丸亀", "prefecture_id"=>37, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.3033, "lng"=>133.794, "elevation"=>5.6, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>16, "name"=>"児島", "prefecture_id"=>33, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.4488, "lng"=>133.807, "elevation"=>10.5, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>17, "name"=>"宮島", "prefecture_id"=>34, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.0105, "lng"=>131.833, "elevation"=>6.5, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>18, "name"=>"徳山", "prefecture_id"=>35, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.3149, "lng"=>132.304, "elevation"=>1.5, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>19, "name"=>"下関", "prefecture_id"=>35, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>34.0192, "lng"=>131.002, "elevation"=>4.8, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>20, "name"=>"若松", "prefecture_id"=>40, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>33.8873, "lng"=>130.763, "elevation"=>2.2, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>21, "name"=>"芦屋", "prefecture_id"=>40, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>33.874, "lng"=>130.662, "elevation"=>5.0, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>22, "name"=>"福岡", "prefecture_id"=>40, "water_quality"=>"brackish", "tide_fluctuation"=>true, "lat"=>33.5993, "lng"=>130.395, "elevation"=>5.0, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>23, "name"=>"唐津", "prefecture_id"=>41, "water_quality"=>"fresh", "tide_fluctuation"=>false, "lat"=>33.4242, "lng"=>129.994, "elevation"=>5.0, created_at: Time.zone.now, updated_at: Time.zone.now,},
+      {"tel_code"=>24, "name"=>"大村", "prefecture_id"=>42, "water_quality"=>"sea", "tide_fluctuation"=>true, "lat"=>32.8972, "lng"=>129.95, "elevation"=>6.0, created_at: Time.zone.now, updated_at: Time.zone.now,}
   ]
 )
 
