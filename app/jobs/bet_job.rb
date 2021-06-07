@@ -1,7 +1,7 @@
 class BetJob < ApplicationJob
   class AnyForecastingPatternsDoNotMatched < StandardError; end
 
-  discard_on ActiveRecord::RecordNotFound, Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched
+  discard_on ActiveRecord::RecordNotFound, Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched, OverBudget, ActiveModel::ValidationError
 
   def perform(forecaster_id:, stadium_tel_code:, race_opened_on:, race_number:)
     race =
