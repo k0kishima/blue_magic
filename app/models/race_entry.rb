@@ -24,9 +24,13 @@ class RaceEntry < ApplicationRecord
   validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
   validates :racer_registration_number, presence: true
 
-  delegate :motor_number, to: :boat_setting
+  delegate :motor_number, :motor_quinella_rate, :motor_trio_rate, :boat_number, :boat_quinella_rate, :boat_trio_rate,
+           to: :boat_setting
   delegate :exhibition_time, :exhibition_time_order, to: :circumference_exhibition_record
   delegate :event, to: :race
+
+  attribute :motor_quinella_rate, :float
+  attribute :motor_trio_rate, :float
 
   def absent?
     disqualified_race_entry.present? && disqualified_race_entry.disqualification == Disqualification::ID::ABSENT
