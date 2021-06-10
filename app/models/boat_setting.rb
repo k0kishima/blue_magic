@@ -3,6 +3,11 @@ class BoatSetting < ApplicationRecord
 
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :pit_number]
 
+  has_one :motor_betting_contribute_rate_aggregation, foreign_key: [:stadium_tel_code, :aggregated_on, :motor_number],
+                                                      primary_key: [:stadium_tel_code, :date, :motor_number]
+  has_one :boat_betting_contribute_rate_aggregation, foreign_key: [:stadium_tel_code, :aggregated_on, :boat_number],
+                                                      primary_key: [:stadium_tel_code, :date, :boat_number]
+
   validates :pit_number, presence: true, inclusion: { in: Pit::NUMBER_RANGE }
   validates :boat_number, presence: true, numericality: {
     only_integer: true,
@@ -17,6 +22,22 @@ class BoatSetting < ApplicationRecord
   validates :tilt, presence: true,
                    numericality: { only_float: true, greater_than_or_equal_to: -0.5, less_than_or_equal_to: 3.0 }
   validates :propeller_renewed, inclusion: { in: [true, false] }
+
+  def motor_quinella_rate
+    motor_betting_contribute_rate_aggregation.quinella_rate
+  end
+
+  def motor_trio_rate
+    motor_betting_contribute_rate_aggregation.trio_rate
+  end
+
+  def boat_quinella_rate
+    boat_betting_contribute_rate_aggregation.quinella_rate
+  end
+
+  def boat_trio_rate
+    boat_betting_contribute_rate_aggregation.trio_rate
+  end
 end
 
 # == Schema Information
