@@ -17,6 +17,8 @@ class RaceEntry < ApplicationRecord
   has_one :race_record, foreign_key: self.primary_keys
   has_one :boat_setting, foreign_key: self.primary_keys
   has_one :disqualified_race_entry, foreign_key: self.primary_keys
+  has_one :racer_winning_rate_aggregation, foreign_key: [:racer_registration_number, :aggregated_on],
+                                           primary_key: [:racer_registration_number, :date]
 
   belongs_to :racer, foreign_key: :racer_registration_number, optional: true
   belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
@@ -42,6 +44,14 @@ class RaceEntry < ApplicationRecord
 
   def start_time_in_exhibition
     start_exhibition_record&.start_time
+  end
+
+  def winning_rate_in_all_stadium
+    racer_winning_rate_aggregation&.rate_in_all_stadium
+  end
+
+  def winning_rate_in_event_going_stadium
+    racer_winning_rate_aggregation&.rate_in_event_going_stadium
   end
 end
 
