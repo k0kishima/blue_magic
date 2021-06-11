@@ -7,6 +7,7 @@ describe RaceEntry, type: :model do
     subject { race_entry }
 
     it { is_expected.to belong_to(:stadium) }
+    it { is_expected.to have_one(:racer_winning_rate_aggregation) }
   end
 
   describe 'validations' do
