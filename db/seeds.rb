@@ -73,6 +73,8 @@ Kpi.upsert_all(
     { id: 33, type: "RacerCurrentSeriesPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "今節着順標準偏差", description: "", attribute_name: "racer_placing_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 34, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今節平均ST", description: "", attribute_name: "racer_start_time_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 35, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今節ST標準偏差", description: "", attribute_name: "racer_start_time_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 36, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今期平均ST", description: "", attribute_name: "racer_start_time_average_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 37, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今期ST標準偏差", description: "", attribute_name: "racer_start_time_stdev_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
