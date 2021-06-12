@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RacerAssistTrickKpi, type: :model do
+describe RacerDisqualificationKpi, type: :model do
   describe '#value!' do
     subject { kpi.value! }
 
