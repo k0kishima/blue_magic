@@ -53,7 +53,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Rails.application.load_seed
-    DatabaseCleaner.clean_with :truncation, { except: %w(stadiums kpis) }
+    DatabaseCleaner.clean_with :truncation, { except: %w(stadiums kpis settings) }
   end
 
   config.before(:all) do
