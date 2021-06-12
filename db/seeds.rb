@@ -71,6 +71,8 @@ Kpi.upsert_all(
     { id: 31, type: "RacerPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "3着率(全場)", description: "集計対象を全場とした場合の3着率", attribute_name: "racer_third_place_rate_on_start_course_in_exhibition_in_all_stadium", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 32, type: "RacerCurrentSeriesPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "今節平均着順", description: "", attribute_name: "racer_placing_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 33, type: "RacerCurrentSeriesPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "今節着順標準偏差", description: "", attribute_name: "racer_placing_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 34, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今節平均ST", description: "", attribute_name: "racer_start_time_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 35, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今節ST標準偏差", description: "", attribute_name: "racer_start_time_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
