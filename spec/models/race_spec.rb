@@ -230,6 +230,51 @@ RSpec.describe Race, type: :model do
       it { is_expected.to be false }
     end
   end
+
+  describe 'ranking attribites' do
+    context 'when a rankable attribute called' do
+      subject { race.motor_quinella_rate_first }
+
+      context 'when race entries are present' do
+        let(:race) { create(:race, :with_race_entries) }
+
+        context 'when race entry ranking attributes are present' do
+          before do
+            # hack: factory bot での cycle が同じ周期なので関連先まで作成できるが、暗黙的な規約を内包していてわかりにくいので明示的に作った方がいいかも
+            # race.race_entries.each { |race_entry| create(:boat_setting, **race_entry.slice(*RaceEntry.primary_keys)) }
+            create_list(:boat_setting, 6, **race.slice(*Race.primary_keys))
+            create_list(:motor_betting_contribute_rate_aggregation, 6, stadium_tel_code: race.stadium_tel_code,
+                                                                       aggregated_on: race.date)
+          end
+
+          it 'returns value of attribute of specified rank' do
+            # TODO:
+            # cycleが10刻みで設定してあるから6艇分のフィクスチャ作ったら60になる
+            # けどこれだとわかりにくいから明示的に値指定して作るようにする
+            expect(subject).to eq 60.0
+          end
+        end
+
+        context 'when race entry ranking attributes are blank' do
+          it { expect { subject }.to raise_error(Module::DelegationError) }
+        end
+      end
+
+      context 'when race entries are blank' do
+        let(:race) { create(:race) }
+
+        it { expect { subject }.to raise_error(DataNotFound) }
+      end
+    end
+
+    context 'when not a rankable attribute called' do
+      let(:race) { create(:race) }
+
+      subject { race.pit_number_first }
+
+      it { expect { subject }.to raise_error(NoMethodError) }
+    end
+  end
 end
 
 # == Schema Information

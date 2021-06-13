@@ -133,6 +133,27 @@ class Race < ApplicationRecord
 
     errors.add(:betting_deadline_at, 'must be with in same date  of value of date property')
   end
+
+  def method_missing(method_name, *)
+    decomposed_method_name = method_name.to_s.split('_')
+    suffix = decomposed_method_name.pop
+    attribute = decomposed_method_name.join('_')
+
+    rankable_attributes = RankingSetting::RACE_ENTRY.keys.map(&:to_s)
+    if attribute.in?(rankable_attributes) && suffix.in?(%w[first second third fourth fifth sixth])
+      raise ::DataNotFound, 'fetch race entry data before calculate ranking attributes' if race_entries.blank?
+
+      samples = race_entries.map { |race_entry| race_entry.try(attribute) }
+      sorted_samples = samples.sort
+
+      evaluation_policy = RankingSetting::RACE_ENTRY.symbolize_keys.fetch(attribute.to_sym)
+      sorted_samples = sorted_samples.reverse if evaluation_policy == :bigger_is_better
+
+      sorted_samples.try(suffix)
+    else
+      super
+    end
+  end
 end
 
 # == Schema Information
