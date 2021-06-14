@@ -126,6 +126,36 @@ class Race < ApplicationRecord
     }
   end
 
+  # current というのは何に対して current かというとレシーバであるraceオブジェクトの日付を基準にしたときの今期なわけだが
+  # もう少しいい命名はないか模索したい
+  def current_racer_rating_evaluation_term
+    @current_racer_rating_evaluation_term ||= RacerRatingEvaluationTerm.initialize_by(date: date)
+  end
+
+  # NOTE: 集計時に現在のレース(集計の起点となるレース)結果を含めてしまわないように注意
+  #
+  # 例えば以下のレース
+  # http://boatrace.jp/owpc/pc/race/racelist?rno=3&jcd=16&hd=20181216
+  #
+  # 4220 深川 はこのレースでフライングをした
+  # このレース開始時点ではまだF1なので, このレース後にF2になるのが正しい
+  # しかし、これを日付で取ってしまうとこのレースでのフライングも含まれてしまい、レース開始前にF2だと判定されてしまう
+  #
+  # したがって、レースの発売締め切り時刻(datetime)の精度で選択しないと意図しない失格判定がされてしまい、
+  # 予想に支障をきたすため締め切り時刻を基準とすること(尚且つ集計の起点となるレースは「含めない」)
+  def range_for_current_racer_rating_evaluation_term_aggregation
+    @range_for_current_racer_rating_evaluation_term_aggregation ||= \
+      current_racer_rating_evaluation_term.starts_on.in_time_zone...betting_deadline_at
+  end
+
+  def range_for_current_series_aggregation
+    @range_for_current_series_aggregation ||= -> do
+      raise DataNotPrepared if event.blank?
+
+      event.starts_on.in_time_zone...betting_deadline_at
+    end.call
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date

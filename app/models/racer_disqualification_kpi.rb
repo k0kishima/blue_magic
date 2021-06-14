@@ -5,7 +5,7 @@ class RacerDisqualificationKpi < Kpi
     disqualification_race_entries = DisqualifiedRaceEntry
                                     .joins(race_entry: :race)
                                     .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
-                                    .merge(Race.where(betting_deadline_at: aggregation_ragnge.value))
+                                    .merge(Race.where(betting_deadline_at: aggregation_ragnge))
 
     if disqualification.present?
       disqualification_race_entries = disqualification_race_entries.where(disqualification: disqualification)
@@ -36,9 +36,9 @@ class RacerDisqualificationKpi < Kpi
   def aggregation_ragnge
     @aggregation_ragnge ||= case attribute_name
                             when /in_current_term/
-                              CurrentTerm.new(entry_object.race)
+                              entry_object.race.range_for_current_racer_rating_evaluation_term_aggregation
                             when /in_current_series/
-                              CurrentSeries.new(entry_object.race)
+                              entry_object.race.range_for_current_series_aggregation
                             else
                               raise StandardError, "cannot decide aggregation range to key: #{attribute_name}"
                             end
