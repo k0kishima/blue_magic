@@ -322,6 +322,38 @@ describe RaceEntry, type: :model do
         expect(subject).to eq Rational(2, 2)
       end
     end
+
+    describe '#quinella_rate_on_start_course_in_exhibition' do
+      subject { race_entry.quinella_rate_on_start_course_in_exhibition }
+
+      before do
+        start_exhibition_record
+
+        race_entry_of_in_the_range_race_1.create_race_record(course_number: 1, arrival: 2)
+        race_entry_of_in_the_range_race_2.create_race_record(course_number: 1, arrival: 3)
+        race_entry_of_in_the_range_race_3.create_race_record(course_number: 1, arrival: 1)
+      end
+
+      it 'returns quinella rate' do
+        expect(subject).to eq Rational(2, 3)
+      end
+    end
+
+    describe '#trio_rate_on_start_course_in_exhibition' do
+      subject { race_entry.trio_rate_on_start_course_in_exhibition }
+
+      before do
+        start_exhibition_record
+
+        race_entry_of_in_the_range_race_1.create_race_record(course_number: 1, arrival: 3)
+        race_entry_of_in_the_range_race_2.create_race_record(course_number: 1, arrival: 4)
+        race_entry_of_in_the_range_race_3.create_race_record(course_number: 1, arrival: 5)
+      end
+
+      it 'returns quinella rate' do
+        expect(subject).to eq Rational(1, 3)
+      end
+    end
   end
 end
 

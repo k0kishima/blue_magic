@@ -58,15 +58,35 @@ class RaceEntry < ApplicationRecord
   # そもそも特定場の集計することがないので n着率 に関しては全場対象を暗黙の了解とする
   # 場の得手不得手は当地勝率で判断できる。コースに関しても同様
   def first_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival[1] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+    Rational(counts_indexed_by_order_of_arrival.fetch(1, 0), counts_indexed_by_order_of_arrival.values.sum || 0)
   end
 
   def second_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival[2] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+    Rational(counts_indexed_by_order_of_arrival.fetch(2, 0), counts_indexed_by_order_of_arrival.values.sum || 0)
   end
 
   def third_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival[3] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+    Rational(counts_indexed_by_order_of_arrival.fetch(3, 0), counts_indexed_by_order_of_arrival.values.sum || 0)
+  end
+
+  def quinella_rate_on_start_course_in_exhibition
+    Rational(
+      (
+        counts_indexed_by_order_of_arrival.fetch(1, 0) +
+        counts_indexed_by_order_of_arrival.fetch(2, 0)
+      ),
+      counts_indexed_by_order_of_arrival.values.sum || 0
+    )
+  end
+
+  def trio_rate_on_start_course_in_exhibition
+    Rational(
+      (
+        counts_indexed_by_order_of_arrival.fetch(1, 0) +
+        counts_indexed_by_order_of_arrival.fetch(2, 0) +
+        counts_indexed_by_order_of_arrival.fetch(3, 0)),
+      counts_indexed_by_order_of_arrival.values.sum || 0
+    )
   end
 
   private
