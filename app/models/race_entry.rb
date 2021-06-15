@@ -53,6 +53,43 @@ class RaceEntry < ApplicationRecord
   def winning_rate_in_event_going_stadium
     racer_winning_rate_aggregation&.rate_in_event_going_stadium
   end
+
+  # 集計対象が全場なので接尾辞に _in_all_stadium などつけた方がいいと考えたが、
+  # そもそも特定場の集計することがないので n着率 に関しては全場対象を暗黙の了解とする
+  # 場の得手不得手は当地勝率で判断できる。コースに関しても同様
+  def first_place_rate_on_start_course_in_exhibition
+    Rational(counts_indexed_by_order_of_arrival[1] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+  end
+
+  def second_place_rate_on_start_course_in_exhibition
+    Rational(counts_indexed_by_order_of_arrival[2] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+  end
+
+  def third_place_rate_on_start_course_in_exhibition
+    Rational(counts_indexed_by_order_of_arrival[3] || 0, counts_indexed_by_order_of_arrival.values.sum || 0)
+  end
+
+  private
+
+  def yearly_aggregation_range
+    @yearly_aggregation_range ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
+  end
+
+  def aggregation_target_race_records
+    @aggregation_target_race_records ||= -> do
+      raise DataNotPrepared, 'the source object does not have exhibition data yet' if course_number_in_exhibition.blank?
+
+      RaceRecord
+        .where(date: yearly_aggregation_range)
+        .where(course_number: course_number_in_exhibition)
+        .joins(:race_entry)
+        .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+    end.call
+  end
+
+  def counts_indexed_by_order_of_arrival
+    @counts_indexed_by_order_of_arrival ||= aggregation_target_race_records.group(:arrival).count
+  end
 end
 
 # == Schema Information
