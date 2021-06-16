@@ -156,6 +156,22 @@ class Race < ApplicationRecord
     end.call
   end
 
+  def winning_rate_in_all_stadium_mean
+    race_entries.map(&:winning_rate_in_all_stadium).mean
+  end
+
+  def winning_rate_in_all_stadium_sd
+    race_entries.map(&:winning_rate_in_all_stadium).sd
+  end
+
+  def motor_quinella_rate_mean
+    race_entries.map(&:motor_quinella_rate).mean
+  end
+
+  def motor_quinella_rate_sd
+    race_entries.map(&:motor_quinella_rate).sd
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date

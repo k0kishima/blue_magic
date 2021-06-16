@@ -24,7 +24,7 @@ describe RacerCurrentSeriesPlacingRecordKpi, type: :model do
     }
 
     describe 'average' do
-      let(:kpi) { Kpi.find_by(attribute_name: 'racer_placing_average_in_current_series') }
+      let(:kpi) { Kpi.find_by(attribute_name: 'placing_average_in_current_series') }
 
       before do
         kpi.entry_object = race_entry_4
@@ -59,7 +59,7 @@ describe RacerCurrentSeriesPlacingRecordKpi, type: :model do
     end
 
     describe 'stdev' do
-      let(:kpi) { Kpi.find_by(attribute_name: 'racer_placing_stdev_in_current_series') }
+      let(:kpi) { Kpi.find_by(attribute_name: 'placing_stdev_in_current_series') }
 
       before do
         kpi.entry_object = race_entry_4

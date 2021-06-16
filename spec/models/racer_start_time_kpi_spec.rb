@@ -38,7 +38,7 @@ describe RacerStartTimeKpi, type: :model do
       # rubocop:enable Layout/LineLength
 
       describe 'average kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'racer_start_time_average_in_current_term') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'start_time_average_in_current_term') }
 
         before do
           kpi.entry_object = race_entry_4
@@ -72,7 +72,7 @@ describe RacerStartTimeKpi, type: :model do
       end
 
       describe 'sd kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'racer_start_time_stdev_in_current_term') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'start_time_stdev_in_current_term') }
 
         before do
           kpi.entry_object = race_entry_4
@@ -123,7 +123,7 @@ describe RacerStartTimeKpi, type: :model do
       }
 
       describe 'average kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'racer_start_time_average_in_current_series') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'start_time_average_in_current_series') }
 
         before do
           kpi.entry_object = race_entry_3
@@ -160,7 +160,7 @@ describe RacerStartTimeKpi, type: :model do
       end
 
       describe 'stdev kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'racer_start_time_stdev_in_current_series') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'start_time_stdev_in_current_series') }
 
         before do
           kpi.entry_object = race_entry_3
