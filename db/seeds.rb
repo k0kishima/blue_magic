@@ -80,8 +80,19 @@ Kpi.upsert_all(
     { id: 40, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 1着指標", description: "", attribute_name: "base_point_as_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 41, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 2連対指標", description: "", attribute_name: "base_point_as_second", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 42, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 3連対指標", description: "", attribute_name: "base_point_as_third", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 43, type: "AttributionalKpi", entry_object_class_name: "Race", name: "場コード", description: "", attribute_name: "stadium_tel_code", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 44, type: "AttributionalKpi", entry_object_class_name: "Race", name: "レース番号", description: "", attribute_name: "race_number", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 45, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "2連対率順位", description: "※ 順位は出走表内でのもの", attribute_name: "motor_quinella_rate_rank", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 46, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示タイム順位", description: "※ 順位は出走表内でのもの", attribute_name: "exhibition_time_rank", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 47, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コース", description: "", attribute_name: "start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 48, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者全国勝率平均", description: "", attribute_name: "winning_rate_in_all_stadium_mean", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 49, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者全国勝率標準偏差", description: "", attribute_name: "winning_rate_in_all_stadium_sd", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 50, type: "AttributionalKpi", entry_object_class_name: "Race", name: "モーター2連対率平均", description: "", attribute_name: "motor_quinella_rate_mean", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 51, type: "AttributionalKpi", entry_object_class_name: "Race", name: "モーター2連対率標準偏差", description: "", attribute_name: "motor_quinella_rate_sd", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 52, type: "AttributionalKpi", entry_object_class_name: "Race", name: "節の進捗(開催n日目)", description: "", attribute_name: "day_count_in_event", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
 
 Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Setting.any?
+
