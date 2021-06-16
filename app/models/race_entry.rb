@@ -89,6 +89,36 @@ class RaceEntry < ApplicationRecord
     )
   end
 
+  # TODO: これ以降のpublic methods はKPIモデルに移行する（プリミティブなKPIの組み合わせなので、エンドユーザーが自由に定義できるといい）
+  # FIXME: RankedAttributeDecoratorによる ranked_attributes の動的追加を行った後じゃないとエラーになるバギーなコード
+  def performance_score
+    ranked_attribute_name = %w(exhibition_time_rank motor_quinella_rate_rank winning_rate_in_all_stadium_rank)
+    score = 7 * ranked_attribute_name.count
+
+    ranked_attribute_name.each do |kpi|
+      value = try(kpi)
+      if value.present?
+        score -= value
+      else
+        raise DataNotFound, "raked data (#{ranked_attribute_name}) not found at racer id: #{racer_registration_number}"
+      end
+    end
+
+    score
+  end
+
+  def base_point_as_first
+    first_place_rate_on_start_course_in_exhibition * 10 + performance_score
+  end
+
+  def base_point_as_second
+    quinella_rate_on_start_course_in_exhibition * 7.5 + performance_score
+  end
+
+  def base_point_as_third
+    trio_rate_on_start_course_in_exhibition * 5 + performance_score
+  end
+
   private
 
   def yearly_aggregation_range

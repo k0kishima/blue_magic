@@ -77,6 +77,9 @@ Kpi.upsert_all(
     { id: 37, type: "RacerStartTimeKpi", entry_object_class_name: "RaceEntry", name: "今期ST標準偏差", description: "", attribute_name: "racer_start_time_stdev_in_current_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 38, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでの2連対率", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "quinella_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 39, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでの3連対率", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "trio_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 40, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 1着指標", description: "", attribute_name: "base_point_as_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 41, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 2連対指標", description: "", attribute_name: "base_point_as_second", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 42, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 3連対指標", description: "", attribute_name: "base_point_as_third", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
