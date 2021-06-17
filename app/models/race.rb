@@ -20,6 +20,8 @@ class Race < ApplicationRecord
   validates :betting_deadline_at, presence: true
   validate :betting_deadline_at_cannot_be_no_in_date
 
+  scope :not_canceled, -> { where(canceled: false) }
+
   class << self
     def by_wind_condition(wind_angle:, wind_velocity:)
       joins(:weather_conditions)
