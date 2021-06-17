@@ -1,7 +1,7 @@
 class Forecaster < ApplicationRecord
   class AlreadyForecasted < StandardError; end
 
-  has_many :forecasters_forecasting_patterns
+  has_many :forecasters_forecasting_patterns, dependent: :destroy
   has_many :forecasting_patterns, through: :forecasters_forecasting_patterns
   has_many :recommend_odds, through: :forecasters_forecasting_patterns, class_name: 'RecommendOdds'
 
