@@ -92,7 +92,7 @@ class RaceEntry < ApplicationRecord
   # TODO: これ以降のpublic methods はKPIモデルに移行する（プリミティブなKPIの組み合わせなので、エンドユーザーが自由に定義できるといい）
   # FIXME: RankedAttributeDecoratorによる ranked_attributes の動的追加を行った後じゃないとエラーになるバギーなコード
   def performance_score
-    ranked_attribute_name = %w(exhibition_time_rank motor_quinella_rate_rank winning_rate_in_all_stadium_rank)
+    ranked_attribute_name = %w(exhibition_time_order motor_quinella_rate_rank winning_rate_in_all_stadium_rank)
     score = 7 * ranked_attribute_name.count
 
     ranked_attribute_name.each do |kpi|

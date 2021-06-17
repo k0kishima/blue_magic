@@ -25,7 +25,7 @@ class Kpi < ApplicationRecord
     return if entry_object.blank?
     return if entry_object.class.name == entry_object_class_name
 
-    errors.add(:entry_object_class_name, "entry object must be a instance of #{entry_object_class_name}")
+    errors.add(:entry_object_class_name, "entry object must be a instance of #{entry_object_class_name} at kpi: #{key}")
   end
 end
 
