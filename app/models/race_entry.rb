@@ -119,6 +119,10 @@ class RaceEntry < ApplicationRecord
     trio_rate_on_start_course_in_exhibition * 5 + performance_score
   end
 
+  def order_sum
+    motor_quinella_rate_rank + exhibition_time_order + winning_rate_in_all_stadium_rank
+  end
+
   private
 
   def yearly_aggregation_range
