@@ -30,7 +30,7 @@ describe RacerDisqualificationKpi, type: :model do
       # rubocop:enable Layout/LineLength
 
       describe ' disqualification total kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'disqualification_total_in_current_term') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'disqualification_total_in_current_rating_term') }
 
         before do
           kpi.entry_object = race_entry_4
@@ -62,7 +62,7 @@ describe RacerDisqualificationKpi, type: :model do
       end
 
       describe 'flying count kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'flying_count_in_current_term') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'flying_count_in_current_rating_term') }
 
         before do
           kpi.entry_object = race_entry_4
@@ -92,7 +92,7 @@ describe RacerDisqualificationKpi, type: :model do
       end
 
       describe 'lateness count kpi' do
-        let(:kpi) { Kpi.find_by(attribute_name: 'lateness_count_in_current_term') }
+        let(:kpi) { Kpi.find_by(attribute_name: 'lateness_count_in_current_rating_term') }
 
         before do
           kpi.entry_object = race_entry_4
