@@ -174,6 +174,10 @@ class Race < ApplicationRecord
     race_entries.map(&:motor_quinella_rate).sd
   end
 
+  def wind_velocity_when_exhibition
+    weather_condition_in_exhibition.wind_velocity
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date
