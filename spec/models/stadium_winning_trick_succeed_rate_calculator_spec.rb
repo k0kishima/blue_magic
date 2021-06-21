@@ -101,7 +101,7 @@ describe StadiumWinningTrickSucceedRateCalculator, type: :model do
           let(:context) { {} }
 
           it 'returns a trick succeed rate' do
-            expect(subject).to eq Rational(3, 5)
+            expect(subject).to eq Rational(3, 5).to_f
           end
         end
 
@@ -128,7 +128,7 @@ describe StadiumWinningTrickSucceedRateCalculator, type: :model do
             end
 
             it 'returns a trick succeed rate' do
-              expect(subject).to eq Rational(1, 2)
+              expect(subject).to eq Rational(1, 2).to_f
             end
           end
 
@@ -150,7 +150,7 @@ describe StadiumWinningTrickSucceedRateCalculator, type: :model do
             end
 
             it 'returns a trick succeed rate' do
-              expect(subject).to eq Rational(1, 2)
+              expect(subject).to eq Rational(1, 2).to_f
             end
           end
         end

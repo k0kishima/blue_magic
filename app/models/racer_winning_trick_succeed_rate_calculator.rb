@@ -31,7 +31,7 @@ class RacerWinningTrickSucceedRateCalculator
     numerator = race_records.select { |race_record| race_record.winning_trick_id == trick.id }.count
 
     begin
-      Rational(numerator, race_records.count)
+      Rational(numerator, race_records.count).to_f
     rescue ZeroDivisionError
       0
     end
