@@ -35,7 +35,7 @@ class RacerAssistTrickSucceedRateCalculator
     end.count
 
     begin
-      Rational(numerator, races.count)
+      Rational(numerator, races.count).to_f
     rescue ZeroDivisionError
       0
     end

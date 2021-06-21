@@ -98,7 +98,7 @@ describe RacerAssistTrickSucceedRateCalculator, type: :model do
         end
 
         it 'returns a trick succeed rate' do
-          expect(subject).to eq Rational(1, 2)
+          expect(subject).to eq Rational(1, 2).to_f
         end
       end
 
@@ -155,7 +155,7 @@ describe RacerAssistTrickSucceedRateCalculator, type: :model do
         end
 
         it 'returns a trick succeed rate' do
-          expect(subject).to eq Rational(2, 3)
+          expect(subject).to eq Rational(2, 3).to_f
         end
       end
     end
