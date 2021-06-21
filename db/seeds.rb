@@ -90,6 +90,7 @@ Kpi.upsert_all(
     { id: 50, type: "AttributionalKpi", entry_object_class_name: "Race", name: "モーター2連対率標準偏差", description: "", attribute_name: "motor_quinella_rate_sd", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 51, type: "AttributionalKpi", entry_object_class_name: "Race", name: "節の進捗(開催n日目)", description: "", attribute_name: "day_count_in_event", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 52, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の風速/m", description: "", attribute_name: "wind_velocity_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 53, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "[独自KPI] 序列系のKPI値総和", description: "", attribute_name: "order_sum", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
