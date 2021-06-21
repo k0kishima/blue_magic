@@ -35,7 +35,7 @@ class RacerDisqualificationKpi < Kpi
 
   def aggregation_ragnge
     @aggregation_ragnge ||= case attribute_name
-                            when /in_current_term/
+                            when /in_current_rating_term/
                               entry_object.race.range_for_current_racer_rating_evaluation_term_aggregation
                             when /in_current_series/
                               entry_object.race.range_for_current_series_aggregation
