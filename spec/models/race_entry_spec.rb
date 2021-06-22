@@ -355,6 +355,321 @@ describe RaceEntry, type: :model do
       end
     end
   end
+
+  describe 'readers about start performance in current series' do
+    let(:racer_registration_number) { 1 }
+    let(:stadium_tel_code) { 4 }
+    let(:race_1) { create(:race, date: Date.new(2021, 4, 23), stadium_tel_code: stadium_tel_code) }
+    let(:race_2) { create(:race, date: Date.new(2021, 4, 30), stadium_tel_code: stadium_tel_code) }
+    let(:race_3) { create(:race, date: Date.new(2021, 5, 1), stadium_tel_code: stadium_tel_code) }
+    let(:race_entry_1) {
+      create(:race_entry, **race_1.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_2) {
+      create(:race_entry, **race_2.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_3) {
+      create(:race_entry, **race_3.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+
+    describe 'start_time_average_in_current_series' do
+      subject { race_entry_3.start_time_average_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_time: 0.15)
+            create(:race_record, race_entry: race_entry_3, start_time: 0.1)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_time: 0.07)
+          end
+
+          it 'returns start time average in current term' do
+            expect(subject).to eq 0.07
+          end
+        end
+
+        context 'when race records not exist' do
+          it { expect(subject).to be_nan }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe 'start_time_stdev_in_current_series' do
+      subject { race_entry_3.start_time_stdev_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_time: 0.15)
+            create(:race_record, race_entry: race_entry_3, start_time: 0.1)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_time: 0.07)
+          end
+
+          it 'returns start time stdev in current term' do
+            # [29] pry(main)> [0.7].sd
+            # => NaN
+            expect(subject).to be_nan
+          end
+        end
+
+        context 'when race records not exist' do
+          # [29] pry(main)> [].sd
+          # => 0.0
+          it { expect(subject).to eq 0.0 }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe 'start_order_average_in_current_series' do
+      subject { race_entry_3.start_order_average_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_order: 1)
+            create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_order: 2)
+          end
+
+          it 'returns start order average in current term' do
+            expect(subject).to eq 2
+          end
+        end
+
+        context 'when race records not exist' do
+          it { expect(subject).to be_nan }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe 'start_order_stdev_in_current_series' do
+      subject { race_entry_3.start_order_stdev_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_order: 1)
+            create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_order: 2)
+          end
+
+          it 'returns start order stdev in current term' do
+            # [29] pry(main)> [2].sd
+            # => NaN
+            expect(subject).to be_nan
+          end
+        end
+
+        context 'when race records not exist' do
+          # [29] pry(main)> [].sd
+          # => 0.0
+          it { expect(subject).to eq 0.0 }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+  end
+
+  describe 'readers about start performance in current rating term' do
+    let(:target_racer_registration_number) { 1 }
+    let(:other_racer_registration_number) { 2 }
+    let(:race_1) {
+      create(:race, date: Date.new(2021, 4, 30), betting_deadline_at: DateTime.new(2021, 4, 30, 9).in_time_zone)
+    }
+    let(:race_2) {
+      create(:race, date: Date.new(2021, 5, 1), betting_deadline_at: DateTime.new(2021, 5, 1, 9).in_time_zone)
+    }
+    let(:race_3) {
+      create(:race, date: Date.new(2021, 6, 6), betting_deadline_at: DateTime.new(2021, 6, 6, 9).in_time_zone)
+    }
+    let(:race_4) {
+      create(:race, date: Date.new(2021, 6, 6), betting_deadline_at: DateTime.new(2021, 6, 6, 14).in_time_zone)
+    }
+    # rubocop:disable Layout/LineLength
+    let(:race_entry_1) {
+      create(:race_entry, **race_1.slice(*Race.primary_keys), racer_registration_number: target_racer_registration_number)
+    }
+    let(:race_entry_2) {
+      create(:race_entry, **race_2.slice(*Race.primary_keys), racer_registration_number: target_racer_registration_number)
+    }
+    let(:race_entry_3) {
+      create(:race_entry, **race_3.slice(*Race.primary_keys), racer_registration_number: target_racer_registration_number)
+    }
+    let(:race_entry_4) {
+      create(:race_entry, **race_4.slice(*Race.primary_keys), racer_registration_number: target_racer_registration_number)
+    }
+    let(:other_race_entry) {
+      create(:race_entry, **race_2.slice(*Race.primary_keys), racer_registration_number: other_racer_registration_number)
+    }
+    # rubocop:enable Layout/LineLength
+
+    describe 'start_time_average_in_current_rating_term' do
+      subject { race_entry_4.start_time_average_in_current_rating_term }
+
+      context 'when race records exist' do
+        before do
+          # 前期は集計対象外
+          create(:race_record, race_entry: race_entry_1, start_time: 0.15)
+
+          # 集計期間中
+          ## 集計対象
+          create(:race_record, race_entry: race_entry_2, start_time: 0.07)
+          create(:race_record, race_entry: race_entry_3, start_time: 0.1)
+
+          ## 対象レーサーではないので集計対象外
+          create(:race_record, race_entry: other_race_entry, start_time: 0.15)
+
+          ## 集計基準となるレースは集計対象外
+          create(:race_record, race_entry: race_entry_4, start_time: 0.12)
+        end
+
+        it 'returns start time average in current rating term' do
+          expect(subject).to eq 0.085
+        end
+      end
+
+      context 'when race records not exist' do
+        it { expect(subject).to be_nan }
+      end
+    end
+
+    describe 'start_time_stdev_in_current_rating_term' do
+      subject { race_entry_4.start_time_stdev_in_current_rating_term }
+
+      context 'when race records exist' do
+        before do
+          # 前期は集計対象外
+          create(:race_record, race_entry: race_entry_1, start_time: 0.15)
+
+          # 集計期間中
+          ## 集計対象
+          create(:race_record, race_entry: race_entry_2, start_time: 0.07)
+          create(:race_record, race_entry: race_entry_3, start_time: 0.1)
+
+          ## 対象レーサーではないので集計対象外
+          create(:race_record, race_entry: other_race_entry, start_time: 0.15)
+
+          ## 集計基準となるレースは集計対象外
+          create(:race_record, race_entry: race_entry_4, start_time: 0.12)
+        end
+
+        it 'returns start time stdev in current rating term' do
+          expect(subject).to eq 0.021213203435596427
+        end
+      end
+
+      context 'when race records not exist' do
+        # [29] pry(main)> [].sd
+        # => 0.0
+        it { expect(subject).to eq 0.0 }
+      end
+    end
+
+    describe 'start_order_average_in_current_rating_term' do
+      subject { race_entry_4.start_order_average_in_current_rating_term }
+
+      context 'when race records exist' do
+        before do
+          # 前期は集計対象外
+          create(:race_record, race_entry: race_entry_1, start_order: 5)
+
+          # 集計期間中
+          ## 集計対象
+          create(:race_record, race_entry: race_entry_2, start_order: 1)
+          create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+          ## 対象レーサーではないので集計対象外
+          create(:race_record, race_entry: other_race_entry, start_order: 1)
+
+          ## 集計基準となるレースは集計対象外
+          create(:race_record, race_entry: race_entry_4, start_order: 1)
+        end
+
+        it 'returns start order average in current rating term' do
+          expect(subject).to eq 2
+        end
+      end
+
+      context 'when race records not exist' do
+        it { expect(subject).to be_nan }
+      end
+    end
+
+    describe 'start_order_stdev_in_current_rating_term' do
+      subject { race_entry_4.start_order_stdev_in_current_rating_term }
+
+      context 'when race records exist' do
+        before do
+          # 前期は集計対象外
+          create(:race_record, race_entry: race_entry_1, start_order: 5)
+
+          # 集計期間中
+          ## 集計対象
+          create(:race_record, race_entry: race_entry_2, start_order: 1)
+          create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+          ## 対象レーサーではないので集計対象外
+          create(:race_record, race_entry: other_race_entry, start_order: 1)
+
+          ## 集計基準となるレースは集計対象外
+          create(:race_record, race_entry: race_entry_4, start_order: 1)
+        end
+
+        it 'returns start order stdev in current rating term' do
+          expect(subject).to eq 1.4142135623730951
+        end
+      end
+
+      context 'when race records not exist' do
+        # [29] pry(main)> [].sd
+        # => 0.0
+        it { expect(subject).to eq 0.0 }
+      end
+    end
+  end
 end
 
 # == Schema Information

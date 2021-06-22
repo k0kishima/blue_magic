@@ -123,6 +123,39 @@ class RaceEntry < ApplicationRecord
     motor_quinella_rate_rank + exhibition_time_order + winning_rate_in_all_stadium_rank
   end
 
+  def start_time_average_in_current_series
+    current_series_race_records.map(&:start_time).mean
+  end
+
+  def start_time_stdev_in_current_series
+    current_series_race_records.map(&:start_time).sd
+  end
+
+  def start_order_average_in_current_series
+    current_series_race_records.map(&:start_order).mean
+  end
+
+  def start_order_stdev_in_current_series
+    current_series_race_records.map(&:start_order).sd
+  end
+
+  def start_time_average_in_current_rating_term
+    current_rating_term_race_records.map(&:start_time).mean
+  end
+
+  def start_time_stdev_in_current_rating_term
+    current_rating_term_race_records.map(&:start_time).sd
+  end
+
+  def start_order_average_in_current_rating_term
+    current_rating_term_race_records.map(&:start_order).mean
+  end
+
+  def start_order_stdev_in_current_rating_term
+    current_rating_term_race_records.map(&:start_order).sd
+  end
+
+
   private
 
   def yearly_aggregation_range
@@ -143,6 +176,22 @@ class RaceEntry < ApplicationRecord
 
   def counts_indexed_by_order_of_arrival
     @counts_indexed_by_order_of_arrival ||= aggregation_target_race_records.group(:arrival).count
+  end
+
+  def current_series_race_records
+    @current_series_race_records ||= \
+      RaceRecord
+      .joins(race_entry: :race)
+      .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+      .merge(Race.where(betting_deadline_at: race.range_for_current_series_aggregation))
+  end
+
+  def current_rating_term_race_records
+    @current_rating_term_race_records ||= \
+      RaceRecord
+      .joins(race_entry: :race)
+      .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+      .merge(Race.where(betting_deadline_at: race.range_for_current_racer_rating_evaluation_term_aggregation))
   end
 end
 
