@@ -423,8 +423,78 @@ describe RaceEntry, type: :model do
             create(:race_record, race_entry: race_entry_2, start_time: 0.07)
           end
 
-          it 'returns start time average in current term' do
+          it 'returns start time stdev in current term' do
             # [29] pry(main)> [0.7].sd
+            # => NaN
+            expect(subject).to be_nan
+          end
+        end
+
+        context 'when race records not exist' do
+          # [29] pry(main)> [].sd
+          # => 0.0
+          it { expect(subject).to eq 0.0 }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe 'start_order_average_in_current_series' do
+      subject { race_entry_3.start_order_average_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_order: 1)
+            create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_order: 2)
+          end
+
+          it 'returns start order average in current term' do
+            expect(subject).to eq 2
+          end
+        end
+
+        context 'when race records not exist' do
+          it { expect(subject).to be_nan }
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe 'start_order_stdev_in_current_series' do
+      subject { race_entry_3.start_order_stdev_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        context 'when race records exist' do
+          before do
+            # 集計対象外
+            create(:race_record, race_entry: race_entry_1, start_order: 1)
+            create(:race_record, race_entry: race_entry_3, start_order: 3)
+
+            # 集計対象
+            create(:race_record, race_entry: race_entry_2, start_order: 2)
+          end
+
+          it 'returns start order stdev in current term' do
+            # [29] pry(main)> [2].sd
             # => NaN
             expect(subject).to be_nan
           end
