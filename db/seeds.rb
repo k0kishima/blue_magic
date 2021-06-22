@@ -96,6 +96,8 @@ Kpi.upsert_all(
     { id: 56, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節スタート順標準偏差", description: "", attribute_name: "start_order_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 57, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今期平均スタート順", description: "", attribute_name: "start_order_average_in_current_rating_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 58, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今期スタート順標準偏差", description: "", attribute_name: "start_order_stdev_in_current_rating_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 59, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "出走者全国勝率", description: "", attribute_name: "winning_rate_in_all_stadium", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 60, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "出走者当地勝率", description: "", attribute_name: "winning_rate_in_event_going_stadium", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
