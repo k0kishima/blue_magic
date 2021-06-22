@@ -139,6 +139,23 @@ class RaceEntry < ApplicationRecord
     current_series_race_records.map(&:start_order).sd
   end
 
+  def start_time_average_in_current_rating_term
+    current_rating_term_race_records.map(&:start_time).mean
+  end
+
+  def start_time_stdev_in_current_rating_term
+    current_rating_term_race_records.map(&:start_time).sd
+  end
+
+  def start_order_average_in_current_rating_term
+    current_rating_term_race_records.map(&:start_order).mean
+  end
+
+  def start_order_stdev_in_current_rating_term
+    current_rating_term_race_records.map(&:start_order).sd
+  end
+
+
   private
 
   def yearly_aggregation_range
@@ -167,6 +184,14 @@ class RaceEntry < ApplicationRecord
       .joins(race_entry: :race)
       .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
       .merge(Race.where(betting_deadline_at: race.range_for_current_series_aggregation))
+  end
+
+  def current_rating_term_race_records
+    @current_rating_term_race_records ||= \
+      RaceRecord
+      .joins(race_entry: :race)
+      .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+      .merge(Race.where(betting_deadline_at: race.range_for_current_racer_rating_evaluation_term_aggregation))
   end
 end
 
