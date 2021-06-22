@@ -69,8 +69,8 @@ Kpi.upsert_all(
     { id: 29, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでの1着率", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "first_place_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 30, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでの2着率", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "second_place_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 31, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでの3着率", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "third_place_rate_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
-    { id: 32, type: "RacerCurrentSeriesPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "今節平均着順", description: "", attribute_name: "placing_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
-    { id: 33, type: "RacerCurrentSeriesPlacingRecordKpi", entry_object_class_name: "RaceEntry", name: "今節着順標準偏差", description: "", attribute_name: "placing_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 32, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節平均着順", description: "※不完走は集計対象外", attribute_name: "order_of_arrival_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 33, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節着順標準偏差", description: "※不完走は集計対象外", attribute_name: "order_of_arrival_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 34, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節平均ST", description: "", attribute_name: "start_time_average_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 35, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節ST標準偏差", description: "", attribute_name: "start_time_stdev_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 36, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今期平均ST", description: "", attribute_name: "start_time_average_in_current_rating_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
@@ -98,6 +98,7 @@ Kpi.upsert_all(
     { id: 58, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今期スタート順標準偏差", description: "", attribute_name: "start_order_stdev_in_current_rating_term", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 59, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "出走者全国勝率", description: "", attribute_name: "winning_rate_in_all_stadium", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 60, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "出走者当地勝率", description: "", attribute_name: "winning_rate_in_event_going_stadium", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 61, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節完走回数", description: "", attribute_name: "finished_count_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
