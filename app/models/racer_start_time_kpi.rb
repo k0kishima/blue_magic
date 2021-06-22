@@ -7,7 +7,10 @@ class RacerStartTimeKpi < Kpi
                    .merge(::RaceEntry.where(racer_registration_number: entry_object.racer_registration_number))
                    .merge(Race.where(betting_deadline_at: aggregation_range))
 
-    raise DataNotFound if race_records.blank?
+    if race_records.blank?
+      raise DataNotFound,
+            "cannot find data to calculate st performance for #{entry_object.racer_registration_number}"
+    end
 
     race_records.map(&:start_time).reject(&:blank?).try(calculate_method)
   end

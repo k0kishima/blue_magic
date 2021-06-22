@@ -8,7 +8,10 @@ class RacerCurrentSeriesPlacingRecordKpi < Kpi
                    .joins(:race_entry)
                    .merge(::RaceEntry.where(racer_registration_number: entry_object.racer_registration_number))
 
-    raise DataNotFound if race_records.blank?
+    if race_records.blank?
+      raise DataNotFound,
+            "cannot find data to calculate current series performance for #{entry_object.racer_registration_number}"
+    end
 
     arrival_counts_indexed_by_start_data = race_records.group(:course_number,
                                                               :arrival).count.reduce({}) do |result, (key, value)|
