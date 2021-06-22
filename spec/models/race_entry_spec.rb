@@ -670,6 +670,114 @@ describe RaceEntry, type: :model do
       end
     end
   end
+
+  describe 'readers about order of arrivals in current series' do
+    let(:racer_registration_number) { 1 }
+    let(:stadium_tel_code) { 4 }
+    let(:race_1) { create(:race, date: Date.new(2021, 4, 23), stadium_tel_code: stadium_tel_code) }
+    let(:race_2) { create(:race, date: Date.new(2021, 4, 30), stadium_tel_code: stadium_tel_code) }
+    let(:race_3) { create(:race, date: Date.new(2021, 5, 1), stadium_tel_code: stadium_tel_code) }
+    let(:race_4) { create(:race, date: Date.new(2021, 5, 1), stadium_tel_code: stadium_tel_code) }
+    let(:race_5) { create(:race, date: Date.new(2021, 5, 2), stadium_tel_code: stadium_tel_code) }
+    let(:race_entry_1) {
+      create(:race_entry, **race_1.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_2) {
+      create(:race_entry, **race_2.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_3) {
+      create(:race_entry, **race_3.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_4) {
+      create(:race_entry, **race_4.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+    let(:race_entry_5) {
+      create(:race_entry, **race_5.slice(*Race.primary_keys), racer_registration_number: racer_registration_number)
+    }
+
+    before do
+      # 集計対象外
+      create(:race_record, race_entry: race_entry_1)
+      create(:race_record, race_entry: race_entry_5)
+
+      # 集計対象
+      create(:race_record, race_entry: race_entry_2, arrival: 1)
+      create(:race_record, race_entry: race_entry_3, arrival: nil)
+      create(:race_record, race_entry: race_entry_4, arrival: 3)
+    end
+
+    describe '#order_of_arrivals_in_current_series_without_unfinished' do
+      subject { race_entry_5.order_of_arrivals_in_current_series_without_unfinished }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        it 'returns collection of arrival orders' do
+          expect(subject).to eq [1, 3]
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe '#finished_count_in_current_series' do
+      subject { race_entry_5.finished_count_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        it 'returns finished count in current series' do
+          expect(subject).to eq 2
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe '#order_of_arrival_average_in_current_series' do
+      subject { race_entry_5.order_of_arrival_average_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        it 'returns average of order of arrivals in current series' do
+          expect(subject).to eq 2.0
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+
+    describe '#order_of_arrival_stdev_in_current_series' do
+      subject { race_entry_5.order_of_arrival_stdev_in_current_series }
+
+      context 'when event exist' do
+        before do
+          create(:event, starts_on: race_2.date, stadium_tel_code: race_2.stadium_tel_code)
+        end
+
+        it 'returns stdev of order of arrivals in current series' do
+          expect(subject).to eq 1.4142135623730951
+        end
+      end
+
+      context 'when event does not exist' do
+        it { expect { subject }.to raise_error(DataNotPrepared) }
+      end
+    end
+  end
 end
 
 # == Schema Information
