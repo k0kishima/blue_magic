@@ -155,6 +155,26 @@ class RaceEntry < ApplicationRecord
     current_rating_term_race_records.map(&:start_order).sd
   end
 
+  def order_of_arrivals_in_current_series_without_unfinished
+    @order_of_arrivals_in_current_series_without_unfinished ||= \
+      current_series_race_records
+      .group(:arrival).count
+      .reject { |order_of_arrival, _| order_of_arrival.nil? }
+      .map { |order_of_arrival, quantity| Array.new(quantity, order_of_arrival) }
+      .flatten
+  end
+
+  def finished_count_in_current_series
+    order_of_arrivals_in_current_series_without_unfinished.count
+  end
+
+  def order_of_arrival_average_in_current_series
+    order_of_arrivals_in_current_series_without_unfinished.mean
+  end
+
+  def order_of_arrival_stdev_in_current_series
+    order_of_arrivals_in_current_series_without_unfinished.sd
+  end
 
   private
 
