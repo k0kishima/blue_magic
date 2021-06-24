@@ -135,6 +135,17 @@ class Race < ApplicationRecord
     @current_racer_rating_evaluation_term ||= RacerRatingEvaluationTerm.initialize_by(date: date)
   end
 
+  def repayment_numbers
+    @repayment_numbers ||= if canceled
+                             Pit::NUMBER_RANGE.to_a
+                           else
+                             DisqualifiedRaceEntry
+                               .where(date: date, stadium_tel_code: stadium_tel_code, race_number: race_number)
+                               .where(disqualification: Disqualification.need_to_repayment_ids)
+                               .pluck(:pit_number)
+                           end
+  end
+
   # NOTE: 集計時に現在のレース(集計の起点となるレース)結果を含めてしまわないように注意
   #
   # 例えば以下のレース

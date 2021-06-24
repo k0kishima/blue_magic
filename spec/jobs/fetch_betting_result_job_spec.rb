@@ -129,31 +129,66 @@ describe FetchBettingResultJob, type: :job do
                 create(:payoff, **race.slice(*Race.primary_keys), betting_number: 123, amount: 900)
               end
 
-              it 'ベットデータが更新されること' do
-                expect { subject }.to change { Betting.count }.by(0)
-                expect(Betting.all).to contain_exactly(
-                  have_attributes(
-                    **recommend_odds_1.attributes.slice(*RecommendOdds.primary_keys),
-                    betting_number: 123,
-                    betting_amount: 3000,
-                    refunded_amount: 27000,
-                    adjustment_amount: 0,
-                  ),
-                  have_attributes(
-                    **recommend_odds_2.attributes.slice(*RecommendOdds.primary_keys),
-                    betting_number: 124,
-                    betting_amount: 1500,
-                    refunded_amount: 0,
-                    adjustment_amount: 0,
-                  ),
-                  have_attributes(
-                    **recommend_odds_3.attributes.slice(*RecommendOdds.primary_keys),
-                    betting_number: 123,
-                    betting_amount: 1000,
-                    refunded_amount: 9000,
-                    adjustment_amount: 0,
-                  ),
-                )
+              context '返還艇が存在しないとき' do
+                it 'ベットデータが更新されること' do
+                  expect { subject }.to change { Betting.count }.by(0)
+                  expect(Betting.all).to contain_exactly(
+                    have_attributes(
+                      **recommend_odds_1.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 123,
+                      betting_amount: 3000,
+                      refunded_amount: 27000,
+                      adjustment_amount: 0,
+                    ),
+                    have_attributes(
+                      **recommend_odds_2.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 124,
+                      betting_amount: 1500,
+                      refunded_amount: 0,
+                      adjustment_amount: 0,
+                    ),
+                    have_attributes(
+                      **recommend_odds_3.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 123,
+                      betting_amount: 1000,
+                      refunded_amount: 9000,
+                      adjustment_amount: 0,
+                    ),
+                  )
+                end
+              end
+
+              context '返還艇が存在するとき' do
+                before do
+                  allow(race).to receive(:repayment_numbers).and_return([4])
+                end
+
+                it 'ベットデータが更新されること' do
+                  expect { subject }.to change { Betting.count }.by(0)
+                  expect(Betting.all).to contain_exactly(
+                    have_attributes(
+                      **recommend_odds_1.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 123,
+                      betting_amount: 3000,
+                      refunded_amount: 27000,
+                      adjustment_amount: 0,
+                    ),
+                    have_attributes(
+                      **recommend_odds_2.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 124,
+                      betting_amount: 1500,
+                      refunded_amount: 1500,
+                      adjustment_amount: 0,
+                    ),
+                    have_attributes(
+                      **recommend_odds_3.attributes.slice(*RecommendOdds.primary_keys),
+                      betting_number: 123,
+                      betting_amount: 1000,
+                      refunded_amount: 9000,
+                      adjustment_amount: 0,
+                    ),
+                  )
+                end
               end
             end
 

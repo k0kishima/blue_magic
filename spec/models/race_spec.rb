@@ -275,6 +275,72 @@ RSpec.describe Race, type: :model do
       it { expect { subject }.to raise_error(NoMethodError) }
     end
   end
+
+  describe 'repayment_numbers' do
+    subject { race.repayment_numbers }
+
+    let(:race) { create(:race, canceled: canceled) }
+
+    context 'when the race was not caneled' do
+      let(:canceled) { false }
+
+      context 'when any disqualified race entries do not exist' do
+        it { is_expected.to be_blank }
+      end
+
+      context 'when disqualified race entries exist' do
+        let(:race) { create(:race, :with_race_entries, canceled: canceled) }
+
+        context 'when any disqualified race entries which neet to repayment exist' do
+          before do
+            create(
+              :disqualified_race_entry,
+              **race.slice(*Race.primary_keys),
+              pit_number: 1,
+              disqualification: Disqualification::ID::FLYING
+            )
+            create(
+              :disqualified_race_entry,
+              **race.slice(*Race.primary_keys),
+              pit_number: 2,
+              disqualification: Disqualification::ID::LATENESS
+            )
+          end
+
+          it 'returns the pit numbers of disqualified race entries' do
+            expect(subject).to eq [1, 2]
+          end
+        end
+
+        context 'when any disqualified race entries which neet to repayment do not exist' do
+          before do
+            create(
+              :disqualified_race_entry,
+              **race.slice(*Race.primary_keys),
+              pit_number: 1,
+              disqualification: Disqualification::ID::FALL
+            )
+            create(
+              :disqualified_race_entry,
+              **race.slice(*Race.primary_keys),
+              pit_number: 2,
+              disqualification: Disqualification::ID::CAPSIZE
+            )
+          end
+
+          it { is_expected.to be_blank }
+        end
+      end
+    end
+
+    context 'when the race was caneled' do
+      let(:canceled) { true }
+
+      it 'returns all pit numbers' do
+        expect(subject).to eq [1, 2, 3, 4, 5, 6]
+      end
+    end
+  end
 end
 
 # == Schema Information

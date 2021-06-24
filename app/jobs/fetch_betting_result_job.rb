@@ -11,7 +11,7 @@ class FetchBettingResultJob < ApplicationJob
     ActiveRecord::Base.transaction do
       race.bettings.each do |betting|
         betting.adjustment_amount = 0
-        betting.refunded_amount = 0
+        betting.refunded_amount = (race.repayment_numbers & betting.betting_numbers).present? ? betting.betting_amount : 0
 
         race.payoffs.each do |payoff|
           next if payoff.betting_number != betting.betting_number
