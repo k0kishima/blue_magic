@@ -10,6 +10,7 @@ class Race < ApplicationRecord
   has_many :weather_conditions, foreign_key: self.primary_keys
   has_many :payoffs, foreign_key: self.primary_keys
   has_many :odds, foreign_key: self.primary_keys, class_name: 'Odds'
+  has_many :bettings, foreign_key: self.primary_keys
 
   validates :date, presence: true
   validates :race_number, presence: true, inclusion: { in: self.numbers }
