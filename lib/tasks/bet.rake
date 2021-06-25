@@ -17,4 +17,11 @@ namespace :bet do
       end
     end
   end
+
+  desc 'enque fetch result jobs '
+  task enqueue_fetch_result_jobs: :environment do
+    Betting.where(refunded_amount: nil).group(*Race.primary_key).each do |betting|
+      FetchBettingResultJob.perform_later(date: betting.date, stadium_tel_code: betting.stadium_tel_code, race_number: betting.race_number)
+    end
+  end
 end
