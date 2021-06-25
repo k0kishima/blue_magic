@@ -10,6 +10,10 @@ describe BetJob, type: :job do
     let(:forecaster) { create(:forecaster, betting_strategy: betting_strategy) }
     let(:race) { create(:race) }
 
+    before do
+      stub_const('RankingSetting::RACE_ENTRY', [])
+    end
+
     context 'when something forecasting patterns are matched' do
       let(:odds_1) { create(:odds, race: race, betting_number: 123, ratio: 9) }
       let(:odds_2) { create(:odds, race: race, betting_number: 124, ratio: 10) }
