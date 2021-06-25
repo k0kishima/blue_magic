@@ -2,9 +2,7 @@ class BetJob < ApplicationJob
   class AnyForecastingPatternsDoNotMatched < StandardError; end
 
   discard_on ActiveRecord::RecordNotFound, Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched,
-             OverBudget, ActiveModel::ValidationError
-
-  discard_on(DataNotFound, DataNotPrepared) do |job, error|
+             OverBudget, ActiveModel::ValidationError, DataNotFound, DataNotPrepared do |job, error|
     Rails.application.config.betting_logger.info("#{job.arguments}: #{error.message}")
   end
 
