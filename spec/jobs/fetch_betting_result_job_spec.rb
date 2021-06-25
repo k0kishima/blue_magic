@@ -160,7 +160,7 @@ describe FetchBettingResultJob, type: :job do
 
               context '返還艇が存在するとき' do
                 before do
-                  allow(race).to receive(:repayment_numbers).and_return([4])
+                  allow_any_instance_of(Race).to receive(:repayment_numbers).and_return([4])
                 end
 
                 it 'ベットデータが更新されること' do
