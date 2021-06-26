@@ -176,6 +176,30 @@ class RaceEntry < ApplicationRecord
     order_of_arrivals_in_current_series_without_unfinished.sd
   end
 
+  def disqualification_total_in_current_series
+    current_series_disqualifications.count
+  end
+
+  def flying_count_in_current_series
+    current_series_disqualifications.flying.count
+  end
+
+  def lateness_count_in_current_series
+    current_series_disqualifications.lateness.count
+  end
+
+  def disqualification_total_in_current_rating_term
+    current_rating_term_disqualifications.count
+  end
+
+  def flying_count_in_current_rating_term
+    current_rating_term_disqualifications.flying.count
+  end
+
+  def lateness_count_in_current_rating_term
+    current_rating_term_disqualifications.lateness.count
+  end
+
   private
 
   def yearly_aggregation_range
@@ -206,9 +230,25 @@ class RaceEntry < ApplicationRecord
       .merge(Race.where(betting_deadline_at: race.range_for_current_series_aggregation))
   end
 
+  def current_series_disqualifications
+    @current_rating_term_disqualifications ||= \
+      DisqualifiedRaceEntry
+      .joins(race_entry: :race)
+      .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+      .merge(Race.where(betting_deadline_at: race.range_for_current_series_aggregation))
+  end
+
   def current_rating_term_race_records
     @current_rating_term_race_records ||= \
       RaceRecord
+      .joins(race_entry: :race)
+      .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
+      .merge(Race.where(betting_deadline_at: race.range_for_current_racer_rating_evaluation_term_aggregation))
+  end
+
+  def current_rating_term_disqualifications
+    @current_rating_term_disqualifications ||= \
+      DisqualifiedRaceEntry
       .joins(race_entry: :race)
       .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
       .merge(Race.where(betting_deadline_at: race.range_for_current_racer_rating_evaluation_term_aggregation))
