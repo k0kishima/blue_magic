@@ -101,6 +101,10 @@ Kpi.upsert_all(
     { id: 61, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "今節完走回数", description: "", attribute_name: "finished_count_in_current_series", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 62, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでのST平均", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "start_time_average_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 63, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "展示進入コースでのST標準偏差", description: "集計対象: 全場、集計期間: 当該レースから過去1年", attribute_name: "start_time_stdev_on_start_course_in_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 64, type: "AttributionalKpi", entry_object_class_name: "Race", name: "安定版着用フラグ", description: "", attribute_name: "use_stabilizer", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 65, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最高勝率", description: "勝率が最も高い出走者の勝率の値", attribute_name: "winning_rate_in_all_stadium_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 66, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最高モーター2連対率", description: "", attribute_name: "motor_quinella_rate_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 67, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最高モーター3連対率", description: "", attribute_name: "motor_trio_rate_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
