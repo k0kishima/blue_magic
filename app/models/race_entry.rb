@@ -123,6 +123,16 @@ class RaceEntry < ApplicationRecord
     motor_quinella_rate_rank + exhibition_time_order + winning_rate_in_all_stadium_rank
   end
 
+  # TODO: テスト追加
+  def start_time_average_on_start_course_in_exhibition
+    race_records_of_recent_few_years.map(&:start_time).mean
+  end
+
+  # TODO: テスト追加
+  def start_time_stdev_on_start_course_in_exhibition
+    race_records_of_recent_few_years.map(&:start_time).sd
+  end
+
   def start_time_average_in_current_series
     current_series_race_records.map(&:start_time).mean
   end
@@ -202,16 +212,16 @@ class RaceEntry < ApplicationRecord
 
   private
 
-  def range_of_recent_few_years
-    @range_of_recent_few_years ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
+  def aggregation_range_of_recent_few_years
+    @aggregation_range_of_recent_few_years ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
   end
 
-  def target_race_records_of_recent_few_years
-    @target_race_records_of_recent_few_years ||= -> do
+  def race_records_of_recent_few_years
+    @race_records_of_recent_few_years ||= -> do
       raise DataNotPrepared, 'the source object does not have exhibition data yet' if course_number_in_exhibition.blank?
 
       RaceRecord
-        .where(date: range_of_recent_few_years)
+        .where(date: aggregation_range_of_recent_few_years)
         .where(course_number: course_number_in_exhibition)
         .joins(:race_entry)
         .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
@@ -219,7 +229,7 @@ class RaceEntry < ApplicationRecord
   end
 
   def count_inexed_by_order_of_arrival_of_recent_few_years
-    @count_inexed_by_order_of_arrival_of_recent_few_years ||= target_race_records_of_recent_few_years.group(:arrival).count
+    @count_inexed_by_order_of_arrival_of_recent_few_years ||= race_records_of_recent_few_years.group(:arrival).count
   end
 
   def current_series_race_records
