@@ -58,34 +58,34 @@ class RaceEntry < ApplicationRecord
   # そもそも特定場の集計することがないので n着率 に関しては全場対象を暗黙の了解とする
   # 場の得手不得手は当地勝率で判断できる。コースに関しても同様
   def first_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival.fetch(1, 0), counts_indexed_by_order_of_arrival.values.sum || 0).to_f
+    Rational(count_inexed_by_order_of_arrival_of_recent_few_years.fetch(1, 0), count_inexed_by_order_of_arrival_of_recent_few_years.values.sum || 0).to_f
   end
 
   def second_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival.fetch(2, 0), counts_indexed_by_order_of_arrival.values.sum || 0).to_f
+    Rational(count_inexed_by_order_of_arrival_of_recent_few_years.fetch(2, 0), count_inexed_by_order_of_arrival_of_recent_few_years.values.sum || 0).to_f
   end
 
   def third_place_rate_on_start_course_in_exhibition
-    Rational(counts_indexed_by_order_of_arrival.fetch(3, 0), counts_indexed_by_order_of_arrival.values.sum || 0).to_f
+    Rational(count_inexed_by_order_of_arrival_of_recent_few_years.fetch(3, 0), count_inexed_by_order_of_arrival_of_recent_few_years.values.sum || 0).to_f
   end
 
   def quinella_rate_on_start_course_in_exhibition
     Rational(
       (
-        counts_indexed_by_order_of_arrival.fetch(1, 0) +
-        counts_indexed_by_order_of_arrival.fetch(2, 0)
+        count_inexed_by_order_of_arrival_of_recent_few_years.fetch(1, 0) +
+        count_inexed_by_order_of_arrival_of_recent_few_years.fetch(2, 0)
       ),
-      counts_indexed_by_order_of_arrival.values.sum || 0
+      count_inexed_by_order_of_arrival_of_recent_few_years.values.sum || 0
     ).to_f
   end
 
   def trio_rate_on_start_course_in_exhibition
     Rational(
       (
-        counts_indexed_by_order_of_arrival.fetch(1, 0) +
-        counts_indexed_by_order_of_arrival.fetch(2, 0) +
-        counts_indexed_by_order_of_arrival.fetch(3, 0)),
-      counts_indexed_by_order_of_arrival.values.sum || 0
+        count_inexed_by_order_of_arrival_of_recent_few_years.fetch(1, 0) +
+        count_inexed_by_order_of_arrival_of_recent_few_years.fetch(2, 0) +
+        count_inexed_by_order_of_arrival_of_recent_few_years.fetch(3, 0)),
+      count_inexed_by_order_of_arrival_of_recent_few_years.values.sum || 0
     ).to_f
   end
 
@@ -202,24 +202,24 @@ class RaceEntry < ApplicationRecord
 
   private
 
-  def yearly_aggregation_range
-    @yearly_aggregation_range ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
+  def range_of_recent_few_years
+    @range_of_recent_few_years ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
   end
 
-  def aggregation_target_race_records
-    @aggregation_target_race_records ||= -> do
+  def target_race_records_of_recent_few_years
+    @target_race_records_of_recent_few_years ||= -> do
       raise DataNotPrepared, 'the source object does not have exhibition data yet' if course_number_in_exhibition.blank?
 
       RaceRecord
-        .where(date: yearly_aggregation_range)
+        .where(date: range_of_recent_few_years)
         .where(course_number: course_number_in_exhibition)
         .joins(:race_entry)
         .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
     end.call
   end
 
-  def counts_indexed_by_order_of_arrival
-    @counts_indexed_by_order_of_arrival ||= aggregation_target_race_records.group(:arrival).count
+  def count_inexed_by_order_of_arrival_of_recent_few_years
+    @count_inexed_by_order_of_arrival_of_recent_few_years ||= target_race_records_of_recent_few_years.group(:arrival).count
   end
 
   def current_series_race_records
