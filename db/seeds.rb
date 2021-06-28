@@ -107,6 +107,9 @@ Kpi.upsert_all(
     { id: 67, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最高モーター3連対率", description: "", attribute_name: "motor_trio_rate_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 68, type: "StadiumAssistTrickKpi", entry_object_class_name: "Race", name: "場全レースでの1コースの差され率平均（※展示時点での水面・気象情報の場合）", description: "", attribute_name: "sasare_rate_of_stadium_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 69, type: "StadiumAssistTrickKpi", entry_object_class_name: "Race", name: "場全レースでの1コースのまくられ率平均（※展示時点での水面・気象情報の場合）", description: "", attribute_name: "makurare_rate_of_stadium_in_current_weather_condition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 70, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最速ST", description: "STが最も速い出走者のSTの値", attribute_name: "start_time_average_on_start_course_in_exhibition_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 71, type: "AttributionalKpi", entry_object_class_name: "Race", name: "最高パフォーマンススコア(PS)", description: "PSが最も高い出走者のPSの値", attribute_name: "performance_score_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 72, type: "AttributionalKpi", entry_object_class_name: "Race", name: "最高パフォーマンススコア出走者枠番", description: "PSが最も高い出走者の枠番", attribute_name: "best_performance_score_pit_number", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
