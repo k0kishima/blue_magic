@@ -57,7 +57,7 @@ class AssistTrick < Trick
     end
 
     def asist_trick_ids
-      [WinningTrick::ID::MAKURARE]
+      [WinningTrick::ID::MAKURI]
     end
   end
 end
