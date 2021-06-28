@@ -190,6 +190,18 @@ class Race < ApplicationRecord
     weather_condition_in_exhibition.wind_velocity
   end
 
+  def best_motor_quinella_rate_pit_number
+    race_entries.find{|race_entry| race_entry.motor_quinella_rate == motor_quinella_rate_first }.pit_number
+  end
+
+  def best_winning_rate_in_all_stadium_pit_number
+    race_entries.find{|race_entry| race_entry.winning_rate_in_all_stadium == winning_rate_in_all_stadium_first }.pit_number
+  end
+
+  def best_performance_score_pit_number
+    race_entries.find{|race_entry| race_entry.performance_score == performance_score_first }.pit_number
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date
