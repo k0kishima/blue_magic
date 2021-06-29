@@ -9,12 +9,12 @@ class AnalysisFactory
       extract_hash_recursively!(hash: filtering_condition).each do |hash|
         begin
           kpi_key = hash.symbolize_keys.fetch(:attribute).to_sym
-          entry_object_reader_name = hash.symbolize_keys.fetch(:item).to_sym
-          kpi = kpis_indexed_by_own_key.fetch(kpi_key)
         rescue KeyError => e
-          Rails.application.config.betting_logger.info(e.message)
           next
         end
+
+        entry_object_reader_name = hash.symbolize_keys.fetch(:item).to_sym
+        kpi = kpis_indexed_by_own_key.fetch(kpi_key)
 
         kpi.entry_object = entry_object.try(entry_object_reader_name)
         analysis[entry_object_reader_name] ||= {}
