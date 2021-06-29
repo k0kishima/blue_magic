@@ -110,6 +110,7 @@ Kpi.upsert_all(
     { id: 70, type: "AttributionalKpi", entry_object_class_name: "Race", name: "出走者最速ST", description: "STが最も速い出走者のSTの値", attribute_name: "start_time_average_on_start_course_in_exhibition_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 71, type: "AttributionalKpi", entry_object_class_name: "Race", name: "最高パフォーマンススコア(PS)", description: "PSが最も高い出走者のPSの値", attribute_name: "performance_score_first", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 72, type: "AttributionalKpi", entry_object_class_name: "Race", name: "最高パフォーマンススコア出走者枠番", description: "PSが最も高い出走者の枠番", attribute_name: "best_performance_score_pit_number", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 73, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "パフォーマンススコア(PS)", description: "", attribute_name: "performance_score", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
