@@ -12,6 +12,7 @@ class AnalysisFactory
           entry_object_reader_name = hash.symbolize_keys.fetch(:item).to_sym
           kpi = kpis_indexed_by_own_key.fetch(kpi_key)
         rescue KeyError => e
+          Rails.application.config.betting_logger.info(e.message)
           next
         end
 
