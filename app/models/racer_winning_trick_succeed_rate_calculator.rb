@@ -43,6 +43,6 @@ class RacerWinningTrickSucceedRateCalculator
     return if course_number.blank? || trick.blank?
     return if course_number.in?(trick.available_course_numbers)
 
-    errors.add(:course_number, "course number must be avairable at the #{trick.class.name}")
+    errors.add(:course_number, "#{course_number} cannot calculate at the #{trick.class.name}")
   end
 end
