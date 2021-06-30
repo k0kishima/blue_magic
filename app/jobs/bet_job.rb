@@ -1,9 +1,12 @@
 class BetJob < ApplicationJob
   class AnyForecastingPatternsDoNotMatched < StandardError; end
 
-  discard_on ActiveRecord::RecordNotFound, Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched,
-             OverBudget, ActiveModel::ValidationError, DataNotFound, DataNotPrepared, KeyError do |job, error|
+  discard_on Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched, OverBudget do |job, error|
     Rails.application.config.betting_logger.info("#{job.arguments}: #{error.message}")
+  end
+
+  discard_on ActiveRecord::RecordNotFound, KeyError, ArgumentError do |job, error|
+    Rails.application.config.betting_logger.fatal("#{job.arguments}: #{error.message}".red)
   end
 
   def perform(forecaster_id:, stadium_tel_code:, race_opened_on:, race_number:)
@@ -35,7 +38,16 @@ class BetJob < ApplicationJob
     raise AnyForecastingPatternsDoNotMatched.new if recommend_odds.blank?
 
     betting_strategy_class = "BettingStrategy::#{forecaster.betting_strategy.camelize}".constantize
-    betting_strategy = betting_strategy_class.new(recommend_odds: recommend_odds)
-    betting_strategy.bet!
+
+    # 二重投票防止のため、すでに bettings が登録されているものはここで省く
+    recommend_odds_which_do_not_have_any_bettings = \
+      recommend_odds
+        .left_joins(:betting)
+        .merge(Betting.where(forecasters_forecasting_pattern_id: nil))
+
+    if recommend_odds_which_do_not_have_any_bettings.present?
+      betting_strategy = betting_strategy_class.new(recommend_odds: recommend_odds_which_do_not_have_any_bettings)
+      betting_strategy.bet!
+    end
   end
 end

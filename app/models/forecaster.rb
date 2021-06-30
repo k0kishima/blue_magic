@@ -19,12 +19,18 @@ class Forecaster < ApplicationRecord
 
   def forecast!(race)
     forecasters_forecasting_patterns.each do |forecasters_forecasting_pattern|
-      forecasters_forecasting_pattern.create_recommend_odds_of!(race)
+      begin
+        forecasters_forecasting_pattern.create_recommend_odds_of!(race)
+      rescue ActiveModel::ValidationError, DataNotFound, DataNotPrepared => e
+        Rails.application.config.betting_logger.warn("#{race.ids} by fpid #{forecasters_forecasting_pattern.forecasting_pattern_id}: #{e.message}")
+        next
+      rescue ActiveRecord::RecordNotUnique
+        Rails.application.config.betting_logger.warn("#{race.ids} by fpid #{forecasters_forecasting_pattern.forecasting_pattern_id}: is skipped because already forecasted")
+        next
+      end
     end
 
     recommend_odds.where(**race.attributes.slice(*Race.primary_keys))
-  rescue ActiveRecord::RecordNotUnique
-    raise AlreadyForecasted
   end
 end
 
