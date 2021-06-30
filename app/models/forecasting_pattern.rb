@@ -33,7 +33,7 @@ class ForecastingPattern < ApplicationRecord
 
     expression = LogicalExpressionFactory.create!(odds_filtering_condition)
     odds.select do |o|
-      odds.race = race
+      o.race = race
       odds_analysis = AnalysisFactory.create!(entry_object: o, filtering_condition: odds_filtering_condition)
       expression.call(Hashie::Mash.new(odds_analysis))
     end
