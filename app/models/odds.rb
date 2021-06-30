@@ -5,7 +5,14 @@ class Odds < ApplicationRecord
   self.table_name = :odds
   self.primary_keys = [:stadium_tel_code, :date, :race_number, :betting_method, :betting_number]
 
-  belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
+  # TODO: 副作用のない方法で動作するように修正する
+  # 予想処理時にはいくつかの属性が設定された(デコレートされた) RaceEntry のオブジェクトが必要になる
+  # さらにそれらを Race オブジェクト が computed property で算出に利用している
+  # したがって、動的に変更された RaceEntry を利用した Raceオブジェクトが必要になるが、
+  # 下記のような宣言で取得するオブジェクトでは都度上記調整を行わなければならないため、
+  # 今はアクセサ経由でデコレートされたオブジェクトを代入している
+  # belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
+  attr_accessor :race
 
   validates :ratio, presence: true
 
