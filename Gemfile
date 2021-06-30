@@ -89,3 +89,5 @@ gem "graphql", "~> 1.12"
 gem "graphiql-rails", "~> 1.7"
 
 gem "hashie", "~> 4.1"
+
+gem "colorize", "~> 0.8.1"
