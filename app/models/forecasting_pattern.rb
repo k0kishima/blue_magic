@@ -14,8 +14,10 @@ class ForecastingPattern < ApplicationRecord
 
   def recommended_formation_of(race)
     filtered_race_entries = if forecastable?(race)
+                              Rails.application.config.betting_logger.info("#{race.ids} by fpid #{id}: forecastable".green)
                               candicates(race.race_entries).map { |race_entries| race_entries.map(&:pit_number) }
                             else
+                              Rails.application.config.betting_logger.info("#{race.ids} by fpid #{id}: is not forecastable")
                               [[], [], []]
                             end
     Formation.new(filtered_race_entries)
@@ -41,10 +43,17 @@ class ForecastingPattern < ApplicationRecord
   def filtered_race_entries(race_entries:, where:)
     filtering_condition = try("#{where}_place_filtering_condition")
     expression = LogicalExpressionFactory.create!(filtering_condition)
-    race_entries.select do |race_entry|
+    selected_race_entries = race_entries.select do |race_entry|
       race_entry_analysis = AnalysisFactory.create!(entry_object: race_entry, filtering_condition: filtering_condition)
       expression.call(Hashie::Mash.new(race_entry_analysis))
     end
+
+    if selected_race_entries.present?
+      Rails.application.config.betting_logger.info("\tfpid #{id}: succeeded to select race entries as #{where} place".green)
+    else
+      Rails.application.config.betting_logger.info("\tby fpid #{id}: could not select race entries as #{where} place")
+    end
+    selected_race_entries
   end
 
   def candicates(race_entries)
