@@ -4,6 +4,8 @@ class Stadium < ApplicationRecord
   self.table_name = :stadiums
   self.primary_key = :tel_code
 
+  attr_accessor :aggregation_offset_date, :context
+
   enum water_quality: { fresh: 1, brackish: 2, sea: 3, }
 
   validates :tel_code, presence: true, inclusion: { in: TELCODE_RANGE }, uniqueness: true
@@ -17,6 +19,50 @@ class Stadium < ApplicationRecord
 
   def self.all_tel_codes
     TELCODE_RANGE.to_a
+  end
+
+  def nige_succeed_rate_of_stadium_in_current_weather_condition
+    @nige_succeed_rate_of_stadium_in_current_weather_condition ||= winning_trick_succeed_rate(WinningTrick::Nige.instance)
+  end
+
+  def sashi_succeed_rate_of_stadium_in_current_weather_condition
+    @sashi_succeed_rate_of_stadium_in_current_weather_condition ||= winning_trick_succeed_rate(WinningTrick::Sashi.instance)
+  end
+
+  def makuri_succeed_rate_of_stadium_in_current_weather_condition
+    @makuri_succeed_rate_of_stadium_in_current_weather_condition ||= winning_trick_succeed_rate(WinningTrick::Makuri.instance)
+  end
+
+  def makurizashi_succeed_rate_of_stadium_in_current_weather_condition
+    @makurizashi_succeed_rate_of_stadium_in_current_weather_condition ||= winning_trick_succeed_rate(WinningTrick::Makurizashi.instance)
+  end
+
+  def sasare_rate_of_stadium_in_current_weather_condition
+    @sasare_rate_of_stadium_in_current_weather_condition ||= assist_trick_succeed_rate(AssistTrick::Sasare.instance)
+  end
+
+  def makurare_rate_of_stadium_in_current_weather_condition
+    @makurare_rate_of_stadium_in_current_weather_condition ||= assist_trick_succeed_rate(AssistTrick::Makurare.instance)
+  end
+
+  private
+
+  def aggregation_range_of_recent_few_years
+    @aggregation_range_of_recent_few_years ||= AggregationRangeFactory.create_to_aggregate_stadium_data_from(aggregation_offset_date)
+  end
+
+  def winning_trick_succeed_rate(trick)
+    raise DataNotPrepared, 'the source object does not have context data yet' if aggregation_offset_date.blank? || context.blank?
+
+    calculator = StadiumWinningTrickSucceedRateCalculator.new(trick: trick, stadium_tel_code: tel_code)
+    calculator.calculate!(aggregation_range: aggregation_range_of_recent_few_years, context: context)
+  end
+
+  def assist_trick_succeed_rate(trick)
+    raise DataNotPrepared, 'the source object does not have context data yet' if aggregation_offset_date.blank? || context.blank?
+
+    calculator = StadiumAssistTrickSucceedRateCalculator.new(trick: trick, stadium_tel_code: tel_code)
+    calculator.calculate!(aggregation_range: aggregation_range_of_recent_few_years, context: context)
   end
 end
 

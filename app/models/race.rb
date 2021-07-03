@@ -23,6 +23,14 @@ class Race < ApplicationRecord
 
   scope :not_canceled, -> { where(canceled: false) }
 
+  delegate :nige_succeed_rate_of_stadium_in_current_weather_condition,
+           :sashi_succeed_rate_of_stadium_in_current_weather_condition,
+           :makuri_succeed_rate_of_stadium_in_current_weather_condition,
+           :makurizashi_succeed_rate_of_stadium_in_current_weather_condition,
+           :sasare_rate_of_stadium_in_current_weather_condition,
+           :makurare_rate_of_stadium_in_current_weather_condition,
+           to: :stadium
+
   class << self
     def by_wind_condition(wind_angle:, wind_velocity:)
       joins(:weather_conditions)
