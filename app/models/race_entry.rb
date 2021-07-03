@@ -226,6 +226,18 @@ class RaceEntry < ApplicationRecord
     @makurizashi_succeed_rate_on_start_course_in_exhibition ||= winning_trick_succeed_rate(WinningTrick::Makurizashi.instance)
   end
 
+  def nigashi_rate_on_start_course_in_exhibition
+    @nigashi_rate_on_start_course_in_exhibition ||= assist_trick_succeed_rate(AssistTrick::Nigashi.instance)
+  end
+
+  def sasare_rate_on_start_course_in_exhibition
+    @sasare_rate_on_start_course_in_exhibition ||= assist_trick_succeed_rate(AssistTrick::Sasare.instance)
+  end
+
+  def makurare_rate_on_start_course_in_exhibition
+    @makurare_rate_on_start_course_in_exhibition ||= assist_trick_succeed_rate(AssistTrick::Makurare.instance)
+  end
+
   private
 
   def winning_trick_succeed_rate(trick)
@@ -233,6 +245,21 @@ class RaceEntry < ApplicationRecord
 
     if course_number_in_exhibition.in?(trick.available_course_numbers)
       calculator = RacerWinningTrickSucceedRateCalculator.new(
+        trick: trick,
+        racer_registration_number: racer_registration_number,
+        course_number: course_number_in_exhibition,
+      )
+      calculator.calculate!(aggregation_range: aggregation_range_of_recent_few_years)
+    else
+      nil
+    end
+  end
+
+  def assist_trick_succeed_rate(trick)
+    raise DataNotPrepared, 'the source object does not have exhibition data yet' if course_number_in_exhibition.nil?
+
+    if course_number_in_exhibition.in?(trick.available_course_numbers)
+      calculator = RacerAssistTrickSucceedRateCalculator.new(
         trick: trick,
         racer_registration_number: racer_registration_number,
         course_number: course_number_in_exhibition,
