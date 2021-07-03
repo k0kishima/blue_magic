@@ -25,6 +25,9 @@ class BetJob < ApplicationJob
         }
       ).find_by!(stadium_tel_code: stadium_tel_code, date: race_opened_on, race_number: race_number)
 
+    race.stadium.aggregation_offset_date = race.date
+    race.stadium.context = race.weather_condition_in_exhibition.slice(:wind_angle, :wind_velocity)
+
     RankingSetting::RACE_ENTRY.each do |need_to_rank_attribute_name, evaluation_policy|
       RankedAttributeDecorator.bulk_decorate!(
         objects: race.race_entries,
