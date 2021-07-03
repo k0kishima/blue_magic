@@ -210,7 +210,38 @@ class RaceEntry < ApplicationRecord
     current_rating_term_disqualifications.lateness.count
   end
 
+  def nige_succeed_rate_on_start_course_in_exhibition
+    @nige_succeed_rate_on_start_course_in_exhibition ||= winning_trick_succeed_rate(WinningTrick::Nige.instance)
+  end
+
+  def sashi_succeed_rate_on_start_course_in_exhibition
+    @sashi_succeed_rate_on_start_course_in_exhibition ||= winning_trick_succeed_rate(WinningTrick::Sashi.instance)
+  end
+
+  def makuri_succeed_rate_on_start_course_in_exhibition
+    @makuri_succeed_rate_on_start_course_in_exhibition ||= winning_trick_succeed_rate(WinningTrick::Makuri.instance)
+  end
+
+  def makurizashi_succeed_rate_on_start_course_in_exhibition
+    @makurizashi_succeed_rate_on_start_course_in_exhibition ||= winning_trick_succeed_rate(WinningTrick::Makurizashi.instance)
+  end
+
   private
+
+  def winning_trick_succeed_rate(trick)
+    raise DataNotPrepared, 'the source object does not have exhibition data yet' if course_number_in_exhibition.nil?
+
+    if course_number_in_exhibition.in?(trick.available_course_numbers)
+      calculator = RacerWinningTrickSucceedRateCalculator.new(
+        trick: trick,
+        racer_registration_number: racer_registration_number,
+        course_number: course_number_in_exhibition,
+      )
+      calculator.calculate!(aggregation_range: aggregation_range_of_recent_few_years)
+    else
+      nil
+    end
+  end
 
   def aggregation_range_of_recent_few_years
     @aggregation_range_of_recent_few_years ||= AggregationRangeFactory.create_to_aggregate_racer_data_from(date)
