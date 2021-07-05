@@ -150,19 +150,19 @@ class RaceEntry < ApplicationRecord
   end
 
   def start_time_average_in_current_rating_term
-    current_rating_term_race_records.map(&:start_time).mean
+    current_rating_term_race_records.map(&:start_time).reject(&:nil?).mean
   end
 
   def start_time_stdev_in_current_rating_term
-    current_rating_term_race_records.map(&:start_time).sd
+    current_rating_term_race_records.map(&:start_time).reject(&:nil?).sd
   end
 
   def start_order_average_in_current_rating_term
-    current_rating_term_race_records.map(&:start_order).mean
+    current_rating_term_race_records.map(&:start_order).reject(&:nil?).mean
   end
 
   def start_order_stdev_in_current_rating_term
-    current_rating_term_race_records.map(&:start_order).sd
+    current_rating_term_race_records.map(&:start_order).reject(&:nil?).sd
   end
 
   def order_of_arrivals_in_current_series_without_unfinished
