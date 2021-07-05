@@ -5,7 +5,6 @@ class Kpi < ApplicationRecord
   validates :name, presence: true
   validates :attribute_name, presence: true
   validates :entry_object, presence: true, on: :calculation
-  validate :entry_object_must_be_a_specified_class, on: :calculation
 
   # NOTE: カラム名を key にすると SQL の予約語と衝突するのでこのようなゲッターの定義としている
   # ORMでマッピングした場合以下のようなエイリアス指定だとエラーになる
@@ -16,16 +15,6 @@ class Kpi < ApplicationRecord
 
   def value!
     raise NotImplementedError
-  end
-
-  private
-
-  # todo: 名前が微妙なので再考したい
-  def entry_object_must_be_a_specified_class
-    return if entry_object.blank?
-    return if entry_object.class.name == entry_object_class_name
-
-    errors.add(:entry_object_class_name, "entry object must be a instance of #{entry_object_class_name} at kpi: #{key}")
   end
 end
 
