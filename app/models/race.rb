@@ -226,6 +226,18 @@ class Race < ApplicationRecord
     end.call
   end
 
+  def weather_when_exhibition
+    weather_condition_in_exhibition.weather
+  end
+
+  def air_temperature_when_exhibition
+    weather_condition_in_exhibition.air_temperature
+  end
+
+  def water_temperature_when_exhibition
+    weather_condition_in_exhibition.water_temperature
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date
