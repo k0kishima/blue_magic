@@ -115,6 +115,9 @@ Kpi.upsert_all(
     { id: 75, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "三連単2着", description: "", attribute_name: "second", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 76, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "三連単3着", description: "", attribute_name: "third", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 77, type: "AttributionalKpi", entry_object_class_name: "Race", name: "モーター使用日数", description: "初卸日からの経過日数", attribute_name: "motor_lapsed_days_from_renewed", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 78, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の天候", description: "", attribute_name: "weather_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 79, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の気温", description: "", attribute_name: "air_temperature_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 80, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の水温", description: "", attribute_name: "water_temperature_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
