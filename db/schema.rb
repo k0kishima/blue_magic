@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_01_093625) do
+ActiveRecord::Schema.define(version: 2021_07_04_202536) do
 
   create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "forecasters_forecasting_pattern_id", null: false
@@ -186,6 +186,16 @@ ActiveRecord::Schema.define(version: 2021_06_01_093625) do
     t.integer "betting_method", null: false
     t.integer "betting_number", null: false
     t.integer "amount", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "race_analysis_caches", primary_key: ["stadium_tel_code", "date", "race_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
+    t.integer "stadium_tel_code", null: false
+    t.date "date", null: false
+    t.integer "race_number", null: false
+    t.json "data"
+    t.text "error_message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
