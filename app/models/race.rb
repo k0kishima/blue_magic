@@ -219,6 +219,13 @@ class Race < ApplicationRecord
     race_analysis_cache.race_entries_data
   end
 
+  def motor_lapsed_days_from_renewed
+    @motor_lapsed_days_from_renewed ||= -> do
+      motor_renewal = MotorRenewal.where(stadium_tel_code: stadium_tel_code).where('date <= ?', date).first
+      motor_lapsed_days_from_renewed = motor_renewal.present? ? (date - motor_renewal.date).to_i : nil
+    end.call
+  end
+
   private
 
   def betting_deadline_at_cannot_be_no_in_date

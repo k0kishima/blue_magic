@@ -114,6 +114,7 @@ Kpi.upsert_all(
     { id: 74, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "三連単1着", description: "", attribute_name: "first", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 75, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "三連単2着", description: "", attribute_name: "second", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 76, type: "AttributionalKpi", entry_object_class_name: "Odds", name: "三連単3着", description: "", attribute_name: "third", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 77, type: "AttributionalKpi", entry_object_class_name: "Race", name: "モーター使用日数", description: "初卸日からの経過日数", attribute_name: "motor_lapsed_days_from_renewed", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
