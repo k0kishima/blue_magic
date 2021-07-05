@@ -1,7 +1,7 @@
 class BetJob < ApplicationJob
   class AnyForecastingPatternsDoNotMatched < StandardError; end
 
-  discard_on Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched, OverBudget do |job, error|
+  discard_on Forecaster::AlreadyForecasted, AnyForecastingPatternsDoNotMatched, OverBudget, RaceAnalysisCache::RaceCannotBeAnalyzed do |job, error|
     Rails.application.config.betting_logger.info("#{job.arguments}: #{error.message}")
   end
 
@@ -10,30 +10,15 @@ class BetJob < ApplicationJob
   end
 
   def perform(forecaster_id:, stadium_tel_code:, race_opened_on:, race_number:)
-    race =
-      Race
-      .includes(
-        :weather_conditions,
-        :odds,
-        {
-          race_entries: [
-            :start_exhibition_record,
-            :disqualified_race_entry,
-            :racer_winning_rate_aggregation,
-            { boat_setting: [:motor_betting_contribute_rate_aggregation, :boat_betting_contribute_rate_aggregation] },
-          ]
-        }
-      ).find_by!(stadium_tel_code: stadium_tel_code, date: race_opened_on, race_number: race_number)
+    race = Race.find_by!(stadium_tel_code: stadium_tel_code, date: race_opened_on, race_number: race_number)
 
-    race.stadium.aggregation_offset_date = race.date
-    race.stadium.context = race.weather_condition_in_exhibition.slice(:wind_angle, :wind_velocity)
+    if race.race_analysis_cache.blank?
+      RaceAnalysisCacheFactory.create!(date: race_opened_on, stadium_tel_code: stadium_tel_code, race_number: race_number)
+      race.reload
+    end
 
-    RankingSetting::RACE_ENTRY.each do |need_to_rank_attribute_name, evaluation_policy|
-      RankedAttributeDecorator.bulk_decorate!(
-        objects: race.race_entries,
-        need_to_rank_attribute_name: need_to_rank_attribute_name,
-        evaluation_policy: evaluation_policy
-      )
+    if race.race_analysis_cache.error_message.present?
+      raise RaceAnalysisCache::RaceCannotBeAnalyzed, race.race_analysis_cache.error_message
     end
 
     forecaster = Forecaster.find(forecaster_id)

@@ -11,6 +11,7 @@ class Race < ApplicationRecord
   has_many :payoffs, foreign_key: self.primary_keys
   has_many :odds, foreign_key: self.primary_keys, class_name: 'Odds'
   has_many :bettings, foreign_key: self.primary_keys
+  has_one :race_analysis_cache, foreign_key: self.primary_keys
 
   validates :date, presence: true
   validates :race_number, presence: true, inclusion: { in: self.numbers }
@@ -208,6 +209,14 @@ class Race < ApplicationRecord
 
   def best_performance_score_pit_number
     race_entries.find{|race_entry| race_entry.performance_score == performance_score_first }.pit_number
+  end
+
+  def analysis
+    race_analysis_cache.race_data
+  end
+
+  def race_entries_analysis
+    race_analysis_cache.race_entries_data
   end
 
   private
