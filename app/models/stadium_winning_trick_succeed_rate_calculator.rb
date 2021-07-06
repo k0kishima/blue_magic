@@ -30,9 +30,6 @@ class StadiumWinningTrickSucceedRateCalculator
         races = races.by_wind_condition_in_performance(wind_velocity: wind_velocity, wind_angle: wind_angle)
       end
 
-      races = races
-              .includes({ race_entries: { race_record: :winning_race_entry } })
-
       won_by_specified_trick_races =
         races
         .joins({ race_entries: { race_record: :winning_race_entry } })
