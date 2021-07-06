@@ -26,12 +26,14 @@ class RacerWinningTrickSucceedRateCalculator
       .where(course_number: course_number)
       .where(date: aggregation_range)
       .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
-      .includes(:winning_race_entry)
 
-    numerator = race_records.select { |race_record| race_record.winning_trick_id == trick.id }.count
+    won_by_specified_trick_races =
+      race_records
+      .joins(:winning_race_entry)
+      .merge(WinningRaceEntry.where(winning_trick: trick.id))
 
     begin
-      Rational(numerator, race_records.count).to_f
+      Rational(won_by_specified_trick_races.count, race_records.count).to_f
     rescue ZeroDivisionError
       0
     end
