@@ -9,6 +9,7 @@ class RaceAnalysisCacheFactory
           {
             race_entries: [
               :start_exhibition_record,
+              :circumference_exhibition_record,
               :disqualified_race_entry,
               :racer_winning_rate_aggregation,
               { boat_setting: [:motor_betting_contribute_rate_aggregation, :boat_betting_contribute_rate_aggregation] },
