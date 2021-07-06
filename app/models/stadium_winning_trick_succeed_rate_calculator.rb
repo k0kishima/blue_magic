@@ -29,15 +29,20 @@ class StadiumWinningTrickSucceedRateCalculator
       races = races.by_wind_condition_in_performance(wind_velocity: wind_velocity, wind_angle: wind_angle)
     end
 
-    races = races.includes({ race_entries: { race_record: :winning_race_entry } })
+    races = races
+              .includes({ race_entries: { race_record: :winning_race_entry } })
 
-    winners = races.map(&:winner).reject(&:blank?)
-    numerator = winners.select do |winner|
-      winner.winning_trick_id == trick.id && (course_number.blank? || winner.race_record.course_number == course_number)
-    end.count
+    won_by_specified_trick_races = 
+      races
+        .joins({ race_entries: { race_record: :winning_race_entry } })
+        .merge(WinningRaceEntry.where(winning_trick: trick.id))
+
+    if course_number.present?
+      won_by_specified_trick_races = won_by_specified_trick_races.merge(RaceRecord.where(course_number: course_number))
+    end
 
     begin
-      Rational(numerator, races.count).to_f
+      Rational(won_by_specified_trick_races.count, races.count).to_f
     rescue ZeroDivisionError
       0
     end
