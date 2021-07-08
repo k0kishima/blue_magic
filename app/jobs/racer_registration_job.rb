@@ -1,5 +1,6 @@
 class RacerRegistrationJob < ApplicationJob
   include CrawlingNotifiable
+  include PageReloadable
 
   discard_on(ActiveRecord::RecordInvalid) do |job, error|
     job.notify_information([job.arguments, error.message].join(':'))
@@ -8,6 +9,7 @@ class RacerRegistrationJob < ApplicationJob
   def perform(racer_registration_number)
     scraper_class = OfficialWebsite::ScraperClassFactory.create!('racer_profile')
     page = OfficialWebsite::RacerProfilePage.new(racer_registration_number: racer_registration_number)
+    page.reload! if need_to_realod?
     scraper = scraper_class.new(file: page.file)
 
     begin
