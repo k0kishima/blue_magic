@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe AnalysisFactory, type: :model do
   describe '.create!' do
-    subject { described_class.create!(entry_object: entry_object, filtering_condition: filtering_condition) }
+    subject { described_class.create!(entry_object: entry_object, select_condition: select_condition) }
 
-    let(:filtering_condition) do
+    let(:select_condition) do
       {
         and: [
           {

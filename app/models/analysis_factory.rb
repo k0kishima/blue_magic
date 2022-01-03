@@ -1,12 +1,12 @@
 class AnalysisFactory
   class << self
-    def create!(entry_object:, filtering_condition:)
-      kpis = KpiFactory.create_recursively!(hash: filtering_condition)
+    def create!(entry_object:, select_condition:)
+      kpis = KpiFactory.create_recursively!(hash: select_condition)
       kpis_indexed_by_own_key = kpis.map { |kpi| [kpi.key.to_sym, kpi] }.to_h
 
       analysis = {}
 
-      extract_hash_recursively!(hash: filtering_condition).each do |hash|
+      extract_hash_recursively!(hash: select_condition).each do |hash|
         begin
           kpi_key = hash.symbolize_keys.fetch(:attribute).to_sym
         rescue KeyError => e

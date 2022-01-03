@@ -6,18 +6,18 @@ describe ForecastingPattern, type: :model do
     let(:forecasting_pattern) { create(:forecasting_pattern) }
 
     it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:race_filtering_condition) }
-    it { is_expected.to validate_presence_of(:first_place_filtering_condition) }
-    it { is_expected.to validate_presence_of(:second_place_filtering_condition) }
-    it { is_expected.to validate_presence_of(:third_place_filtering_condition) }
-    it { is_expected.to validate_presence_of(:odds_filtering_condition) }
+    it { is_expected.to validate_presence_of(:race_select_condition) }
+    it { is_expected.to validate_presence_of(:first_place_select_condition) }
+    it { is_expected.to validate_presence_of(:second_place_select_condition) }
+    it { is_expected.to validate_presence_of(:third_place_select_condition) }
+    it { is_expected.to validate_presence_of(:odds_select_condition) }
   end
 
   describe '#forecastable?' do
     subject { forecasting_pattern.forecastable?(race) }
 
-    let(:forecasting_pattern) { create(:forecasting_pattern, race_filtering_condition: race_filtering_condition) }
-    let(:race_filtering_condition) do
+    let(:forecasting_pattern) { create(:forecasting_pattern, race_select_condition: race_select_condition) }
+    let(:race_select_condition) do
       {
         and: [
           {
@@ -60,12 +60,12 @@ describe ForecastingPattern, type: :model do
     let(:forecasting_pattern) do
       create(
         :forecasting_pattern,
-        first_place_filtering_condition: first_place_filtering_condition,
-        second_place_filtering_condition: second_place_filtering_condition,
-        third_place_filtering_condition: third_place_filtering_condition
+        first_place_select_condition: first_place_select_condition,
+        second_place_select_condition: second_place_select_condition,
+        third_place_select_condition: third_place_select_condition
       )
     end
-    let(:first_place_filtering_condition) do
+    let(:first_place_select_condition) do
       {
         and: [
           {
@@ -83,7 +83,7 @@ describe ForecastingPattern, type: :model do
         ]
       }
     end
-    let(:second_place_filtering_condition) do
+    let(:second_place_select_condition) do
       {
         and: [
           {
@@ -95,7 +95,7 @@ describe ForecastingPattern, type: :model do
         ]
       }
     end
-    let(:third_place_filtering_condition) do
+    let(:third_place_select_condition) do
       {
         and: [
           {
@@ -155,8 +155,8 @@ describe ForecastingPattern, type: :model do
     subject { forecasting_pattern.recommend_odds_of(race) }
 
     let(:race) { create(:race) }
-    let(:forecasting_pattern) { create(:forecasting_pattern, odds_filtering_condition: odds_filtering_condition) }
-    let(:odds_filtering_condition) do
+    let(:forecasting_pattern) { create(:forecasting_pattern, odds_select_condition: odds_select_condition) }
+    let(:odds_select_condition) do
       {
         and: [
           {
@@ -249,15 +249,15 @@ end
 #
 # Table name: forecasting_patterns
 #
-#  id                               :bigint           not null, primary key
-#  name                             :string(255)      not null
-#  description                      :text(65535)
-#  race_filtering_condition         :json             not null
-#  first_place_filtering_condition  :json             not null
-#  second_place_filtering_condition :json             not null
-#  third_place_filtering_condition  :json             not null
-#  odds_filtering_condition         :json             not null
-#  frozen_at                        :datetime
-#  created_at                       :datetime         not null
-#  updated_at                       :datetime         not null
+#  id                            :bigint           not null, primary key
+#  name                          :string(255)      not null
+#  description                   :text(65535)
+#  race_select_condition         :json             not null
+#  first_place_select_condition  :json             not null
+#  second_place_select_condition :json             not null
+#  third_place_select_condition  :json             not null
+#  odds_select_condition         :json             not null
+#  frozen_at                     :datetime
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
 #

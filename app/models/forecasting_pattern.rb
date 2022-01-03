@@ -1,13 +1,13 @@
 class ForecastingPattern < ApplicationRecord
   validates :name, presence: true
-  validates :race_filtering_condition, presence: true
-  validates :first_place_filtering_condition, presence: true
-  validates :second_place_filtering_condition, presence: true
-  validates :third_place_filtering_condition, presence: true
-  validates :odds_filtering_condition, presence: true
+  validates :race_select_condition, presence: true
+  validates :first_place_select_condition, presence: true
+  validates :second_place_select_condition, presence: true
+  validates :third_place_select_condition, presence: true
+  validates :odds_select_condition, presence: true
 
   def forecastable?(race)
-    expression = LogicalExpressionFactory.create!(race_filtering_condition)
+    expression = LogicalExpressionFactory.create!(race_select_condition)
     expression.call(race.analysis)
   end
 
@@ -30,10 +30,10 @@ class ForecastingPattern < ApplicationRecord
 
     odds = race.odds.select { |o| o.betting_number.in?(formation.betting_numbers) }
 
-    expression = LogicalExpressionFactory.create!(odds_filtering_condition)
+    expression = LogicalExpressionFactory.create!(odds_select_condition)
     odds.select do |o|
       o.race = race.analysis
-      odds_analysis = AnalysisFactory.create!(entry_object: o, filtering_condition: odds_filtering_condition)
+      odds_analysis = AnalysisFactory.create!(entry_object: o, select_condition: odds_select_condition)
       expression.call(Hashie::Mash.new(odds_analysis))
     end
   end
@@ -41,8 +41,8 @@ class ForecastingPattern < ApplicationRecord
   private
 
   def filtered_race_entries(race_entries:, where:)
-    filtering_condition = try("#{where}_place_filtering_condition")
-    expression = LogicalExpressionFactory.create!(filtering_condition)
+    select_condition = try("#{where}_place_select_condition")
+    expression = LogicalExpressionFactory.create!(select_condition)
     selected_race_entries = race_entries.select { |race_entry| expression.call(race_entry) }
 
     if selected_race_entries.present?
@@ -64,15 +64,15 @@ end
 #
 # Table name: forecasting_patterns
 #
-#  id                               :bigint           not null, primary key
-#  name                             :string(255)      not null
-#  description                      :text(65535)
-#  race_filtering_condition         :json             not null
-#  first_place_filtering_condition  :json             not null
-#  second_place_filtering_condition :json             not null
-#  third_place_filtering_condition  :json             not null
-#  odds_filtering_condition         :json             not null
-#  frozen_at                        :datetime
-#  created_at                       :datetime         not null
-#  updated_at                       :datetime         not null
+#  id                            :bigint           not null, primary key
+#  name                          :string(255)      not null
+#  description                   :text(65535)
+#  race_select_condition         :json             not null
+#  first_place_select_condition  :json             not null
+#  second_place_select_condition :json             not null
+#  third_place_select_condition  :json             not null
+#  odds_select_condition         :json             not null
+#  frozen_at                     :datetime
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
 #

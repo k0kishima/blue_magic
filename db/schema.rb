@@ -111,11 +111,11 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
   create_table "forecasting_patterns", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
-    t.json "race_filtering_condition", null: false
-    t.json "first_place_filtering_condition", null: false
-    t.json "second_place_filtering_condition", null: false
-    t.json "third_place_filtering_condition", null: false
-    t.json "odds_filtering_condition", null: false
+    t.json "race_select_condition", null: false
+    t.json "first_place_select_condition", null: false
+    t.json "second_place_select_condition", null: false
+    t.json "third_place_select_condition", null: false
+    t.json "odds_select_condition", null: false
     t.datetime "frozen_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
