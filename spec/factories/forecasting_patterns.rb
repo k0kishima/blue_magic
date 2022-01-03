@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :forecasting_pattern do
     name { 'イン逃げ鉄板' }
-    race_filtering_condition {
+    race_select_condition {
       {
         and: [
           {
@@ -19,7 +19,7 @@ FactoryBot.define do
         ]
       }
     }
-    first_place_filtering_condition {
+    first_place_select_condition {
       {
         and: [
           {
@@ -43,7 +43,7 @@ FactoryBot.define do
         ]
       }
     }
-    second_place_filtering_condition {
+    second_place_select_condition {
       {
         and: [
           {
@@ -55,7 +55,7 @@ FactoryBot.define do
         ]
       }
     }
-    third_place_filtering_condition {
+    third_place_select_condition {
       {
         and: [
           {
@@ -67,7 +67,7 @@ FactoryBot.define do
         ]
       }
     }
-    odds_filtering_condition {
+    odds_select_condition {
       {
         and: [
           {
@@ -92,15 +92,15 @@ end
 #
 # Table name: forecasting_patterns
 #
-#  id                               :bigint           not null, primary key
-#  name                             :string(255)      not null
-#  description                      :text(65535)
-#  race_filtering_condition         :json             not null
-#  first_place_filtering_condition  :json             not null
-#  second_place_filtering_condition :json             not null
-#  third_place_filtering_condition  :json             not null
-#  odds_filtering_condition         :json             not null
-#  frozen_at                        :datetime
-#  created_at                       :datetime         not null
-#  updated_at                       :datetime         not null
+#  id                            :bigint           not null, primary key
+#  name                          :string(255)      not null
+#  description                   :text(65535)
+#  race_select_condition         :json             not null
+#  first_place_select_condition  :json             not null
+#  second_place_select_condition :json             not null
+#  third_place_select_condition  :json             not null
+#  odds_select_condition         :json             not null
+#  frozen_at                     :datetime
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
 #
