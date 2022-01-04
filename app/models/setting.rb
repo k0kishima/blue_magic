@@ -4,6 +4,7 @@ class Setting < RailsSettings::Base
 
   field :voting_enable, type: :boolean, default: false
   field :crawling_enable, type: :boolean, default: true
+  field :slack_notification_enable, type: :boolean, default: false
 end
 
 # == Schema Information

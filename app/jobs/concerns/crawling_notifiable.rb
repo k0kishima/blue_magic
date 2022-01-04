@@ -8,10 +8,12 @@ module CrawlingNotifiable
 
   included do
     def notify_error(message)
+      return unless Setting.slack_notification_enable
       slack_client.chat_postMessage(channel: CHANNEL_NAMES::EMERGENCY, text: message)
     end
 
     def notify_information(message)
+      return unless Setting.slack_notification_enable
       slack_client.chat_postMessage(channel: CHANNEL_NAMES::INFORMATION, text: message)
     end
 
