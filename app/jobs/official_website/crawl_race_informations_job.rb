@@ -1,5 +1,7 @@
 module OfficialWebsite
   class CrawlRaceInformationsJob < CrawlJob
+    queue_as :critical
+
     def perform(stadium_tel_code:, race_opened_on:, race_number:, version: DEFAULT_VERSION)
       page = OfficialWebsite::RaceInformationPage.new(
         version: version, stadium_tel_code: stadium_tel_code,
