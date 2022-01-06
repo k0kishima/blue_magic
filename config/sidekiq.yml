@@ -2,10 +2,10 @@ defaults: &defaults
   :verbose: true
   :pidfile: ./tmp/sidekiq.pid
   :queues:
-    - critical
+    - [critical, 10]
     - default
     - low
-  :concurrency: 1
+  :concurrency: 3
   :max_retries: 3
 
 development:
@@ -18,20 +18,20 @@ production:
 
 :schedule:
   trigger_racer_registration:
-    every: '10m'
+    every: "10m"
     class: TriggerRacerRegistrationJob
   trigger_import_data:
-    every: '5m'
+    every: "5m"
     class: ImportAllDataJob
   trigger_crawl_events:
-    cron: '0 8 1 * *'  # 毎月1日の8:00
+    cron: "0 8 1 * *" # 毎月1日の8:00
     class: OfficialWebsite::CrawlEventsJob
   trigger_crawl_motor_renewals:
-    cron: '0 8 * * *'  # 毎日8:00
+    cron: "0 8 * * *" # 毎日8:00
     class: OfficialWebsite::CrawlMotorRenewalsJob
   trigger_crawl_races:
-    cron: '0 8 * * *'
+    cron: "0 8 * * *"
     class: OfficialWebsite::CrawlOpenedOrWillOpenRacesJob
   trigger_race_data_crawling_scheduler:
-    cron: '30 8 * * *'  # trigger_crawl_races で取得したデータを元に処理するのでそれより後
+    cron: "30 8 * * *" # trigger_crawl_races で取得したデータを元に処理するのでそれより後
     class: OfficialWebsite::ScheduleRaceDataCrawlingJob
