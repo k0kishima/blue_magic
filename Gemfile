@@ -61,7 +61,7 @@ gem "hiredis", "~> 0.6.3"
 
 gem "redis", "~> 4.2"
 
-gem "sidekiq", "~> 6.2"
+gem "sidekiq", "~> 6.4"
 
 # cache_store はこれがなくても引数で名前空間効いたが sidekiq でredis設定するときにnamespace引数使うなら必要
 gem "redis-namespace", "~> 1.8"
