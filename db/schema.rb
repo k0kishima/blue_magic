@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_04_202536) do
-
+ActiveRecord::Schema[7.0].define(version: 2021_07_04_202536) do
   create_table "bettings", primary_key: ["forecasters_forecasting_pattern_id", "stadium_tel_code", "date", "race_number", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.bigint "forecasters_forecasting_pattern_id", null: false
     t.integer "stadium_tel_code", null: false
@@ -23,9 +22,9 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "refunded_amount"
     t.integer "adjustment_amount"
     t.boolean "dry_run", null: false
-    t.datetime "voted_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "voted_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
   end
 
@@ -35,8 +34,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.date "aggregated_on", null: false
     t.float "quinella_rate", null: false
     t.float "trio_rate"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "boat_settings", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -48,8 +47,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "motor_number", null: false
     t.float "tilt", null: false
     t.boolean "propeller_renewed", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["stadium_tel_code", "date", "race_number", "boat_number"], name: "uniq_index_1", unique: true
     t.index ["stadium_tel_code", "date", "race_number", "motor_number"], name: "uniq_index_2", unique: true
   end
@@ -61,8 +60,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "pit_number", null: false
     t.float "exhibition_time", null: false
     t.integer "exhibition_time_order", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "disqualified_race_entries", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -71,8 +70,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "race_number", null: false
     t.integer "pit_number", null: false
     t.integer "disqualification", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "events", primary_key: ["stadium_tel_code", "starts_on", "title"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -82,8 +81,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "grade", null: false
     t.integer "kind", null: false
     t.boolean "canceled", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "forecasters", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -91,8 +90,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.string "name", null: false
     t.text "description"
     t.integer "betting_strategy", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "forecasters_forecasting_patterns", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -101,8 +100,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "budget_amount_per_race", null: false
     t.integer "fund_allocation_method", null: false
     t.float "composition_odds", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["forecaster_id", "forecasting_pattern_id"], name: "uniq_index_1", unique: true
     t.index ["forecaster_id"], name: "foreign_key_1"
     t.index ["forecasting_pattern_id"], name: "foreign_key_2"
@@ -116,17 +115,17 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.json "second_place_select_condition", null: false
     t.json "third_place_select_condition", null: false
     t.json "odds_select_condition", null: false
-    t.datetime "frozen_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "frozen_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "import_data_queues", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "status", default: 0, null: false
     t.json "file_data", null: false
     t.text "error_messages"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "kpis", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -135,8 +134,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.string "name", null: false
     t.text "description"
     t.string "attribute_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["attribute_name"], name: "index_kpis_on_attribute_name", unique: true
   end
 
@@ -146,8 +145,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.date "aggregated_on", null: false
     t.float "quinella_rate", null: false
     t.float "trio_rate"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "motor_maintenances", primary_key: ["stadium_tel_code", "date", "race_number", "motor_number", "exchanged_parts"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -157,15 +156,15 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "motor_number", null: false
     t.integer "exchanged_parts", null: false
     t.integer "quantity", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "motor_renewals", primary_key: ["stadium_tel_code", "date"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.integer "stadium_tel_code", null: false
     t.date "date", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "odds", primary_key: ["stadium_tel_code", "date", "race_number", "betting_method", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -175,8 +174,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "betting_method", null: false
     t.integer "betting_number", null: false
     t.float "ratio", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "payoffs", primary_key: ["stadium_tel_code", "date", "race_number", "betting_method", "betting_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -186,8 +185,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "betting_method", null: false
     t.integer "betting_number", null: false
     t.integer "amount", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "race_analysis_caches", primary_key: ["stadium_tel_code", "date", "race_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -196,8 +195,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "race_number", null: false
     t.json "data"
     t.text "error_message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "race_entries", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -206,8 +205,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "race_number", null: false
     t.integer "racer_registration_number", null: false
     t.integer "pit_number", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["stadium_tel_code", "date", "race_number", "racer_registration_number"], name: "uniq_index_1", unique: true
   end
 
@@ -221,8 +220,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "start_order"
     t.float "race_time"
     t.integer "arrival"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "racer_conditions", primary_key: ["racer_registration_number", "date"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -230,8 +229,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.date "date", null: false
     t.float "weight", null: false
     t.float "adjust", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "racer_winning_rate_aggregations", primary_key: ["racer_registration_number", "aggregated_on"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -239,8 +238,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.date "aggregated_on", null: false
     t.float "rate_in_all_stadium", null: false
     t.float "rate_in_event_going_stadium", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "racers", primary_key: "registration_number", id: :integer, charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -253,8 +252,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "birth_prefecture_id"
     t.integer "height"
     t.integer "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "races", primary_key: ["stadium_tel_code", "date", "race_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -265,10 +264,10 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.boolean "course_fixed", default: false, null: false
     t.boolean "use_stabilizer", default: false, null: false
     t.integer "number_of_laps", default: 3, null: false
-    t.datetime "betting_deadline_at", null: false
+    t.datetime "betting_deadline_at", precision: nil, null: false
     t.boolean "canceled", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["betting_deadline_at"], name: "index_races_on_betting_deadline_at"
   end
 
@@ -281,16 +280,16 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "betting_number", null: false
     t.float "ratio_when_forecasting", null: false
     t.integer "should_purchase_quantity", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["forecasters_forecasting_pattern_id"], name: "foreign_key_1"
   end
 
   create_table "settings", charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
     t.string "var", null: false
     t.text "value"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["var"], name: "index_settings_on_var", unique: true
   end
 
@@ -302,8 +301,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.float "lat", null: false
     t.float "lng", null: false
     t.float "elevation", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "start_exhibition_records", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -313,8 +312,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "pit_number", null: false
     t.integer "course_number", null: false
     t.float "start_time", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "weather_conditions", primary_key: ["stadium_tel_code", "date", "race_number", "in_performance"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -328,8 +327,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.float "wavelength"
     t.float "air_temperature", null: false
     t.float "water_temperature", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "winning_race_entries", primary_key: ["stadium_tel_code", "date", "race_number", "pit_number"], charset: "utf8mb4", collation: "utf8mb4_bin", force: :cascade do |t|
@@ -338,8 +337,8 @@ ActiveRecord::Schema.define(version: 2021_07_04_202536) do
     t.integer "race_number", null: false
     t.integer "pit_number", null: false
     t.integer "winning_trick", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "bettings", "forecasters_forecasting_patterns"
