@@ -13,6 +13,9 @@ module OfficialWebsite
 
       raise_exception_if_data_not_found!
 
+      title, distance = html.search('h3').text.strip.gsub('　', '').split(/\s+/)
+      metre = distance.scan(/(\d{3,4}m)/).flatten.first.to_i
+
       data = [{
         date: date,
         stadium_tel_code: stadium_tel_code,
@@ -41,7 +44,7 @@ module OfficialWebsite
     end
 
     def course_fixed?
-      html.search('.label2.is-type1').select { |label| label.text == TEXT::COURSE_FIXED }.present?
+      html.search('.label2.is-type2__add2020').select { |label| label.text == TEXT::COURSE_FIXED }.present?
     end
 
     def outside_deladline_rows
@@ -50,14 +53,6 @@ module OfficialWebsite
 
     def deadline_text
       outside_deladline_rows.search('td')[race_number].text
-    end
-
-    def title
-      html.search('.heading2_titleDetail').text.scan(/([^\n]+)\n/).flatten.first.strip.gsub(/[　 ]+/, '')
-    end
-
-    def metre
-      html.search('.heading2_titleDetail').text.scan(/(\d{3,4}m)/).flatten.first.to_i
     end
 
     def use_stabilizer?
