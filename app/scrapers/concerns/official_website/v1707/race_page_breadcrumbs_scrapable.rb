@@ -25,7 +25,7 @@ module OfficialWebsite
         end
 
         def race_number
-          @race_number ||= deadline_table.search('tr th[class=""]').text.to_i
+          @race_number ||= deadline_table.search('tr th:not([class])').text.to_i
         end
       end
     end
