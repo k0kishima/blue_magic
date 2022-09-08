@@ -16,19 +16,21 @@ module OfficialWebsite
 
       raise_exception_if_data_not_found!
 
+      raise StandardError if series_entry_rows.count < 12
+
       data = series_entry_rows.map do |row|
-        cells = row.search('td')
-        racer_names = cells[2].text.strip.split(/[　]+/).reverse
+        texts = row.search('td').map{|cell| cell.text.strip }
+        racer_names = texts[2].split(/[　]+/).reverse
         {
-          racer_registration_number: cells[1].text.to_i,
+          racer_registration_number: texts[1].to_i,
           racer_first_name: racer_names.first,
           racer_last_name: racer_names.last,
-          racer_rank: cells[3].text,
-          motor_number: cells[4].text.to_i,
-          quinella_rate_of_motor: cells[5].text.to_f,
-          boat_number: cells[6].text.to_i,
-          quinella_rate_of_boat: cells[7].text.to_f,
-          anterior_time: cells[8].text.to_f,
+          racer_rank: texts[3],
+          motor_number: texts[4].to_i,
+          quinella_rate_of_motor: texts[5].to_f,
+          boat_number: texts[6].to_i,
+          quinella_rate_of_boat: texts[7].to_f,
+          anterior_time: texts[8].to_f,
           racer_gender: row.search('.is-lady').present? ? 'female' : 'male'
         }
       end

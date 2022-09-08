@@ -86,7 +86,8 @@ describe OfficialWebsite::V1707::RaceRecordsScraper do
             }
 
             it '失格記号がパースされること' do
-              expect(subject.map { |v| v[:disqualification_mark] }).to eq [nil, '妨', '落', nil, nil, nil]
+              # 以前は2号艇の記号は「妨」だったが、公式サイトがサイレントアップデートされて「失」に変更されていた
+              expect(subject.map { |v| v[:disqualification_mark] }).to eq [nil, '失', '落', nil, nil, nil]
             end
 
             it '失格艇のスタート順はパースされること' do

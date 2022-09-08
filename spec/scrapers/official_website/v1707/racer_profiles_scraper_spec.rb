@@ -26,7 +26,7 @@ describe OfficialWebsite::V1707::RacerProfilesScraper do
                                     registration_number: 4444,
                                     birth_date: '1986-10-07',
                                     height: 160,
-                                    weight: 52,
+                                    weight: 53,
                                     branch_prefecture: '埼玉',
                                     born_prefecture: '福島県',
                                     term: 100,
@@ -38,7 +38,7 @@ describe OfficialWebsite::V1707::RacerProfilesScraper do
         end
 
         context 'レーサーのデータが存在しない場合' do
-          let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/racer/retired.htm" }
+          let(:file_path) { "#{Rails.root}/spec/fixtures/files/official_website/v1707/racer/retired.html" }
 
           it 'DataNotFound例外が発生すること' do
             expect { subject }.to raise_error(::DataNotFound)
