@@ -16,6 +16,8 @@ module OfficialWebsite
 
       raise_exception_if_data_not_found!
 
+      raise StandardError if series_entry_rows.count < 12
+
       data = series_entry_rows.map do |row|
         texts = row.search('td').map{|cell| cell.text.strip }
         racer_names = texts[2].split(/[　]+/).reverse
