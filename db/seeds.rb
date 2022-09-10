@@ -136,7 +136,7 @@ ForecastingPattern.upsert_all(
     {
       id: 1,
       name: '前付け・波乱狙い',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -364,7 +364,7 @@ ForecastingPattern.upsert_all(
           },
         ],
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -565,7 +565,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -728,7 +728,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -868,7 +868,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -890,7 +890,7 @@ ForecastingPattern.upsert_all(
     {
       id: 2,
       name: '強風・波乱狙い',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -994,7 +994,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -1151,7 +1151,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -1328,7 +1328,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -1476,7 +1476,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -1498,7 +1498,7 @@ ForecastingPattern.upsert_all(
     {
       id: 3,
       name: '前付けでの波乱狙い',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -1762,7 +1762,7 @@ ForecastingPattern.upsert_all(
           },
         ],
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -1963,7 +1963,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -2126,7 +2126,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -2266,7 +2266,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -2288,7 +2288,7 @@ ForecastingPattern.upsert_all(
     {
       id: 4,
       name: 'イン逃げ',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -2442,7 +2442,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             '==': [
@@ -2559,7 +2559,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -2712,7 +2712,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -2848,7 +2848,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -2870,7 +2870,7 @@ ForecastingPattern.upsert_all(
     {
       id: 5,
       name: '安定版着用の荒れ水面',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -3004,7 +3004,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -3161,7 +3161,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -3338,7 +3338,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -3486,7 +3486,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -3508,7 +3508,7 @@ ForecastingPattern.upsert_all(
     {
       id: 6,
       name: '強風（安定版なし）',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -3658,7 +3658,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -3803,7 +3803,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -3980,7 +3980,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -4134,7 +4134,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             '>=': [
@@ -4156,7 +4156,7 @@ ForecastingPattern.upsert_all(
     {
       id: 7,
       name: '2コース差し',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -4348,7 +4348,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             '==': [
@@ -4465,7 +4465,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -4618,7 +4618,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -4742,7 +4742,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             'or': [
@@ -4780,7 +4780,7 @@ ForecastingPattern.upsert_all(
     {
       id: 8,
       name: '安定版着用の荒れ水面',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -4908,7 +4908,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -5065,7 +5065,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -5242,7 +5242,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -5396,7 +5396,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             'or': [
@@ -5452,7 +5452,7 @@ ForecastingPattern.upsert_all(
     {
       id: 9,
       name: '前付けでの波乱狙い',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -5736,7 +5736,7 @@ ForecastingPattern.upsert_all(
           },
         ],
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -5937,7 +5937,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -6100,7 +6100,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -6240,7 +6240,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             'or': [
@@ -6296,7 +6296,7 @@ ForecastingPattern.upsert_all(
     {
       id: 10,
       name: '強風（安定板なし）',
-      race_filtering_condition: {
+      race_select_condition: {
         'and': [
           # レース絞り込み共通条件
           {
@@ -6428,7 +6428,7 @@ ForecastingPattern.upsert_all(
           },
         ]
       },
-      first_place_filtering_condition: {
+      first_place_select_condition: {
         'and': [
           {
             'or': [
@@ -6585,7 +6585,7 @@ ForecastingPattern.upsert_all(
           # /全着順絞り込み共通条件
         ]
       },
-      second_place_filtering_condition: {
+      second_place_select_condition: {
         'and': [
           {
             'or': [
@@ -6762,7 +6762,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      third_place_filtering_condition: {
+      third_place_select_condition: {
         'and': [
           {
             'or': [
@@ -6932,7 +6932,7 @@ ForecastingPattern.upsert_all(
           # /2・3着共通条件
         ]
       },
-      odds_filtering_condition: {
+      odds_select_condition: {
         'and': [
           {
             'or': [
