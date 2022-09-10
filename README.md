@@ -45,4 +45,5 @@
 ### 開発環境構築手順
 
 - [公式サイトからのデータ取得をできるようにするまで](./docs/dev-step1.md)
+- [データの管理方法について](./docs/how-to-manage-data.md)
 - [データ設計](./docs/data-design.md)
