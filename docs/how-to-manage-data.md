@@ -5,10 +5,12 @@
 利便性を考慮してデータはレーサーの級別審査期毎に保持するようになっています。  
 例えば、2021年後期は当年の11月1日～4月30日になります。
 
+ここではある期のデータを収集してエクスポートするまでの手順を解説します。
 
 ## 前提条件
 
-- 余計なデータが入っていないこと
+- 集計タスク実行開始時に余計なデータが入っていないこと
+- 以下の手順で余計なデータを削除できる
 
 **1. DBをスキーマ生成直後に最低限のマスターデータだけ入ってる状態にする**
 
@@ -19,7 +21,7 @@ docker-compose exec app bundle exec rake db:seed
 
 **2. レーサーデータのインポート**
 
-- 既に取得したレーサーのデータに関しては、この段階でインポートする
+- 既に取得してあるレーサーのデータに関しては、この段階でインポートする
 - MySQLクライアントなどでエクスポートしたSQLを `racers` に流し込むなどして予めデータを入れておくこと
 
 ## 集計タスクの実行
@@ -31,11 +33,9 @@ docker-compose exec app bundle exec rake db:seed
 docker-compose exec app bundle exec rake official_website:crawl:crawl_all_data_of_a_month YEAR=2021 MONTH=11
 ```
 
-これを期末の月まで繰り返す
+これを期末の月まで繰り返す（ここでは2022年4月分まで）
 
 ## エクスポート
-
-### 不要なデータを消す
 
 **1. 定期実行を無効にする**
 
@@ -46,7 +46,7 @@ docker-compose exec app bundle exec rails console
 Setting.crawling_enable = false`
 ```
 
-**2. ユーティリティタスクを実行する**
+**2. 不要なデータを消す**
 
 期別にデータを切り分けたいので集計対象期の範疇にないデータを全て削除する
 
@@ -56,7 +56,7 @@ docker-compose exec app bundle exec rake utils:trim_data_for_specified_term
 
 **3. エクスポート実行**
 
-今のところデータの抽象水準はSQLレベルなので、MySQLのクライアントツールなどを利用してテーブルに保存されているレコードをSQL文として吐き出す。  
+今のところデータ保持の抽象水準はSQLレベルなので、MySQLのクライアントツールなどを利用してテーブルに保存されているレコードをSQL文として吐き出す。  
 トランザクションデータだけエクスポートしたいので、以下のテーブルだけエクスポート対象とする
 
 - boat_betting_contribute_rate_aggregations
