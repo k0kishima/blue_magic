@@ -124,3 +124,5562 @@ Kpi.upsert_all(
 
 Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Setting.any?
 
+Forecaster.create(
+  id: 1,
+  status: :simulating,
+  name: 'Copy A2 from V2',
+  betting_strategy: :take_all_forecasting_patterns
+)
+
+ForecastingPattern.upsert_all(
+  [
+    {
+      id: 1,
+      name: '前付けでの波乱狙い',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.6 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.65 }
+            ]
+          },
+          {
+            '<': [
+              {
+                '+': [
+                  {
+                    '*': [
+                      { item: :pit_number_1, attribute: :first_place_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                  {
+                    '+': [
+                      {
+                        '-': [
+                          { item: :literal, value: 7 },
+                          { item: :pit_number_1, attribute: :motor_quinella_rate_rank },
+                        ]
+                      },
+                      {
+                        '-': [
+                          { item: :literal, value: 7 },
+                          { item: :pit_number_1, attribute: :exhibition_time_order },
+                        ]
+                      },
+                    ]
+                  }
+                ]
+              },
+              { item: :literal, value: 11 },
+            ]
+          },
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_4, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_4, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_4, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_4, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_5, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_5, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_5, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_5, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_6, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_6, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_6, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_6, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_sd },
+              { item: :literal, value: 1.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6.5 }
+            ]
+          },
+        ],
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 3 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 5 }
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 11 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      },
+      created_at: Time.zone.now,
+      updated_at: Time.zone.now,
+    },
+    {
+      id: 2,
+      name: 'イン逃げ',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.8 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_2, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 2 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '>': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.55 }
+            ]
+          },
+          {
+            '>': [
+              { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.65 }
+            ]
+          },
+          {
+            '>': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_3, attribute: :performance_score },
+              { item: :literal, value: 17 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_4, attribute: :performance_score },
+              { item: :literal, value: 17 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :wind_velocity_when_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_sd },
+              { item: :literal, value: 1.5 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :course_fixed },
+              { item: :literal, value: false }
+            ]
+          },
+          {
+            '!=': [
+              { item: :pit_number_6, attribute: :winning_rate_in_all_stadium },
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+            ]
+          },
+          {
+            '!=': [
+              { item: :pit_number_6, attribute: :start_time_average_on_start_course_in_exhibition },
+              { item: :itself, attribute: :start_time_average_on_start_course_in_exhibition_first },
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            '==': [
+              { item: :itself, attribute: :pit_number },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :performance_score },
+              { item: :literal, value: 12 }
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 8.5 }
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :trio_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 8.5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :trio_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 20 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 40 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 3,
+      name: '安定版着用の荒れ水面',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.8 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '>': [
+              { item: :itself, attribute: :wind_velocity_when_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.45 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.65 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.5 }
+            ]
+          },
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                  { item: :literal, value: 1 }
+                ]
+              },
+              {
+                '>=': [
+                  { item: :pit_number_1, attribute: :performance_score },
+                  { item: :literal, value: 8 }
+                ]
+              },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :course_fixed },
+              { item: :literal, value: false }
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :use_stabilizer },
+              { item: :literal, value: false }
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.3 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.4 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 4,
+      name: '強風（安定版なし）',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_2, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 2 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_3, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 3 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_4, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '>': [
+              { item: :itself, attribute: :wind_velocity_when_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.45 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.2 }
+            ]
+          },
+          {
+            or: [
+              {
+                '<': [
+                  { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                  { item: :literal, value: 0.65 }
+                ]
+              },
+              {
+                and: [
+                  {
+                    '>=': [
+                      { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '<': [
+                      { item: :pit_number_1, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          {
+            '>': [
+              { item: :pit_number_1, attribute: :makurare_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.2 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.5 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :course_fixed },
+              { item: :literal, value: false }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :use_stabilizer },
+              { item: :literal, value: false }
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 11 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.3 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 5,
+      name: '2コース差し',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.6 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '<': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.48 }
+            ]
+          },
+          {
+            or: [
+              {
+                '<': [
+                  { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                  { item: :literal, value: 0.65 }
+                ]
+              },
+              {
+                and: [
+                  {
+                    '>=': [
+                      { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '<': [
+                      { item: :pit_number_1, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_1, attribute: :sasare_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.3 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :pit_number_1, attribute: :makurare_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.15 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_2, attribute: :sashi_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :pit_number_2, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 2 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_5, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_6, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_1, attribute: :quinella_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.35 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :pit_number_1, attribute: :base_point_as_first },
+              { item: :literal, value: 8 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :pit_number_1, attribute: :base_point_as_first },
+              { item: :literal, value: 18 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_sd },
+              { item: :literal, value: 1.7 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_5, attribute: :base_point_as_first },
+              { item: :literal, value: 16 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_6, attribute: :base_point_as_first },
+              { item: :literal, value: 16 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.50 }
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            '==': [
+              { item: :itself, attribute: :pit_number },
+              { item: :literal, value: 2 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :base_point_as_first },
+              { item: :literal, value: 8 }
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :second },
+                  { item: :literal, value: 1 }
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :third },
+                  { item: :literal, value: 1 }
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 20 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 50 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 6,
+      name: '安定版着用の荒れ水面',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.8 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '==': [
+              { item: :pit_number_1, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.44 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.65 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.48 }
+            ]
+          },
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                  { item: :literal, value: 1 }
+                ]
+              },
+              {
+                '>=': [
+                  { item: :pit_number_1, attribute: :performance_score },
+                  { item: :literal, value: 8 }
+                ]
+              },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :course_fixed },
+              { item: :literal, value: false }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :use_stabilizer },
+              { item: :literal, value: true }
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.3 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :third_place_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.6 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :performance_score },
+                      { item: :literal, value: 8 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '<=': [
+                  { item: :race, attribute: :performance_score_first },
+                  { item: :literal, value: 14 },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :first },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :second },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :third },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 7,
+      name: '前付けでの波乱狙い',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.6 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.5 }
+            ]
+          },
+          {
+            or: [
+              {
+                '<': [
+                  { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                  { item: :literal, value: 0.6 }
+                ]
+              },
+              {
+                and: [
+                  {
+                    '>=': [
+                      { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '<': [
+                      { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.65 }
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<': [
+              {
+                '+': [
+                  {
+                    '*': [
+                      { item: :pit_number_1, attribute: :first_place_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                  {
+                    '+': [
+                      {
+                        '-': [
+                          { item: :literal, value: 7 },
+                          { item: :pit_number_1, attribute: :motor_quinella_rate_rank },
+                        ]
+                      },
+                      {
+                        '-': [
+                          { item: :literal, value: 7 },
+                          { item: :pit_number_1, attribute: :exhibition_time_order },
+                        ]
+                      },
+                    ]
+                  }
+                ]
+              },
+              { item: :literal, value: 11 },
+            ]
+          },
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_4, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_4, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_4, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_4, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_5, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_5, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_5, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_5, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :pit_number_6, attribute: :course_number_in_exhibition },
+                      { item: :literal, value: 2 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      {
+                        '+': [
+                          {
+                            '*': [
+                              { item: :pit_number_6, attribute: :first_place_rate_on_start_course_in_exhibition },
+                              { item: :literal, value: 10 },
+                            ]
+                          },
+                          {
+                            '+': [
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_6, attribute: :motor_quinella_rate_rank },
+                                ]
+                              },
+                              {
+                                '-': [
+                                  { item: :literal, value: 7 },
+                                  { item: :pit_number_6, attribute: :exhibition_time_order },
+                                ]
+                              },
+                            ]
+                          }
+                        ]
+                      },
+                      { item: :literal, value: 10 },
+                    ]
+                  },
+                ]
+              },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_sd },
+              { item: :literal, value: 1.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_first },
+              { item: :literal, value: 6.5 }
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
+              { item: :literal, value: 6.5 }
+            ]
+          },
+        ],
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ]
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_first },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 3 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 5 }
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 11 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 8.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_second },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 9.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10.5 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :base_point_as_third },
+                      { item: :literal, value: 10 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '<=': [
+                  { item: :race, attribute: :performance_score_first },
+                  { item: :literal, value: 14 },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :first },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :second },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :third },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: 8,
+      name: '強風（安定板なし）',
+      race_select_condition: {
+        and: [
+          # レース絞り込み共通条件
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'NO_GRADE' },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :series_grade },
+                  { item: :literal, value: 'G3' },
+                ]
+              },
+            ],
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_special_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_selection_race },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_semifinal },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :is_final },
+              { item: :literal, value: false },
+            ]
+          },
+          {
+            '!=': [
+              { item: :itself, attribute: :stadium_tel_code },
+              { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<': [
+              { item: :itself, attribute: :race_number },
+              { item: :literal, value: 10 },
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :absent_race_entries_count },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /レース絞り込み共通条件
+          {
+            '>': [
+              { item: :itself, attribute: :wind_velocity_when_exhibition },
+              { item: :literal, value: 4 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.45 }
+            ]
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.18 }
+            ]
+          },
+          {
+            or: [
+              {
+                '<': [
+                  { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                  { item: :literal, value: 0.6 }
+                ]
+              },
+              {
+                and: [
+                  {
+                    '>=': [
+                      { item: :pit_number_1, attribute: :flying_count_in_current_rating_term },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '<': [
+                      { item: :pit_number_1, attribute: :nige_succeed_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.65 }
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :pit_number_1, attribute: :makurare_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.15 }
+            ]
+          },
+          {
+            '<': [
+              { item: :pit_number_2, attribute: :nigashi_rate_on_start_course_in_exhibition },
+              { item: :literal, value: 0.48 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :course_fixed },
+              { item: :literal, value: false }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :use_stabilizer },
+              { item: :literal, value: false }
+            ]
+          },
+        ]
+      },
+      first_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 11 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 11 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 1着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :day_count_in_event },
+                  { item: :literal, value: 4 },
+                ]
+              },
+              {
+                or: [
+                  {
+                    '<': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 5 },
+                    ]
+                  },
+                  {
+                    '>': [
+                      { item: :itself, attribute: :order_of_arrival_stdev_in_current_series },
+                      { item: :literal, value: 1 },
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_of_arrival_average_in_current_series },
+                      { item: :literal, value: 4 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_order_average_in_current_series },
+                      { item: :literal, value: 3.75 },
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :start_time_stdev_in_current_series },
+                      { item: :literal, value: 0.125 },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            or: [
+              {
+                '==': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 1 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 1 }
+            ]
+          },
+          {
+            '==': [
+              { item: :itself, attribute: :flying_count_in_current_series },
+              { item: :literal, value: 0 }
+            ]
+          },
+          # /1着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+        ]
+      },
+      second_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.3 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 2着絞り込み共通条件
+          {
+            or: [
+              {
+                '<': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  {
+                    '-': [
+                      { item: :race, attribute: :winning_rate_in_all_stadium_mean },
+                      { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                    ]
+                  },
+                ]
+              },
+            ],
+          },
+          # /2着絞り込み共通条件
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      third_place_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 1 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :trio_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.6 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 2 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 3 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 4 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.1 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 5 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 12 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.09 }
+                    ]
+                  },
+                ],
+              },
+              {
+                and: [
+                  {
+                    '==': [
+                      { item: :itself, attribute: :pit_number },
+                      { item: :literal, value: 6 }
+                    ]
+                  },
+                  {
+                    '<=': [
+                      { item: :itself, attribute: :order_sum },
+                      { item: :literal, value: 13 }
+                    ]
+                  },
+                  {
+                    '>=': [
+                      { item: :itself, attribute: :quinella_rate_on_start_course_in_exhibition },
+                      { item: :literal, value: 0.05 }
+                    ]
+                  },
+                ],
+              },
+            ]
+          },
+          # 全着順絞り込み共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :race, attribute: :winning_rate_in_all_stadium_sd },
+                  { item: :literal, value: 1.5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 1.75 },
+                ]
+              },
+            ],
+          },
+          # /全着順絞り込み共通条件
+          # 2・3着共通条件
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :course_number_in_exhibition },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '>': [
+                  { item: :itself, attribute: :winning_rate_in_all_stadium },
+                  { item: :literal, value: 2 },
+                ]
+              },
+            ],
+          },
+          # /2・3着共通条件
+        ]
+      },
+      odds_select_condition: {
+        and: [
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                  { item: :literal, value: 5 },
+                ]
+              },
+              {
+                '<=': [
+                  { item: :race, attribute: :performance_score_first },
+                  { item: :literal, value: 14 },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :first },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :second },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+              {
+                '==': [
+                  { item: :itself, attribute: :third },
+                  { item: :race, attribute: :best_performance_score_pit_number },
+                ]
+              },
+            ],
+          },
+          {
+            '>=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 100 }
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :ratio },
+              { item: :literal, value: 300 }
+            ]
+          }
+        ]
+      }
+    },
+  ]
+)
+
+ForecastersForecastingPattern.create(
+  id: 1,
+  forecaster_id: 1,
+  forecasting_pattern_id: 1,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 2,
+  forecaster_id: 1,
+  forecasting_pattern_id: 2,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 3,
+  forecaster_id: 1,
+  forecasting_pattern_id: 3,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 4,
+  forecaster_id: 1,
+  forecasting_pattern_id: 4,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 5,
+  forecaster_id: 1,
+  forecasting_pattern_id: 5,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 6,
+  forecaster_id: 1,
+  forecasting_pattern_id: 6,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 7,
+  forecaster_id: 1,
+  forecasting_pattern_id: 7,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
+
+ForecastersForecastingPattern.create(
+  id: 8,
+  forecaster_id: 1,
+  forecasting_pattern_id: 8,
+  budget_amount_per_race: 50_000,
+  fund_allocation_method: FundAllocationMethod::ID::CANCEL_IF_OVER_BUDGET,
+  composition_odds: 7.0,
+)
