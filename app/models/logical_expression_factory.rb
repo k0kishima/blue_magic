@@ -3,7 +3,7 @@ class LogicalExpressionFactory
 
   def self.create!(hash)
     raise ArgumentError, "#{hash.keys} are invalid." unless hash.keys.count == 1
-    raise ArgumentError unless hash.values.count == 1
+    raise ArgumentError, "#{hash.values} are invalid." unless hash.values.count == 1
 
     operator = hash.keys.first.to_s
     raise ArgumentError, "#{operator} is an invalid operator" unless operator.in?(ENABLE_OPERATORS)

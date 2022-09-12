@@ -12,7 +12,13 @@ class OperandProcessorFactory
       ->(_) { value }
     else
       attribute_name = hash.fetch(:attribute)
-      ->(object) { object.try(item).send(attribute_name) }
+      ->(object) do
+        if object.try(item).respond_to?(attribute_name)
+          object.try(item).send(attribute_name)
+        else
+          Rails.application.config.betting_logger.info("#{attribute_name} is an invalid kpi".red)
+        end
+      end
     end
   end
 end
