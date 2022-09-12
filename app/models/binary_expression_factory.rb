@@ -1,7 +1,7 @@
 class BinaryExpressionFactory
   def self.create!(hash)
-    raise ArgumentError unless hash.keys.count == 1
-    raise ArgumentError unless hash.values.first.count == 2
+    raise ArgumentError.new("#{hash} has keys more than two.") unless hash.keys.count == 1
+    raise ArgumentError.new("#{hash} has not keys first item which has two values.") unless hash.values.first.count == 2
 
     operator = hash.keys.first
     left_operand_processor, right_operand_processor = hash.values.first.map do |h|
