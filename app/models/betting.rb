@@ -5,6 +5,7 @@ class Betting < ApplicationRecord
   self.primary_keys = [:forecasters_forecasting_pattern_id, :stadium_tel_code, :date, :race_number, :betting_number]
 
   belongs_to :forecasters_forecasting_pattern
+  belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
   belongs_to :recommend_odds, class_name: 'RecommendOdds', primary_key: self.primary_keys, foreign_key: self.primary_keys, optional: true
 
   validates :betting_amount, presence: true
