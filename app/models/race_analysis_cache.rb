@@ -1,6 +1,8 @@
 class RaceAnalysisCache < ApplicationRecord
   class RaceCannotBeAnalyzed < StandardError; end
 
+  belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
+
   def race_data
     Hashie::Mash.new(data)
   end
