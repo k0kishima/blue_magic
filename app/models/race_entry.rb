@@ -30,6 +30,7 @@ class RaceEntry < ApplicationRecord
            to: :boat_setting
   delegate :exhibition_time, :exhibition_time_order, to: :circumference_exhibition_record
   delegate :event, to: :race
+  delegate :weight, :adjust, to: :condition
 
   attribute :motor_quinella_rate, :float
   attribute :motor_trio_rate, :float
@@ -320,6 +321,10 @@ class RaceEntry < ApplicationRecord
       .joins(race_entry: :race)
       .merge(RaceEntry.where(racer_registration_number: racer_registration_number))
       .merge(Race.where(betting_deadline_at: race.range_for_current_racer_rating_evaluation_term_aggregation))
+  end
+
+  def condition
+    @condition ||= RacerCondition.find_by(date: date, racer_registration_number: racer_registration_number)
   end
 end
 
