@@ -129,7 +129,7 @@ Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Sett
 Forecaster.create(
   id: 1,
   status: :simulating,
-  name: 'Trial A1 2',
+  name: 'ver 0.1.1',
   betting_strategy: :take_all_forecasting_patterns_without_duplication
 )
 
@@ -421,6 +421,12 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /全着順絞り込み共通条件
+          {
+            '<=': [
+              { item: :itself, attribute: :weight },
+              { item: :literal, value: 57 }
+            ]
+          },
         ]
       },
       second_place_select_condition: {
@@ -2802,6 +2808,12 @@ ForecastingPattern.upsert_all(
               { item: :literal, value: false }
             ]
           },
+          {
+            '>=': [
+              { item: :itself, attribute: :wavelength_when_exhibition },
+              { item: :literal, value: 2.0 }
+            ]
+          },
         ]
       },
       first_place_select_condition: {
@@ -3270,6 +3282,12 @@ ForecastingPattern.upsert_all(
             '>': [
               { item: :itself, attribute: :winning_rate_in_all_stadium },
               { item: :literal, value: 2.5 },
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :weight },
+              { item: :literal, value: 60 }
             ]
           },
         ]
