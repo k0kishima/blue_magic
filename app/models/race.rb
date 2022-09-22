@@ -199,6 +199,10 @@ class Race < ApplicationRecord
     weather_condition_in_exhibition.wind_velocity
   end
 
+  def wavelength_when_exhibition
+    weather_condition_in_exhibition.wavelength
+  end
+
   def best_motor_quinella_rate_pit_number
     race_entries.find{|race_entry| race_entry.motor_quinella_rate == motor_quinella_rate_first }.pit_number
   end

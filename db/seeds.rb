@@ -119,6 +119,7 @@ Kpi.upsert_all(
     { id: 79, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の気温", description: "", attribute_name: "air_temperature_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 80, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の水温", description: "", attribute_name: "water_temperature_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
     { id: 81, type: "AttributionalKpi", entry_object_class_name: "RaceEntry", name: "体重（レース日）", description: "", attribute_name: "weight", created_at: Time.zone.now, updated_at: Time.zone.now, },
+    { id: 82, type: "AttributionalKpi", entry_object_class_name: "Race", name: "展示時の波高", description: "", attribute_name: "wavelength_when_exhibition", created_at: Time.zone.now, updated_at: Time.zone.now, },
   ]
 )
 # rubocop:enable Layout/LineLength
