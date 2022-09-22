@@ -129,7 +129,7 @@ Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Sett
 Forecaster.create(
   id: 1,
   status: :simulating,
-  name: 'ver 0.1.1',
+  name: 'ver 0.1.2',
   betting_strategy: :take_all_forecasting_patterns_without_duplication
 )
 
@@ -586,24 +586,12 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /全着順絞り込み共通条件
-          # 2・3着共通条件
           {
-            or: [
-              {
-                '<=': [
-                  { item: :itself, attribute: :course_number_in_exhibition },
-                  { item: :literal, value: 5 },
-                ]
-              },
-              {
-                '>': [
-                  { item: :itself, attribute: :winning_rate_in_all_stadium },
-                  { item: :literal, value: 2 },
-                ]
-              },
-            ],
+            '>': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium },
+              { item: :literal, value: 3 },
+            ]
           },
-          # /2・3着共通条件
         ]
       },
       third_place_select_condition: {
@@ -752,6 +740,12 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /2・3着共通条件
+          {
+            '>': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium },
+              { item: :literal, value: 2.5 },
+            ]
+          },
         ]
       },
       odds_select_condition: {
@@ -1819,6 +1813,12 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /全着順絞り込み共通条件
+          {
+            '<=': [
+              { item: :itself, attribute: :weight },
+              { item: :literal, value: 58 }
+            ]
+          },
         ]
       },
       second_place_select_condition: {
@@ -1970,6 +1970,12 @@ ForecastingPattern.upsert_all(
               { item: :literal, value: 3.5 },
             ]
           },
+          {
+            '<=': [
+              { item: :itself, attribute: :weight },
+              { item: :literal, value: 59 }
+            ]
+          },
         ]
       },
       third_place_select_condition: {
@@ -2096,6 +2102,12 @@ ForecastingPattern.upsert_all(
             '>': [
               { item: :itself, attribute: :winning_rate_in_all_stadium },
               { item: :literal, value: 3 },
+            ]
+          },
+          {
+            '<=': [
+              { item: :itself, attribute: :weight },
+              { item: :literal, value: 60 }
             ]
           },
         ]
