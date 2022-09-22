@@ -129,7 +129,7 @@ Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Sett
 Forecaster.create(
   id: 1,
   status: :simulating,
-  name: 'ver 0.1.2',
+  name: 'ver 0.1.3',
   betting_strategy: :take_all_forecasting_patterns_without_duplication
 )
 
@@ -952,6 +952,12 @@ ForecastingPattern.upsert_all(
               { item: :literal, value: 0.50 }
             ]
           },
+          {
+            '>=': [
+              { item: :itself, attribute: :sasare_rate_of_stadium_in_current_weather_condition },
+              { item: :literal, value: 0.23 }
+            ]
+          },
         ]
       },
       first_place_select_condition: {
@@ -1610,6 +1616,22 @@ ForecastingPattern.upsert_all(
             '<': [
               { item: :itself, attribute: :winning_rate_in_all_stadium_mean },
               { item: :literal, value: 6.5 }
+            ]
+          },
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :itself, attribute: :sasare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.22 }
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.12 }
+                ]
+              },
             ]
           },
         ],
@@ -2318,6 +2340,22 @@ ForecastingPattern.upsert_all(
               { item: :itself, attribute: :start_time_average_on_start_course_in_exhibition_first },
             ]
           },
+          {
+            or: [
+              {
+                '<=': [
+                  { item: :itself, attribute: :sasare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.28 }
+                ]
+              },
+              {
+                '<=': [
+                  { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.16 }
+                ]
+              },
+            ]
+          },
         ]
       },
       first_place_select_condition: {
@@ -2824,6 +2862,22 @@ ForecastingPattern.upsert_all(
             '>=': [
               { item: :itself, attribute: :wavelength_when_exhibition },
               { item: :literal, value: 2.0 }
+            ]
+          },
+          {
+            or: [
+              {
+                '>=': [
+                  { item: :itself, attribute: :sasare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.22 }
+                ]
+              },
+              {
+                '>=': [
+                  { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
+                  { item: :literal, value: 0.12 }
+                ]
+              },
             ]
           },
         ]
