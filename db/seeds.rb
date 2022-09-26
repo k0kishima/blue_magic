@@ -129,7 +129,7 @@ Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Sett
 Forecaster.create(
   id: 1,
   status: :simulating,
-  name: 'ver 0.3.1',
+  name: 'ver 0.3.2',
   betting_strategy: :take_all_forecasting_patterns_without_duplication
 )
 
@@ -2237,7 +2237,7 @@ ForecastingPattern.upsert_all(
           {
             '<=': [
               { item: :itself, attribute: :wind_velocity_when_exhibition },
-              { item: :literal, value: 4 }
+              { item: :literal, value: 3 }
             ]
           },
           {
@@ -2269,13 +2269,13 @@ ForecastingPattern.upsert_all(
               {
                 '<=': [
                   { item: :itself, attribute: :sasare_rate_of_stadium_in_current_weather_condition },
-                  { item: :literal, value: 0.28 }
+                  { item: :literal, value: 0.25 }
                 ]
               },
               {
                 '<=': [
                   { item: :itself, attribute: :makurare_rate_of_stadium_in_current_weather_condition },
-                  { item: :literal, value: 0.16 }
+                  { item: :literal, value: 0.14 }
                 ]
               },
             ]
