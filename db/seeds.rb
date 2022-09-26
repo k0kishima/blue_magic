@@ -129,38 +129,38 @@ Setting.keys.each { |key| Setting.try("#{key}=", Setting.try(key)) } unless Sett
 Forecaster.create(
   id: 1,
   status: :simulating,
-  name: 'ver 0.3.0',
+  name: 'ver 0.3.1',
   betting_strategy: :take_all_forecasting_patterns_without_duplication
 )
 
 # yearly
 #       spent     gained    benefits ROI
-# 2018	17322100	21682857	4360757	125.1745
-# 2019	17502400	19244568	1742168	109.9539
-# 2020	18525700	21444233	2918533	115.7540
+# 2018	17131400	21278884	4147484	124.2098
+# 2019	17321900	19281160	1959260	111.3109
+# 2020	18169700	21477459	3307759	118.2048
 #
 # monthly
-# 2018	1	1248500	2277979	1029479	182.4573
-# 2019	1	1126200	1558275	432075	138.3657
-# 2020	1	1124300	1563446	439146	139.0595
-# 2018	2	3232300	4611643	1379343	142.6737
-# 2019	2	3263000	3344444	81444	102.4960
-# 2020	2	2638100	3414547	776447	129.4321
-# 2018	3	2203100	2774244	571144	125.9246
-# 2019	3	1934700	1632131	-302569	84.3609
-# 2020	3	1570400	1983165	412765	126.2841
-# 2018	4	1951800	2805822	854022	143.7556
-# 2019	4	3082500	2540877	-541623	82.4291
-# 2020	4	4035200	3972873	-62327	98.4554
-# 2018	5	8054600	7624164	-430436	94.6560
-# 2019	5	7082500	8181911	1099411	115.5229
-# 2020	5	6878100	8497836	1619736	123.5492
-# 2018	6	289900	794906	505006	274.2001
-# 2019	6	361300	397581	36281	110.0418
-# 2020	6	1085400	1220475	135075	112.4447
-# 2018	7	341900	794099	452199	232.2606
-# 2019	7	652200	1589349	937149	243.6904
-# 2020	7	1194200	791891	-402309	66.3114
+# 2018	1	1248500	2276849	1028349	182.3668
+# 2019	1	1126200	1561829	435629	138.6813
+# 2020	1	1124300	1566340	442040	139.3169
+# 2018	2	3232300	4609604	1377304	142.6106
+# 2019	2	3263000	3355789	92789	102.8437
+# 2020	2	2638100	3423154	785054	129.7583
+# 2018	3	2079000	2377751	298751	114.3699
+# 2019	3	1871400	1632801	-238599	87.2502
+# 2020	3	1349900	1984358	634458	147.0004
+# 2018	4	1951800	2805586	853786	143.7435
+# 2019	4	3082500	2542004	-540496	82.4657
+# 2020	4	4035200	3974543	-60657	98.4968
+# 2018	5	8054600	7620186	-434414	94.6066
+# 2019	5	7082500	8201183	1118683	115.7950
+# 2020	5	6878100	8516079	1637979	123.8144
+# 2018	6	289900	794865	504965	274.1859
+# 2019	6	361300	397658	36358	110.0631
+# 2020	6	1085400	1220765	135365	112.4714
+# 2018	7	275300	794043	518743	288.4283
+# 2019	7	535000	1589896	1054896	297.1768
+# 2020	7	1058700	792220	-266480	74.8295
 ForecastingPattern.upsert_all(
   [
     {
@@ -1950,24 +1950,18 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /全着順絞り込み共通条件
-          # 2・3着共通条件
           {
-            or: [
-              {
-                '<=': [
-                  { item: :itself, attribute: :course_number_in_exhibition },
-                  { item: :literal, value: 5 },
-                ]
-              },
-              {
-                '>': [
-                  { item: :itself, attribute: :winning_rate_in_all_stadium },
-                  { item: :literal, value: 2 },
-                ]
-              },
-            ],
+            '>': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium },
+              { item: :literal, value: 3.7 },
+            ]
           },
-          # /2・3着共通条件
+          {
+            '<=': [
+              { item: :itself, attribute: :course_number_in_exhibition },
+              { item: :literal, value: 5 },
+            ]
+          },
         ]
       },
       third_place_select_condition: {
@@ -2074,24 +2068,12 @@ ForecastingPattern.upsert_all(
             ],
           },
           # /全着順絞り込み共通条件
-          # 2・3着共通条件
           {
-            or: [
-              {
-                '<=': [
-                  { item: :itself, attribute: :course_number_in_exhibition },
-                  { item: :literal, value: 5 },
-                ]
-              },
-              {
-                '>': [
-                  { item: :itself, attribute: :winning_rate_in_all_stadium },
-                  { item: :literal, value: 2 },
-                ]
-              },
-            ],
+            '>': [
+              { item: :itself, attribute: :winning_rate_in_all_stadium },
+              { item: :literal, value: 3.5 },
+            ]
           },
-          # /2・3着共通条件
         ]
       },
       odds_select_condition: {
@@ -3845,6 +3827,12 @@ ForecastingPattern.upsert_all(
             ]
           },
           {
+            '==': [
+              { item: :pit_number_2, attribute: :flying_count_in_current_rating_term },
+              { item: :literal, value: 0 }
+            ]
+          },
+          {
             '>': [
               { item: :itself, attribute: :nige_succeed_rate_of_stadium_in_current_weather_condition },
               { item: :literal, value: 0.55 }
@@ -3877,7 +3865,7 @@ ForecastingPattern.upsert_all(
           {
             '<=': [
               { item: :itself, attribute: :wind_velocity_when_exhibition },
-              { item: :literal, value: 4 }
+              { item: :literal, value: 3 }
             ]
           },
         ]
