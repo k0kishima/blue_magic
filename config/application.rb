@@ -44,5 +44,8 @@ module BlueMagic
 
     config.x.official_website_proxy.base_url = ENV.fetch('OFFICIAL_WEBSITE_PROXY_BASE_URL') { 'http://host.docker.internal:55000' }
     config.x.official_website_proxy.latest_official_website_version = ENV.fetch('LATEST_OFFICIAL_WEBSITE_VERSION') { 1707 }
+
+    config.x.teleboat_agent.api_base_url = ENV.fetch('TELEBOAT_AGENT_API_BASE_URL') { 'http://host.docker.internal:9999' }
+    config.x.teleboat_agent.application_token = ENV.fetch('TELEBOAT_AGENT_API_APPLICATION_TOKEN') { '*****' }
   end
 end
