@@ -95,3 +95,7 @@ gem "colorize", "~> 0.8.1"
 gem 'psych', '~> 3.1'
 
 gem "net-smtp"
+
+gem "faraday", "~> 1.10"
+
+gem "faraday_middleware", "~> 1.2"
