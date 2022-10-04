@@ -2,15 +2,6 @@ module OfficialWebsite
   class ScheduleRaceDataCrawlingJob < CrawlJob
     include CrawlingPauseable
 
-    # NOTE: レースの基本情報も再取得されるが、投票締め切り時刻が変わったり中止になったりすることはあるので問題ない
-    CRAWL_RACE_DATA_JOBS = [
-      CrawlRaceInformationsJob,
-      CrawlRaceExhibitionInformationsJob,
-      CrawlRaceResultsJob,
-      CrawlOddsJob,
-      CrawlBoatSettingsJob,
-    ]
-
     def perform(date: Date.today, version: DEFAULT_VERSION)
       raise ArgumentError.new('cannot specify a date which is greater than today') if date > Date.today
 
@@ -20,7 +11,12 @@ module OfficialWebsite
       raise ArgumentError.new('races not found in specified date') if races.blank?
 
       races.each do |race|
-        CRAWL_RACE_DATA_JOBS.each do |crawl_data_job|
+        # NOTE: レースの基本情報も再取得されるが、投票締め切り時刻が変わったり中止になったりすることはあるので問題ない
+        [
+          CrawlRaceInformationsJob,
+          CrawlRaceExhibitionInformationsJob,
+          CrawlBoatSettingsJob,
+        ].each do |crawl_data_job|
           crawl_data_job
             .set(wait_until: race.betting_deadline_at - 10.minutes)
             .perform_later(
@@ -30,6 +26,26 @@ module OfficialWebsite
               version: version
             )
         end
+
+        # TODO: 以下は後でちゃんとまとめる
+        CrawlOddsJob
+          .set(wait_until: race.betting_deadline_at - 5.minutes)
+          .perform_later(
+            stadium_tel_code: race.stadium_tel_code,
+            race_opened_on: race.date,
+            race_number: race.race_number,
+            version: version
+          )
+
+        # note: 今は結果をタイムラグ小さく取るよりも確実に取りたいので間隔は結構空けてる
+        CrawlRaceResultsJob
+          .set(wait_until: race.betting_deadline_at + 15.minutes)
+          .perform_later(
+            stadium_tel_code: race.stadium_tel_code,
+            race_opened_on: race.date,
+            race_number: race.race_number,
+            version: version
+          )
       end
     end
   end
