@@ -29,18 +29,24 @@ docker-compose exec app bundle exec rake bet:enqueue_fetch_result_jobs
 結果は以下のように確認することができる。
 
 ```sql
-select
-	EXTRACT(year_month FROM date) AS year,
-	forecasters_forecasting_pattern_id,
+SELECT
+    EXTRACT(year_month FROM date) AS year,
+    forecasters_forecasting_pattern_id,
     sum(betting_amount) as spent,
     sum(refunded_amount) - sum(adjustment_amount) as gained,
     sum(refunded_amount) - sum(adjustment_amount) - sum(betting_amount) as benefits,
-    (sum(refunded_amount) - sum(adjustment_amount)) / sum(betting_amount) * 100
-from
+    (sum(refunded_amount) - sum(adjustment_amount)) / sum(betting_amount) * 100 as ROI
+FROM
     bettings
-where
-	forecasters_forecasting_pattern_id in (1, 2)
-group by 
-	EXTRACT(year FROM date)
-order by year, forecasters_forecasting_pattern_id;
+#WHERE forecasters_forecasting_pattern_id IN (1, 2, 3, 4, 5, 6, 7, 8)
+#WHERE forecasters_forecasting_pattern_id NOT in (2)
+GROUP BY EXTRACT(year FROM date)
+#GROUP BY EXTRACT(year_month FROM date)
+#GROUP BY EXTRACT(year FROM date), forecasters_forecasting_pattern_id
+#GROUP BY EXTRACT(year_month FROM date), forecasters_forecasting_pattern_id
+#GROUP BY forecasters_forecasting_pattern_id
+ORDER BY year;
+#ORDER BY forecasters_forecasting_pattern_id;
+#ORDER BY year, forecasters_forecasting_pattern_id;
+#ORDER BY forecasters_forecasting_pattern_id, year;
 ```
