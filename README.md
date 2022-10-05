@@ -40,14 +40,35 @@
 
 ※ 旧バージョンのキャプチャを含んでいるが参考程度に掲載
 
+## 依存サービス
+
+| リポジトリ | 用途 |
+| ------- | ---- |
+| [teleboat_agent](https://github.com/k0kishima/teleboat_agent) | テレボート経由での自動投票 |
+| [boatrace_official_website_proxy](https://github.com/k0kishima/boatrace_official_website_proxy) | 公式サイトへのアクセスの効率化 |
+
+
 ## ドキュメント
 
 ### 開発環境構築手順
 
 - [公式サイトからのデータ取得をできるようにするまで](./docs/dev-step1.md)
-- [データ設計](./docs/data-design.md)
 
 ### 運用方法
 
 - [データの収集と管理方法](./docs/how-to-manage-data.md)
 - [シミュレーション実行方法](./docs/how-to-simulate.md)
+
+### 各ユースケースと依存サービスの対応表
+
+| ユースケース | teleboat_agent | boatrace_official_website_proxy |
+| --------- | --------------- | ------------------------------- |
+| 公式サイトからのデータ収集 |  | * |
+| シミュレーション |  | |
+| 自動投票　| * | * |
+
+* は必須を意味する
+
+### その他参考
+
+- [データ設計](./docs/data-design.md)
