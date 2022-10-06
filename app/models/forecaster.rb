@@ -14,7 +14,9 @@ class Forecaster < ApplicationRecord
   validates :betting_strategy, presence: true
 
   def self.current
-    raise NotImplementedError
+    # todo: 正式に実装する
+    # というより1つしか選べないのは不便な気もするのでこのメソッドの存在意義も再考する
+    first
   end
 
   def forecast!(race)

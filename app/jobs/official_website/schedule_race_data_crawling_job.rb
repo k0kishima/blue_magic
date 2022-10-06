@@ -37,6 +37,18 @@ module OfficialWebsite
             version: version
           )
 
+        # TODO: クロールに関するジョブじゃないのでここでスケジューリングしない
+        if race.date == Time.zone.today && Forecaster.current.present?
+          BetJob
+            .set(wait_until: race.betting_deadline_at - 3.minutes)
+            .perform_later(
+              forecaster_id: Forecaster.current.id,
+              stadium_tel_code: race.stadium_tel_code,
+              race_opened_on: race.date,
+              race_number: race.race_number,
+            )
+        end
+
         # note: 今は結果をタイムラグ小さく取るよりも確実に取りたいので間隔は結構空けてる
         CrawlRaceResultsJob
           .set(wait_until: race.betting_deadline_at + 15.minutes)
