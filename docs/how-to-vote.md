@@ -30,6 +30,12 @@
 - `TELEBOAT_AGENT_API_BASE_URL`
 - `TELEBOAT_AGENT_API_APPLICATION_TOKEN`
 
+テレボートエージェントのAPIクライアントは `TicketRepository` になるので、これ単体で投票ができるかは以下を手動実行することで確認可能です。
+
+```bash
+> TicketRepository.votes(stadium_tel_code: 10, race_number: 12, odds: [{ number: 124, quantity: 1 }])
+```
+
 ### 4. 自動投票の有効化
 
 ```bash
