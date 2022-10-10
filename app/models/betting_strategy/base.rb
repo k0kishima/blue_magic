@@ -7,9 +7,20 @@ class BettingStrategy::Base
   validates :recommend_odds, presence: true
   validate :odds_must_be_before_betting
 
-  def vote!
-    # TODO: テレボート経由で実際に投票する処理を実装
-    raise NotImplementedError
+  def vote!(bettings)
+    return false if !Setting.voting_enable
+
+    return false if bettings.blank?
+
+    representative_value = bettings.first
+    stadium_tel_code, race_number, date = representative_value.attributes.symbolize_keys.values_at(:stadium_tel_code,
+                                                                                                   :race_number, :date)
+
+    return false if date != Date.today
+
+    # note: ストラテジーによっては買い目の重複を省くなどのフィルタリングをしているのでそういった処理が施された bettings の方を用いる
+    odds = bettings.map { |betting| { number: betting.betting_number, quantity: betting.purchase_quantity } }
+    TicketRepository.votes(stadium_tel_code: stadium_tel_code, race_number: race_number, odds: odds)
   end
 
   private

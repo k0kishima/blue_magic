@@ -6,12 +6,17 @@ class Betting < ApplicationRecord
 
   belongs_to :forecasters_forecasting_pattern
   belongs_to :race, foreign_key: [:stadium_tel_code, :date, :race_number], optional: true
-  belongs_to :recommend_odds, class_name: 'RecommendOdds', primary_key: self.primary_keys, foreign_key: self.primary_keys, optional: true
+  belongs_to :recommend_odds, class_name: 'RecommendOdds', primary_key: self.primary_keys,
+                              foreign_key: self.primary_keys, optional: true
 
   validates :betting_amount, presence: true
   validates :voted_at, presence: true
 
   delegate :ratio_when_forecasting, to: :recommend_odds
+
+  def purchase_quantity
+    betting_amount / Ticket::YEN_PER_ONE_POINT
+  end
 
   def betting_numbers
     betting_number.to_s.split('').map(&:to_i)
