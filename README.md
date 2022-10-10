@@ -58,6 +58,7 @@
 
 - [データの収集と管理方法](./docs/how-to-manage-data.md)
 - [シミュレーション実行方法](./docs/how-to-simulate.md)
+- [自動投票の実行方法](./docs/how-to-vote.md)
 
 ### 各ユースケースと依存サービスの対応表
 
@@ -71,4 +72,5 @@
 
 ### その他参考
 
+- [管理画面](https://github.com/k0kishima/blue_magic_front)
 - [データ設計](./docs/data-design.md)
