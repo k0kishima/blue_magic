@@ -3,9 +3,6 @@ module BettingStrategy
     def bet!
       validate!
 
-      # TODO: implement
-      # vote! if Setting.voting_enable
-
       bettings = recommend_odds.map do |o|
         o.build_betting(
           betting_number: o.betting_number,
@@ -17,6 +14,8 @@ module BettingStrategy
       end
 
       Betting.import!(bettings, all_or_none: true, raise_error: true, validate_uniqueness: true)
+
+      vote!(bettings)
     end
   end
 end

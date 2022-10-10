@@ -3,9 +3,6 @@ module BettingStrategy
     def bet!
       validate!
 
-      # TODO: implement
-      # vote! if Setting.voting_enable
-
       forecasters_forecasting_pattern_id = recommend_odds.map(&:forecasters_forecasting_pattern_id).first
       bettings = recommend_odds.select { |o|
                    o.forecasters_forecasting_pattern_id == forecasters_forecasting_pattern_id
@@ -20,6 +17,8 @@ module BettingStrategy
       end
 
       Betting.import!(bettings, all_or_none: true, raise_error: true, validate_uniqueness: true)
+
+      vote!(bettings)
     end
   end
 end
