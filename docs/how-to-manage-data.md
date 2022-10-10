@@ -42,8 +42,7 @@ docker-compose exec app bundle exec rake official_website:crawl:crawl_all_data_o
 エクスポートの途中に余計なデータが入り込まないようにクローラーを停止する
 
 ```irb
-docker-compose exec app bundle exec rails console
-Setting.crawling_enable = false`
+docker-compose exec app bundle exec rails runner 'Setting.crawling_enable = false'
 ```
 
 **2. 不要なデータを消す**
