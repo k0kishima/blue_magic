@@ -20,7 +20,13 @@ class BettingStrategy::Base
 
     # note: ストラテジーによっては買い目の重複を省くなどのフィルタリングをしているのでそういった処理が施された bettings の方を用いる
     odds = bettings.map { |betting| { number: betting.betting_number, quantity: betting.purchase_quantity } }
+
+    # todo: votes! にメソッド名を変更する
     TicketRepository.votes(stadium_tel_code: stadium_tel_code, race_number: race_number, odds: odds)
+
+    NotifyVotingService.call(stadium_tel_code: stadium_tel_code, race_number: race_number, odds: odds)
+
+    true
   end
 
   private

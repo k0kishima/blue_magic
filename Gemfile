@@ -78,7 +78,7 @@ gem "shrine", "~> 3.3"
 
 gem "sidekiq-scheduler", "~> 3.0"
 
-gem "slack-ruby-client", "~> 0.17.0"
+gem "slack-ruby-client", "~> 1.0"
 
 gem "retryable", "~> 3.0"
 
