@@ -293,7 +293,7 @@ GEM
       sidekiq (>= 3)
       thwait
       tilt (>= 1.4.0)
-    slack-ruby-client (0.17.0)
+    slack-ruby-client (1.0.0)
       faraday (>= 1.0)
       faraday_middleware
       gli
@@ -366,7 +366,7 @@ DEPENDENCIES
   shrine (~> 3.3)
   sidekiq (~> 6.4)
   sidekiq-scheduler (~> 3.0)
-  slack-ruby-client (~> 0.17.0)
+  slack-ruby-client (~> 1.0)
   spring
   tzinfo-data
   vcr
