@@ -1,3 +1,9 @@
+# 以下に移動しました！
+
+<a href="https://github.com/metaboatrace">![Meta Boatrace](https://avatars.githubusercontent.com/u/110468811?s=200&v=4)</a>
+
+- https://github.com/metaboatrace
+
 # README
 
 ## 概要
